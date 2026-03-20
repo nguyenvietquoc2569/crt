@@ -330,18 +330,12 @@ def load_data(args):
     print(f'  CB0 embeddings: {cb0_emb.shape}', flush=True)
 
     # Build per-speaker FAISS indices (for cross-speaker corruption)
-    # Set OMP threads=1 so 8 ThreadPoolExecutor workers each get a full CPU
-    # rather than all competing for the same OMP thread pool.
+    # omp_set_num_threads(1): each of the 8 ThreadPoolExecutor workers runs its
+    # own single-threaded FAISS search — true parallelism instead of all workers
+    # fighting over the same OMP thread pool.
     faiss.omp_set_num_threads(1)
     print('Building FAISS indices for corruption...', flush=True)
     speaker_faiss = {}
-    _gpu_res = None
-    try:
-        _gpu_res = faiss.StandardGpuResources()
-        _gpu_res.setTempMemory(256 * 1024 * 1024)  # 256 MB scratch per index
-        print('  faiss-gpu available, indices will be on GPU', flush=True)
-    except Exception:
-        pass
     for spk_id, sdata in speaker_data.items():
         codes = sdata['codes']
         sem   = codes[0].numpy()
@@ -350,11 +344,6 @@ def load_data(args):
         faiss.normalize_L2(emb)
         idx = faiss.IndexFlatIP(cb0_emb.shape[1])
         idx.add(emb)
-        if _gpu_res is not None:
-            try:
-                idx = faiss.index_cpu_to_gpu(_gpu_res, 0, idx)
-            except Exception:
-                pass
         speaker_faiss[spk_id] = {'index': idx, 'full_codes': full}
     print(f'  {len(speaker_faiss)} FAISS indices built', flush=True)
 

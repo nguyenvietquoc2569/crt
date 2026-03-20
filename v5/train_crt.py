@@ -712,14 +712,17 @@ def load_mimi(device):
 
 
 def refine(data, model, args, device):
-    """Apply trained CRT to refine V4 VC output.
+    """Apply trained CRT to refine FAISS VC output.
 
-    Pipeline:
-      source → FAISS → target_CB0 → V4 → CB1-6 (first pass)
-      (target_CB0, V4_CB1-6, spk_emb) → CRT → CB1-6 (refined)
+    Primary pipeline (FAISS→CRT):
+      source → FAISS → target CB0-12 → CRT → refined CB1-12
+      Training uses cross-speaker FAISS corruption (faiss_frac=0.9),
+      so inference FAISS input matches the training distribution exactly.
+      CRT only needs to smooth frame-boundary discontinuities.
 
-    If --v4_ckpt is not provided, falls back to FAISS CB1-6 (train-test
-    mismatch warning). Pass --v4_ckpt + --v4_script to enable correct mode.
+    Optional V4 pipeline (pass --v4_ckpt + --v4_script):
+      FAISS CB0 → V4 → CB1-6, then CRT refines with V4 input.
+      Only useful if V4 accuracy exceeds FAISS (~60-80%) for CB1-6.
     """
     if not args.source_audio or not args.target_dir:
         print('Skipping refinement: --source_audio and --target_dir required.')
@@ -730,11 +733,11 @@ def refine(data, model, args, device):
     cb0_emb    = data['cb0_emb']
     FRAME_RATE = data['FRAME_RATE']
 
-    # Load V4 (may be None if not provided)
+    # Load V4 if provided; otherwise use FAISS CB1-12 directly (primary mode)
     v4_model = load_v4(args, device)
     if v4_model is None:
-        print('WARNING: --v4_ckpt/--v4_script not provided. '
-              'Using FAISS CB1-6 as CRT input (train-test mismatch).', flush=True)
+        print('FAISS→CRT mode: using FAISS CB1-12 as CRT input '
+              '(train faiss_frac=0.9 ensures distribution match).', flush=True)
 
     mimi, feat_ext, SR, dtype = load_mimi(device)
 

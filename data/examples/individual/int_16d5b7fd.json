@@ -1,0 +1,43 @@
+{
+  "scenario_id": "int_16d5b7fd",
+  "category": "interview",
+  "subcategory": "phỏng_vấn_tuyển_dụng_it",
+  "language": "vi",
+  "interviewer": {
+    "role": "Người phỏng vấn",
+    "company_type": "Startup công nghệ",
+    "personality": [
+      "chuyên nghiệp",
+      "thân thiện"
+    ],
+    "style": "formal"
+  },
+  "interviewee": {
+    "position_applied": "Lập trình viên Python",
+    "experience_years": 8,
+    "emotion": "bình tĩnh"
+  },
+  "interview_info": {
+    "type": "Phỏng vấn tuyển dụng IT",
+    "position": "Lập trình viên Python",
+    "company_type": "Startup công nghệ"
+  },
+  "expected_turns": [
+    10,
+    29
+  ],
+  "expected_duration_seconds": [
+    410,
+    1185
+  ],
+  "backchannel_examples": [
+    "uh huh",
+    "vậy à",
+    "thật hả"
+  ],
+  "text_prompts": {
+    "text_prompt_speaker_a": "Bạn là người phỏng vấn tại Startup công nghệ. Phong cách: formal. Đang phỏng vấn ứng viên cho vị trí Lập trình viên Python.",
+    "text_prompt_speaker_b": "Bạn là ứng viên phỏng vấn cho vị trí Lập trình viên Python. Kinh nghiệm: 8 năm. Bạn đang cảm thấy bình tĩnh."
+  },
+  "llm_generation_prompt": "Bạn là trình tạo hội thoại tiếng Việt tự nhiên cho huấn luyện mô hình AI hội thoại.\n\nNgữ cảnh:\n- Loại phỏng vấn: Phỏng vấn tuyển dụng IT\n- Vị trí: Lập trình viên Python\n- Kinh nghiệm ứng viên: 8 năm\n\nVai trò người nói A:\nBạn là người phỏng vấn tại Startup công nghệ. Phong cách: formal. Đang phỏng vấn ứng viên cho vị trí Lập trình viên Python.\n\nVai trò người nói B:\nBạn là ứng viên phỏng vấn cho vị trí Lập trình viên Python. Kinh nghiệm: 8 năm. Bạn đang cảm thấy bình tĩnh.\n\nYêu cầu:\n1. Tạo cuộc hội thoại tự nhiên bằng tiếng Việt, 10-29 lượt nói\n2. Sử dụng ngôn ngữ giao tiếp đời thường, KHÔNG quá trang trọng\n3. BẮT BUỘC sử dụng các từ đệm tự nhiên: uh huh, vậy à, thật hả\n4. Thêm các từ lấp đầy: ừm, à, thì\n5. Đôi khi có câu bỏ lửng, nói lắp nhẹ, hoặc tự sửa lời\n6. Thể hiện cảm xúc phù hợp với ngữ cảnh\n7. Mỗi lượt nói 1-4 câu (có thể dài hơn nếu cần giải thích)\n\nĐịnh dạng OUTPUT (JSON):\n{\n  \"turns\": [\n    {\n      \"speaker\": \"A\",\n      \"text\": \"<nội dung lượt nói>\",\n      \"emotion\": \"<cảm xúc>\",\n      \"has_backchannel\": false,\n      \"backchannel_word\": null\n    },\n    ...\n  ]\n}\n\nLưu ý: Cuộc hội thoại giữa NGƯỜI PHỎNG VẤN và ỨNG VIÊN. Bắt đầu ngay."
+}

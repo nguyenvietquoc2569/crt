@@ -1,0 +1,53 @@
+{
+  "scenario_id": "cas_8bdc3c16",
+  "category": "casual_conversation",
+  "subcategory": "ẩm_thực",
+  "language": "vi",
+  "speaker_a": {
+    "role": "bạn thân",
+    "personality": [
+      "nhiệt tình",
+      "hay nói"
+    ],
+    "relationship_to_b": "bạn"
+  },
+  "speaker_b": {
+    "role": "người quen",
+    "personality": [
+      "trầm tính",
+      "chu đáo"
+    ],
+    "relationship_to_a": "bạn"
+  },
+  "topic": {
+    "topic": "Ẩm thực",
+    "context": "Bàn về món ăn yêu thích, quán ăn mới, công thức nấu ăn"
+  },
+  "expected_turns": [
+    12,
+    22
+  ],
+  "expected_duration_seconds": [
+    74,
+    232
+  ],
+  "backchannel_examples": [
+    "thật hả",
+    "ờ",
+    "dạ",
+    "à",
+    "ừ"
+  ],
+  "filler_examples": [
+    "thực ra là",
+    "thì",
+    "nói chung là",
+    "à"
+  ],
+  "notes": "Cuộc trò chuyện tự nhiên, không theo kịch bản. Có thể chuyển chủ đề.",
+  "text_prompts": {
+    "text_prompt_speaker_a": "Bạn đang nói chuyện điện thoại với bạn. Tính cách: nhiệt tình, hay nói. Chủ đề: Ẩm thực - Bàn về món ăn yêu thích, quán ăn mới, công thức nấu ăn. Nói chuyện tự nhiên, thoải mái.",
+    "text_prompt_speaker_b": "Bạn đang nói chuyện điện thoại với bạn. Tính cách: trầm tính, chu đáo. Chủ đề: Ẩm thực - Bàn về món ăn yêu thích, quán ăn mới, công thức nấu ăn. Nói chuyện tự nhiên, thoải mái."
+  },
+  "llm_generation_prompt": "Bạn là trình tạo hội thoại tiếng Việt tự nhiên cho huấn luyện mô hình AI hội thoại.\n\nNgữ cảnh:\n- Chủ đề: Ẩm thực\n- Bối cảnh: Bàn về món ăn yêu thích, quán ăn mới, công thức nấu ăn\n- Mối quan hệ: Bạn bè/người quen\n\nVai trò người nói A:\nBạn đang nói chuyện điện thoại với bạn. Tính cách: nhiệt tình, hay nói. Chủ đề: Ẩm thực - Bàn về món ăn yêu thích, quán ăn mới, công thức nấu ăn. Nói chuyện tự nhiên, thoải mái.\n\nVai trò người nói B:\nBạn đang nói chuyện điện thoại với bạn. Tính cách: trầm tính, chu đáo. Chủ đề: Ẩm thực - Bàn về món ăn yêu thích, quán ăn mới, công thức nấu ăn. Nói chuyện tự nhiên, thoải mái.\n\nYêu cầu:\n1. Tạo cuộc hội thoại tự nhiên bằng tiếng Việt, 12-22 lượt nói\n2. Sử dụng ngôn ngữ giao tiếp đời thường, KHÔNG quá trang trọng\n3. BẮT BUỘC sử dụng các từ đệm tự nhiên: thật hả, ờ, dạ, à, ừ\n4. Thêm các từ lấp đầy: thực ra là, thì, nói chung là, à\n5. Đôi khi có câu bỏ lửng, nói lắp nhẹ, hoặc tự sửa lời\n6. Thể hiện cảm xúc phù hợp với ngữ cảnh\n7. Mỗi lượt nói 1-4 câu (có thể dài hơn nếu cần giải thích)\n\nĐịnh dạng OUTPUT (JSON):\n{\n  \"turns\": [\n    {\n      \"speaker\": \"A\",\n      \"text\": \"<nội dung lượt nói>\",\n      \"emotion\": \"<cảm xúc>\",\n      \"has_backchannel\": false,\n      \"backchannel_word\": null\n    },\n    ...\n  ]\n}\n\nLưu ý: Cuộc hội thoại giữa NGƯỜI A và NGƯỜI B. Bắt đầu ngay."
+}

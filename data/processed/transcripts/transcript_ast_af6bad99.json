@@ -1,0 +1,70 @@
+{
+  "scenario_id": "ast_af6bad99",
+  "category": "assistant",
+  "language": "vi",
+  "transcript": [
+    {
+      "turn": 1,
+      "speaker": "A",
+      "text": "Xin chào! Tôi có thể giúp gì cho bạn hôm nay?",
+      "emotion": "friendly",
+      "duration_estimate_ms": 1980,
+      "has_backchannel": true,
+      "backchannel_word": "à"
+    },
+    {
+      "turn": 2,
+      "speaker": "B",
+      "text": "Ừm, tôi muốn hỏi về... kiểu là tôi muốn bắt đầu tập thể dục nhưng không biết bắt đầu từ đâu.",
+      "emotion": "confused",
+      "duration_estimate_ms": 3780,
+      "has_backchannel": true,
+      "backchannel_word": "ừm"
+    },
+    {
+      "turn": 3,
+      "speaker": "A",
+      "text": "Dạ, câu hỏi rất hay ạ! Trước tiên, bạn có thể cho tôi biết tình trạng sức khỏe hiện tại không? Ví dụ bạn có bệnh nền gì không, và mục tiêu của bạn là gì?",
+      "emotion": "helpful",
+      "duration_estimate_ms": 6479,
+      "has_backchannel": true,
+      "backchannel_word": "dạ"
+    },
+    {
+      "turn": 4,
+      "speaker": "B",
+      "text": "À, tôi khỏe bình thường, không có bệnh gì. Mục tiêu là giảm cân, tôi nặng khoảng 75 ký, cao 1m65.",
+      "emotion": "honest",
+      "duration_estimate_ms": 3780,
+      "has_backchannel": true,
+      "backchannel_word": "à"
+    },
+    {
+      "turn": 5,
+      "speaker": "A",
+      "text": "Vâng, với chỉ số BMI của bạn khoảng 27.5, tôi khuyên bạn nên kết hợp cardio và tập tạ nhẹ. Bắt đầu với đi bộ nhanh 30 phút mỗi ngày, rồi tăng dần lên. Bạn muốn tôi gợi ý lịch tập cụ thể không?",
+      "emotion": "professional",
+      "duration_estimate_ms": 7920,
+      "has_backchannel": true,
+      "backchannel_word": "vâng"
+    },
+    {
+      "turn": 6,
+      "speaker": "B",
+      "text": "Ồ, được luôn! Gợi ý cho tôi đi.",
+      "emotion": "eager",
+      "duration_estimate_ms": 1440,
+      "has_backchannel": false,
+      "backchannel_word": null
+    }
+  ],
+  "text_prompt_speaker_a": "Bạn là Trợ lý AI chuyên về Giáo dục. Bạn nhiệt tình, nhanh nhẹn, chu đáo. Chuyên môn: tư vấn chọn trường, học bổng, phương pháp học tập. Trả lời ngắn gọn, rõ ràng Hỏi lại khi chưa rõ yêu cầu Khuyến khích người dùng tìm chuyên gia nếu vấn đề phức tạp.",
+  "text_prompt_speaker_b": "Bạn là người dùng cần hỗ trợ về giáo dục. Trình độ hiểu biết: mới bắt đầu. Bạn đang cảm thấy tò mò.",
+  "metadata": {
+    "total_turns": 6,
+    "total_duration_estimate_ms": 27779,
+    "speaker_a_turns": 3,
+    "speaker_b_turns": 3,
+    "generation_timestamp": "2026-03-02T09:59:25.348536"
+  }
+}

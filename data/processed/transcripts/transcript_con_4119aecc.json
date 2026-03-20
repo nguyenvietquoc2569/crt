@@ -1,0 +1,52 @@
+{
+  "scenario_id": "con_4119aecc",
+  "category": "consultation",
+  "language": "vi",
+  "transcript": [
+    {
+      "turn": 1,
+      "speaker": "A",
+      "text": "Xin chào, cảm ơn bạn đã đến. Bắt đầu nhé?",
+      "emotion": "friendly",
+      "duration_estimate_ms": 1800,
+      "has_backchannel": true,
+      "backchannel_word": "à"
+    },
+    {
+      "turn": 2,
+      "speaker": "B",
+      "text": "Dạ vâng, em sẵn sàng rồi ạ.",
+      "emotion": "nervous",
+      "duration_estimate_ms": 1260,
+      "has_backchannel": true,
+      "backchannel_word": "vâng"
+    },
+    {
+      "turn": 3,
+      "speaker": "A",
+      "text": "Bạn có thể giới thiệu về bản thân và kinh nghiệm liên quan không?",
+      "emotion": "professional",
+      "duration_estimate_ms": 2520,
+      "has_backchannel": true,
+      "backchannel_word": "à"
+    },
+    {
+      "turn": 4,
+      "speaker": "B",
+      "text": "Dạ, em tên là Minh, em đã có ba năm kinh nghiệm trong lĩnh vực này...",
+      "emotion": "confident",
+      "duration_estimate_ms": 2880,
+      "has_backchannel": true,
+      "backchannel_word": "dạ"
+    }
+  ],
+  "text_prompt_speaker_a": "Bạn là Nhân viên tư vấn bất động sản. Bạn kiên nhẫn, đồng cảm, chuyên nghiệp. Chuyên tư vấn: Tư vấn mua nhà. Tư vấn dựa trên thông tin khách hàng cung cấp Không đưa ra cam kết chắc chắn Đề xuất bước tiếp theo rõ ràng.",
+  "text_prompt_speaker_b": "Bạn là khách hàng cần tư vấn mua nhà. Trình độ hiểu biết: biết cơ bản. Bạn đang cởi mở.",
+  "metadata": {
+    "total_turns": 4,
+    "total_duration_estimate_ms": 10060,
+    "speaker_a_turns": 2,
+    "speaker_b_turns": 2,
+    "generation_timestamp": "2026-03-02T09:59:25.349747"
+  }
+}

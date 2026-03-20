@@ -1,0 +1,124 @@
+{
+  "scenario_id": "cs_28aeedaa",
+  "category": "customer_service",
+  "language": "vi",
+  "transcript": [
+    {
+      "turn": 1,
+      "speaker": "A",
+      "text": "Dạ xin chào anh/chị, em là Linh từ bộ phận chăm sóc khách hàng ạ. Em có thể giúp gì cho anh/chị ạ?",
+      "emotion": "friendly",
+      "duration_estimate_ms": 4140,
+      "has_backchannel": true,
+      "backchannel_word": "ừ"
+    },
+    {
+      "turn": 2,
+      "speaker": "B",
+      "text": "Ừm, chào em. Anh gọi vì anh đặt hàng tuần trước nhưng nhận được sản phẩm sai màu. Anh hơi thất vọng vì đã chờ mấy ngày rồi.",
+      "emotion": "disappointed",
+      "duration_estimate_ms": 5040,
+      "has_backchannel": true,
+      "backchannel_word": "ừm"
+    },
+    {
+      "turn": 3,
+      "speaker": "A",
+      "text": "Dạ, em rất xin lỗi về sự bất tiện này ạ. Anh có thể cho em xin mã đơn hàng để em kiểm tra không ạ?",
+      "emotion": "empathetic",
+      "duration_estimate_ms": 4680,
+      "has_backchannel": true,
+      "backchannel_word": "dạ"
+    },
+    {
+      "turn": 4,
+      "speaker": "B",
+      "text": "Ờ, để anh tìm... mã đơn là DH-2026-03-12345 nhé.",
+      "emotion": "neutral",
+      "duration_estimate_ms": 1619,
+      "has_backchannel": true,
+      "backchannel_word": "à"
+    },
+    {
+      "turn": 5,
+      "speaker": "A",
+      "text": "Dạ vâng, em đã tìm thấy đơn hàng của anh rồi ạ. Đúng là hệ thống ghi nhận anh đặt màu đen nhưng giao nhầm màu trắng. Em xin lỗi anh rất nhiều ạ.",
+      "emotion": "apologetic",
+      "duration_estimate_ms": 6120,
+      "has_backchannel": true,
+      "backchannel_word": "vâng"
+    },
+    {
+      "turn": 6,
+      "speaker": "B",
+      "text": "Ừ, vậy giờ giải quyết sao em?",
+      "emotion": "expectant",
+      "duration_estimate_ms": 1260,
+      "has_backchannel": true,
+      "backchannel_word": "ừ"
+    },
+    {
+      "turn": 7,
+      "speaker": "A",
+      "text": "Dạ, em có hai phương án cho anh ạ. Một là em gửi đổi sản phẩm đúng màu cho anh, miễn phí vận chuyển, giao trong hai ngày. Hai là em hoàn tiền đầy đủ cho anh ạ. Anh muốn chọn phương án nào ạ?",
+      "emotion": "helpful",
+      "duration_estimate_ms": 8100,
+      "has_backchannel": true,
+      "backchannel_word": "dạ"
+    },
+    {
+      "turn": 8,
+      "speaker": "B",
+      "text": "À, vậy anh chọn đổi sản phẩm đi em. Nhưng lần này phải giao đúng màu đen nha.",
+      "emotion": "relieved",
+      "duration_estimate_ms": 3239,
+      "has_backchannel": true,
+      "backchannel_word": "à"
+    },
+    {
+      "turn": 9,
+      "speaker": "A",
+      "text": "Dạ chắc chắn rồi ạ. Em đã tạo đơn đổi hàng cho anh. Mã đổi hàng là EX-2026-67890. Anh sẽ nhận được hàng trong hai ngày làm việc ạ.",
+      "emotion": "confident",
+      "duration_estimate_ms": 5220,
+      "has_backchannel": true,
+      "backchannel_word": "dạ"
+    },
+    {
+      "turn": 10,
+      "speaker": "B",
+      "text": "Ok, cảm ơn em nhiều nha. Hy vọng lần này ổn.",
+      "emotion": "satisfied",
+      "duration_estimate_ms": 1980,
+      "has_backchannel": true,
+      "backchannel_word": "à"
+    },
+    {
+      "turn": 11,
+      "speaker": "A",
+      "text": "Dạ vâng, em cảm ơn anh đã liên hệ ạ. Chúc anh một ngày tốt lành! Nếu cần hỗ trợ thêm, anh cứ gọi lại bất cứ lúc nào ạ.",
+      "emotion": "friendly",
+      "duration_estimate_ms": 5400,
+      "has_backchannel": true,
+      "backchannel_word": "vâng"
+    },
+    {
+      "turn": 12,
+      "speaker": "B",
+      "text": "Ừ, bye em.",
+      "emotion": "neutral",
+      "duration_estimate_ms": 540,
+      "has_backchannel": true,
+      "backchannel_word": "ừ"
+    }
+  ],
+  "text_prompt_speaker_a": "Bạn là Nhân viên chăm sóc khách hàng tại VNPT. Bạn thân thiện, tận tâm, giải quyết vấn đề nhanh. Bạn hỗ trợ khách hàng về Viễn thông. Phải xác minh thông tin khách hàng trước khi xử lý Luôn xin lỗi về sự bất tiện Đề xuất ít nhất 2 giải pháp.",
+  "text_prompt_speaker_b": "Bạn là khách hàng gọi đến VNPT. Vấn đề của bạn: Giao hàng trễ hơn dự kiến. Bạn lo lắng về đơn hàng. Mục tiêu: Giải quyết vấn đề: giao hàng trễ hơn dự kiến.",
+  "metadata": {
+    "total_turns": 12,
+    "total_duration_estimate_ms": 52138,
+    "speaker_a_turns": 6,
+    "speaker_b_turns": 6,
+    "generation_timestamp": "2026-03-02T09:59:25.350354"
+  }
+}

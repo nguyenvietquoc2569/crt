@@ -1,0 +1,88 @@
+{
+  "scenario_id": "cas_8bdc3c16",
+  "category": "casual_conversation",
+  "language": "vi",
+  "transcript": [
+    {
+      "turn": 1,
+      "speaker": "A",
+      "text": "Ê, lâu quá không nói chuyện! Dạo này sao rồi?",
+      "emotion": "excited",
+      "duration_estimate_ms": 1800,
+      "has_backchannel": true,
+      "backchannel_word": "dạ"
+    },
+    {
+      "turn": 2,
+      "speaker": "B",
+      "text": "Ừ, bận quá trời luôn á. Mà nè, tao mới đi Đà Lạt về nè, đẹp cực!",
+      "emotion": "enthusiastic",
+      "duration_estimate_ms": 3060,
+      "has_backchannel": true,
+      "backchannel_word": "ừ"
+    },
+    {
+      "turn": 3,
+      "speaker": "A",
+      "text": "Thật hả? Trời, tao cũng đang muốn đi Đà Lạt. Đi mấy ngày? Chỗ nào hay?",
+      "emotion": "curious",
+      "duration_estimate_ms": 2880,
+      "has_backchannel": true,
+      "backchannel_word": "à"
+    },
+    {
+      "turn": 4,
+      "speaker": "B",
+      "text": "Ừm, tao đi bốn ngày ba đêm. Tao ở homestay trên đồi, sáng ra thấy sương mù phủ khắp, đẹp lắm. Rồi tao đi chợ đêm, ăn bánh tráng nướng, uống sữa đậu nành nóng...",
+      "emotion": "nostalgic",
+      "duration_estimate_ms": 6300,
+      "has_backchannel": true,
+      "backchannel_word": "ừm"
+    },
+    {
+      "turn": 5,
+      "speaker": "A",
+      "text": "Nghe thèm quá! Mà đi mấy người?",
+      "emotion": "interested",
+      "duration_estimate_ms": 1260,
+      "has_backchannel": true,
+      "backchannel_word": "à"
+    },
+    {
+      "turn": 6,
+      "speaker": "B",
+      "text": "Đi nhóm bốn người, hai cặp. Thuê xe máy chạy vòng vòng. À mà có chỗ mới nè, cánh đồng cỏ hồng, chụp hình đẹp lắm.",
+      "emotion": "happy",
+      "duration_estimate_ms": 4680,
+      "has_backchannel": true,
+      "backchannel_word": "à"
+    },
+    {
+      "turn": 7,
+      "speaker": "A",
+      "text": "Ờ, tao thấy trên mạng rồi. Ok, chắc tháng sau tao plan đi. Mày gửi tao lịch trình với địa chỉ homestay đi.",
+      "emotion": "planning",
+      "duration_estimate_ms": 4140,
+      "has_backchannel": true,
+      "backchannel_word": "à"
+    },
+    {
+      "turn": 8,
+      "speaker": "B",
+      "text": "Ok ok, để tao gửi. Mà mày nhớ book sớm nha, cuối tuần đông lắm.",
+      "emotion": "advising",
+      "duration_estimate_ms": 2700,
+      "has_backchannel": true,
+      "backchannel_word": "à"
+    }
+  ],
+  "text_prompt_speaker_a": "Bạn đang nói chuyện điện thoại với bạn. Tính cách: nhiệt tình, hay nói. Chủ đề: Ẩm thực - Bàn về món ăn yêu thích, quán ăn mới, công thức nấu ăn. Nói chuyện tự nhiên, thoải mái.",
+  "text_prompt_speaker_b": "Bạn đang nói chuyện điện thoại với bạn. Tính cách: trầm tính, chu đáo. Chủ đề: Ẩm thực - Bàn về món ăn yêu thích, quán ăn mới, công thức nấu ăn. Nói chuyện tự nhiên, thoải mái.",
+  "metadata": {
+    "total_turns": 8,
+    "total_duration_estimate_ms": 30020,
+    "speaker_a_turns": 4,
+    "speaker_b_turns": 4,
+    "generation_timestamp": "2026-03-02T09:59:25.349323"
+  }
+}

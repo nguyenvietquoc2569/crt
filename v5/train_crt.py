@@ -67,8 +67,12 @@ def parse_args():
     p.add_argument('--seq_len',        type=int, default=128)
     p.add_argument('--lr',             type=float, default=3e-4)
     p.add_argument('--dropout',        type=float, default=0.1)
+    p.add_argument('--n_learn',        type=int, default=12,
+                   help='Number of CBs to predict (6=CB1-6 only, 12=CB1-12)')
     p.add_argument('--corrupt_ratio',  type=float, default=0.7,
                    help='Fraction of CB1-6 tokens to corrupt per sample')
+    p.add_argument('--corrupt_ratio_hi', type=float, default=0.3,
+                   help='Fraction of CB7-12 tokens to corrupt (lower: FAISS is already good)')
     p.add_argument('--faiss_frac',     type=float, default=0.5,
                    help='Of corrupt samples, fraction using FAISS (vs random)')
     p.add_argument('--focal_gamma',    type=float, default=1.0,
@@ -78,6 +82,20 @@ def parse_args():
     p.add_argument('--target_dir',     default=None)
     p.add_argument('--source_audio',   default=None)
     p.add_argument('--phase',          choices=['train', 'refine', 'all'], default='train')
+    # V4 integration (fix train-test mismatch)
+    p.add_argument('--v4_ckpt',        default=None,
+                   help='Path to V4 finetuned checkpoint (v3f_finetuned.pt)')
+    p.add_argument('--v4_script',      default=None,
+                   help='Path to train_v3f.py (contains AcousticTranslatorV4 class)')
+    p.add_argument('--v4_d_model',     type=int, default=768)
+    p.add_argument('--v4_n_heads',     type=int, default=12)
+    p.add_argument('--v4_enc',         type=int, default=8)
+    p.add_argument('--v4_dec',         type=int, default=8)
+    p.add_argument('--v4_cb1_extra',   type=int, default=8)
+    # CRT fine-tuning on target speaker
+    p.add_argument('--ft_steps',       type=int, default=300,
+                   help='CRT fine-tune steps on target speaker self-reconstruction (0=skip)')
+    p.add_argument('--ft_lr',          type=float, default=1e-4)
     return p.parse_args()
 
 
@@ -201,7 +219,7 @@ class CRT(nn.Module):
     Codebook Refinement Transformer.
 
     Input:  CB0 (anchor from FAISS) + noisy CB1-6 (V4 first pass) + speaker_emb
-    Output: refined CB1-6 logits  [B, n_cb, T, cb_size]
+    Output: refined CB logits  [B, n_cb, T, cb_size]
 
     The model exploits:
     - CB0 as the semantic anchor (constrains acoustic space)
@@ -241,7 +259,7 @@ class CRT(nn.Module):
     def forward(self, cb0, cb_noisy, spk_emb):
         """
         cb0:      [B, T]         — target CB0 (from FAISS)
-        cb_noisy: [B, n_cb, T]   — first-pass CB1-6 predictions (noisy)
+        cb_noisy: [B, n_cb, T]   — first-pass CB1-N predictions (noisy)
         spk_emb:  [B, 256]       — target speaker embedding
         Returns:  [B, n_cb, T, cb_size]
         """
@@ -345,7 +363,7 @@ def load_data(args):
         'speaker_faiss':      speaker_faiss,
         'cb0_emb':            cb0_emb,
         'CB_SIZE':            CB_SIZE,
-        'N_LEARN':            6,
+        'N_LEARN':            args.n_learn,
         'FRAME_RATE':         12.5,
     }
 
@@ -365,6 +383,17 @@ def corrupt_random(cb1_6, corrupt_ratio, cb_size=2048):
             start = random.randint(0, T - span)
             result[cb_i, start:start + span] = torch.randint(0, cb_size, (span,))
             done += span
+    return result
+
+
+def _random_split_corrupt(cb_clean, n_heavy, ratio_heavy, ratio_light, cb_size):
+    """Random corruption with split ratio: first n_heavy CBs get ratio_heavy,
+    remainder get ratio_light. Used when n_learn > 6 to avoid over-corrupting
+    CB7-12 which are already well-approximated by FAISS."""
+    result = corrupt_random(cb_clean[:n_heavy], ratio_heavy, cb_size)
+    if cb_clean.shape[0] > n_heavy:
+        rest = corrupt_random(cb_clean[n_heavy:], ratio_light, cb_size)
+        result = torch.cat([result, rest], dim=0)
     return result
 
 
@@ -410,26 +439,31 @@ def sample_batch(data, args, device):
         if crop.shape[1] < SEQ_LEN:
             crop = F.pad(crop, (0, SEQ_LEN - crop.shape[1]))
 
-        cb0_clean  = crop[0]                   # [T]
-        cb1_6_clean = crop[1:1 + N_LEARN]     # [N_LEARN, T]
+        cb0_clean   = crop[0]               # [T]
+        cb_clean    = crop[1:1 + N_LEARN]   # [N_LEARN, T]  — CB1 to CB{N_LEARN}
 
-        # Corruption strategy
+        # Corruption strategy:
+        # FAISS (cross-speaker): realistic for all CBs — all come from same target frame
+        # Random: CB1-6 heavy (simulating V4 artifacts), CB7+ light (FAISS already good)
+        N_HEAVY = min(6, N_LEARN)   # CB1-6 always get heavy corruption
         use_faiss = (random.random() < args.faiss_frac)
         if use_faiss:
             tgt = random.choice(spk_list)
             while tgt == spk:
                 tgt = random.choice(spk_list)
             try:
-                cb1_6_noisy = corrupt_faiss(
+                cb_noisy = corrupt_faiss(
                     cb0_clean.numpy(), tgt, speaker_faiss, cb0_emb, N_LEARN)
             except Exception:
-                cb1_6_noisy = corrupt_random(cb1_6_clean, args.corrupt_ratio, CB_SIZE)
+                cb_noisy = _random_split_corrupt(
+                    cb_clean, N_HEAVY, args.corrupt_ratio, args.corrupt_ratio_hi, CB_SIZE)
         else:
-            cb1_6_noisy = corrupt_random(cb1_6_clean, args.corrupt_ratio, CB_SIZE)
+            cb_noisy = _random_split_corrupt(
+                cb_clean, N_HEAVY, args.corrupt_ratio, args.corrupt_ratio_hi, CB_SIZE)
 
         cb0_batch.append(cb0_clean)
-        noisy_batch.append(cb1_6_noisy)
-        clean_batch.append(cb1_6_clean)
+        noisy_batch.append(cb_noisy)
+        clean_batch.append(cb_clean)
         spk_batch.append(torch.tensor(speaker_embeddings[spk], dtype=torch.float32))
 
     return (
@@ -564,6 +598,108 @@ def train(data, args, device):
     return model
 
 
+# ── V4 loader ──────────────────────────────────────────────────
+
+def load_v4(args, device):
+    """Load V4 (AcousticTranslatorV4) model for first-pass predictions."""
+    if not args.v4_ckpt or not args.v4_script:
+        return None
+    import importlib.util
+    spec = importlib.util.spec_from_file_location('train_v3f', args.v4_script)
+    mod  = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+
+    ckpt  = torch.load(args.v4_ckpt, weights_only=False, map_location='cpu')
+    cfg   = ckpt.get('config', {})
+    model = mod.AcousticTranslatorV4(
+        n_vocab=cfg.get('n_vocab', 2048),
+        n_cb=cfg.get('n_cb', 6),
+        d_model=cfg.get('d_model', args.v4_d_model),
+        n_heads=cfg.get('n_heads', args.v4_n_heads),
+        n_enc_layers=args.v4_enc,
+        n_dec_layers=args.v4_dec,
+        n_cb1_extra=args.v4_cb1_extra,
+        spk_emb_dim=256,
+        dropout=0.0,
+        cb0_noise_rate=0.0,
+        spk_noise_std=0.0,
+    ).to(device)
+    state = ckpt['model_state']
+    state = {k.replace('_orig_mod.', ''): v for k, v in state.items()}
+    model.load_state_dict(state)
+    model.eval()
+    n_p = sum(p.numel() for p in model.parameters())
+    print(f'Loaded V4 ({n_p/1e6:.0f}M params) from {args.v4_ckpt}', flush=True)
+    return model
+
+
+# ── CRT target-speaker fine-tune ───────────────────────────────
+
+def finetune_crt(crt_model, v4_model, tgt_codes_np, tgt_spk_emb, args, device):
+    """Fine-tune CRT on target speaker self-reconstruction.
+
+    For each target-speaker chunk:
+      - Run V4.generate(target_CB0) → first-pass CB1-6 predictions
+      - Train CRT: (target_CB0, V4_pred, spk_emb) → ground_truth_CB1-6
+
+    This closes the train-test gap: CRT learns to correct V4's specific
+    error patterns on the target speaker's voice, not idealised FAISS CB1-6.
+    """
+    if args.ft_steps <= 0 or v4_model is None:
+        return
+
+    N_LEARN = args.n_learn
+    SEQ_LEN = 128
+    T_tgt   = tgt_codes_np.shape[1]
+    spk_d   = tgt_spk_emb.unsqueeze(0).to(device)
+
+    print(f'\nFine-tuning CRT on target speaker ({args.ft_steps} steps)...', flush=True)
+
+    opt    = torch.optim.AdamW(crt_model.parameters(), lr=args.ft_lr, weight_decay=0.01)
+    use_amp = device == 'cuda'
+    scaler  = torch.amp.GradScaler('cuda', enabled=use_amp)
+    crt_model.train()
+
+    for step in range(args.ft_steps):
+        start = random.randint(0, max(0, T_tgt - SEQ_LEN))
+        chunk = tgt_codes_np[:, start:start + SEQ_LEN]
+        if chunk.shape[1] < SEQ_LEN:
+            chunk = np.pad(chunk, ((0, 0), (0, SEQ_LEN - chunk.shape[1])))
+
+        cb0_t  = torch.tensor(chunk[0],           dtype=torch.long).unsqueeze(0).to(device)
+        gt_t   = torch.tensor(chunk[1:1+N_LEARN], dtype=torch.long).unsqueeze(0).to(device)
+
+        # V4 first-pass for CB1-6 (no grad)
+        with torch.no_grad():
+            v4_pred_6 = v4_model.generate(cb0_t, spk_d, temperature=1.0, top_p=0.92)  # [1,6,T]
+
+        # CB7-N_LEARN: use lightly corrupted ground truth (same strategy as training)
+        if N_LEARN > 6:
+            cb7_hi_gt = gt_t[:, 6:]                                        # [1, N_LEARN-6, T]
+            cb7_hi_noisy = corrupt_random(
+                cb7_hi_gt[0].cpu(), args.corrupt_ratio_hi, 2048).unsqueeze(0).to(device)
+            cb_input = torch.cat([v4_pred_6, cb7_hi_noisy], dim=1)        # [1, N_LEARN, T]
+        else:
+            cb_input = v4_pred_6
+
+        with torch.amp.autocast('cuda', enabled=use_amp, dtype=torch.float16):
+            logits = crt_model(cb0_t, cb_input, spk_d)
+            loss   = crt_model.compute_loss(logits, gt_t, args.focal_gamma)
+
+        opt.zero_grad()
+        scaler.scale(loss).backward()
+        scaler.unscale_(opt)
+        torch.nn.utils.clip_grad_norm_(crt_model.parameters(), 1.0)
+        scaler.step(opt)
+        scaler.update()
+
+        if (step + 1) % 50 == 0:
+            print(f'  FT {step+1}/{args.ft_steps} | loss {loss.item():.4f}', flush=True)
+
+    crt_model.eval()
+    print('Fine-tuning done.', flush=True)
+
+
 # ── Refinement inference ───────────────────────────────────────
 
 def load_mimi(device):
@@ -576,7 +712,15 @@ def load_mimi(device):
 
 
 def refine(data, model, args, device):
-    """Apply trained CRT to refine FAISS-based VC output."""
+    """Apply trained CRT to refine V4 VC output.
+
+    Pipeline:
+      source → FAISS → target_CB0 → V4 → CB1-6 (first pass)
+      (target_CB0, V4_CB1-6, spk_emb) → CRT → CB1-6 (refined)
+
+    If --v4_ckpt is not provided, falls back to FAISS CB1-6 (train-test
+    mismatch warning). Pass --v4_ckpt + --v4_script to enable correct mode.
+    """
     if not args.source_audio or not args.target_dir:
         print('Skipping refinement: --source_audio and --target_dir required.')
         return
@@ -585,6 +729,12 @@ def refine(data, model, args, device):
     N_LEARN    = data['N_LEARN']
     cb0_emb    = data['cb0_emb']
     FRAME_RATE = data['FRAME_RATE']
+
+    # Load V4 (may be None if not provided)
+    v4_model = load_v4(args, device)
+    if v4_model is None:
+        print('WARNING: --v4_ckpt/--v4_script not provided. '
+              'Using FAISS CB1-6 as CRT input (train-test mismatch).', flush=True)
 
     mimi, feat_ext, SR, dtype = load_mimi(device)
 
@@ -621,7 +771,7 @@ def refine(data, model, args, device):
     tgt_full = tgt_codes[0].numpy().T   # [T_tgt, 32]
     tgt_sem  = tgt_codes[0, 0].numpy()
 
-    # Target FAISS
+    # Target FAISS index
     tgt_emb = cb0_emb[tgt_sem].astype(np.float32).copy()
     faiss.normalize_L2(tgt_emb)
     tgt_index = faiss.IndexFlatIP(cb0_emb.shape[1])
@@ -633,7 +783,7 @@ def refine(data, model, args, device):
     tgt16   = librosa.resample(tgt_concat, orig_sr=SR, target_sr=16000)
     tgt_spk_emb = torch.tensor(spk_enc.embed_utterance(tgt16), dtype=torch.float32)
 
-    # FAISS retrieval (source CB0 → target frames)
+    # FAISS retrieval: source CB0 → target frames (with continuity)
     src_sem_np = src_codes[0, 0].numpy()
     src_emb_q  = cb0_emb[src_sem_np].astype(np.float32).copy()
     faiss.normalize_L2(src_emb_q)
@@ -646,24 +796,49 @@ def refine(data, model, args, device):
         combined = 0.5 * dists_k[t] + 0.5 / (1 + np.abs(cands - selected[t-1]) / FRAME_RATE)
         selected[t] = cands[np.argmax(combined)]
 
-    # Assemble FAISS baseline codes
+    # FAISS baseline codes (correct CB0, CB7-31 from target; FAISS CB1-6)
     faiss_codes = src_codes.clone()
     for t in range(T_src):
         faiss_codes[0, :, t] = torch.tensor(tgt_full[selected[t]])
     faiss_wav = decode(faiss_codes)
 
-    # CRT input: FAISS target CB0 + FAISS CB1-6 as "first pass" (stand-in for V4 output)
-    ret_cb0_np  = np.array([tgt_full[selected[t]][0] for t in range(T_src)])
-    ret_cb1_6   = np.array([tgt_full[selected[t]][1:1 + N_LEARN] for t in range(T_src)])
+    # Build CRT inputs: target CB0 from FAISS
+    ret_cb0_np = np.array([tgt_full[selected[t]][0] for t in range(T_src)])
+    cb0_d      = torch.tensor(ret_cb0_np, dtype=torch.long).unsqueeze(0).to(device)
+    spk_d      = tgt_spk_emb.unsqueeze(0).to(device)
 
-    cb0_d       = torch.tensor(ret_cb0_np, dtype=torch.long).unsqueeze(0).to(device)
-    cb1_6_d     = torch.tensor(ret_cb1_6.T, dtype=torch.long).unsqueeze(0).to(device)
-    spk_d       = tgt_spk_emb.unsqueeze(0).to(device)
+    # Build CRT input: CB1-6 from V4 (accurate) + CB7-N_LEARN from FAISS (already good)
+    faiss_cb_hi = None
+    if N_LEARN > 6:
+        # CB7-N_LEARN from FAISS retrieval — already target-speaker frames
+        faiss_cb_hi_np = np.array([tgt_full[selected[t]][7:1 + N_LEARN] for t in range(T_src)])
+        faiss_cb_hi = torch.tensor(faiss_cb_hi_np.T, dtype=torch.long).unsqueeze(0).to(device)
 
+    if v4_model is not None:
+        with torch.no_grad():
+            v4_cb1_6 = v4_model.generate(cb0_d, spk_d, temperature=1.0, top_p=0.92)  # [1, 6, T]
+        if faiss_cb_hi is not None:
+            cb_input_d = torch.cat([v4_cb1_6, faiss_cb_hi], dim=1)   # [1, N_LEARN, T]
+        else:
+            cb_input_d = v4_cb1_6
+        # V4 baseline (CB1-6 from V4, CB7-31 from FAISS)
+        v4_codes = faiss_codes.clone()
+        v4_codes[0, 1:7] = v4_cb1_6[0].cpu()
+        v4_wav = decode(v4_codes)
+    else:
+        # Fallback: all CBs from FAISS (train-test mismatch warning already printed)
+        ret_cb_all = np.array([tgt_full[selected[t]][1:1 + N_LEARN] for t in range(T_src)])
+        cb_input_d = torch.tensor(ret_cb_all.T, dtype=torch.long).unsqueeze(0).to(device)
+        v4_wav     = None
+
+    # Fine-tune CRT on target speaker self-reconstruction (closes train-test gap)
+    finetune_crt(model, v4_model, tgt_codes[0].numpy(), tgt_spk_emb, args, device)
+
+    # CRT refinement
     model.eval()
     with torch.no_grad():
         with torch.amp.autocast('cuda', enabled=(device == 'cuda'), dtype=torch.float16):
-            logits = model(cb0_d, cb1_6_d, spk_d)
+            logits = model(cb0_d, cb_input_d, spk_d)
         refined = logits.float().argmax(-1)[0].cpu()   # [N_LEARN, T]
 
     refined_codes = faiss_codes.clone()
@@ -686,16 +861,19 @@ def refine(data, model, args, device):
 
     tgt_ref = tgt_concat[:int(SR * 15)]
     print(f'\n--- Refinement results [{args.model_size}] ---')
-    print(f'{"Method":<30} {"SECS(->tgt)":>12} {"MCD":>8}')
-    print('-' * 55)
-    for name, wav in [
-        ('FAISS+Smooth (baseline)', faiss_wav),
-        (f'CRT-{args.model_size} (refined)', refined_wav),
-    ]:
-        print(f'{name:<30} {secs(wav, tgt_ref):>12.4f} {mcd(src_wav, wav):>8.2f}')
+    print(f'{"Method":<34} {"SECS(->tgt)":>12} {"MCD":>8}')
+    print('-' * 58)
+    rows = [('FAISS baseline', faiss_wav)]
+    if v4_wav is not None:
+        rows.append(('V4 first-pass', v4_wav))
+    rows.append((f'CRT-{args.model_size} (V4+CRT)', refined_wav))
+    for name, wav in rows:
+        print(f'{name:<34} {secs(wav, tgt_ref):>12.4f} {mcd(src_wav, wav):>8.2f}')
 
     # Save
     sf.write(os.path.join(args.output_dir, 'faiss_baseline.wav'), faiss_wav, SR)
+    if v4_wav is not None:
+        sf.write(os.path.join(args.output_dir, 'v4_firstpass.wav'), v4_wav, SR)
     sf.write(os.path.join(args.output_dir, f'crt_{args.model_size}_refined.wav'), refined_wav, SR)
     print(f'Saved to: {args.output_dir}')
 

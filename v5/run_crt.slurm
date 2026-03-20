@@ -57,31 +57,44 @@ TARGET_DIR=$WORK_DIR/target_audio
 SOURCE_AUDIO=$WORK_DIR/source.mp3
 SCRIPT=$WORK_DIR/v5/train_crt.py
 
+# V4 integration: point CRT at the finetuned V4 checkpoint
+# so refine() uses V4's actual predictions (not FAISS CB1-6)
+V4_CKPT=$WORK_DIR/checkpoints_v4/v3f_finetuned.pt
+V4_SCRIPT=$WORK_DIR/train_v3f.py
+
 mkdir -p $CKPT_DIR $OUTPUT_DIR logs
 
 # =========================================================
-# CRT v5 — train all 4 sizes, compare CB accuracy
+# CRT v5.2 — V4 → CRT pipeline (fixes train-test mismatch)
 # small (~2M) → medium (~8M) → large (~28M) → xlarge (~70M)
 #
-# Each size trains to its default step count, saves best ckpt,
-# then runs refinement inference on source.mp3 → target_audio/.
+# refine() now:
+#   1. FAISS: source → target CB0
+#   2. V4.generate(target_CB0) → first-pass CB1-6
+#   3. finetune_crt(): adapt CRT to target speaker (300 steps)
+#   4. CRT(target_CB0, V4_CB1-6, spk_emb) → refined CB1-6
 # Results land in output_v5/crt_{size}_refined.wav
 # =========================================================
 
 COMMON="
-    --data_processed $DATA_STORAGE/processed
-    --ckpt_dir       $CKPT_DIR
-    --output_dir     $OUTPUT_DIR
-    --target_dir     $TARGET_DIR
-    --source_audio   $SOURCE_AUDIO
-    --batch_size     32
-    --seq_len        128
-    --lr             3e-4
-    --dropout        0.1
-    --corrupt_ratio  0.70
-    --faiss_frac     0.50
-    --focal_gamma    1.0
-    --phase          all
+    --data_processed    $DATA_STORAGE/processed
+    --ckpt_dir          $CKPT_DIR
+    --output_dir        $OUTPUT_DIR
+    --target_dir        $TARGET_DIR
+    --source_audio      $SOURCE_AUDIO
+    --v4_ckpt           $V4_CKPT
+    --v4_script         $V4_SCRIPT
+    --ft_steps          300
+    --n_learn           12
+    --batch_size        32
+    --seq_len           128
+    --lr                3e-4
+    --dropout           0.1
+    --corrupt_ratio     0.70
+    --corrupt_ratio_hi  0.30
+    --faiss_frac        0.50
+    --focal_gamma       1.0
+    --phase             all
 "
 
 echo "================================================================"

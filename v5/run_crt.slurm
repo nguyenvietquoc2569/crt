@@ -60,15 +60,13 @@ SCRIPT=$WORK_DIR/v5/train_crt.py
 mkdir -p $CKPT_DIR $OUTPUT_DIR logs
 
 # =========================================================
-# CRT v5.2 — FAISS → CRT pipeline
-# small (~2M) → medium (~8M) → large (~28M) → xlarge (~70M)
+# CRT v5.3 — FAISS CB1-18 → CRT pipeline (xlarge only)
 #
 # Pipeline:
-#   1. FAISS: source CB0 → target CB0-12 (already target speaker)
-#   2. CRT(target_CB0, FAISS_CB1-12, spk_emb) → refined CB1-12
+#   1. FAISS: source CB0 → target CB0-18 (already target speaker)
+#   2. CRT(target_CB0, FAISS_CB1-18, spk_emb) → refined CB1-18
 #
-# Training with faiss_frac=0.9: cross-speaker FAISS corruption
-# matches the inference distribution — no train-test mismatch.
+# faiss_frac=0.9: training distribution matches inference exactly.
 # CRT only smooths frame-boundary discontinuities.
 # =========================================================
 
@@ -78,7 +76,7 @@ COMMON="
     --output_dir        $OUTPUT_DIR
     --target_dir        $TARGET_DIR
     --source_audio      $SOURCE_AUDIO
-    --n_learn           12
+    --n_learn           18
     --batch_size        32
     --seq_len           128
     --lr                3e-4
@@ -87,25 +85,18 @@ COMMON="
     --corrupt_ratio_hi  0.30
     --faiss_frac        0.90
     --focal_gamma       1.0
-    --ft_steps          0
     --phase             all
 "
 
 echo "================================================================"
-echo " CRT v5 — Codebook Refinement Transformer"
-echo " Training 4 sizes: small / medium / large / xlarge"
+echo " CRT v5.3 — FAISS CB1-18 → CRT xlarge"
 echo "================================================================"
 
-for SIZE in small medium large xlarge; do
-    echo ""
-    echo "-------- SIZE: $SIZE --------"
-    python -u $SCRIPT $COMMON --model_size $SIZE
-    echo "-------- DONE: $SIZE | $(date) --------"
-done
+python -u $SCRIPT $COMMON --model_size xlarge
 
 echo ""
 echo "================================================================"
-echo " All sizes complete. Output files:"
-ls -lh $OUTPUT_DIR/crt_*_refined.wav 2>/dev/null
+echo " Output files:"
+ls -lh $OUTPUT_DIR/*.wav 2>/dev/null
 echo "================================================================"
 echo "Job completed: $(date)"

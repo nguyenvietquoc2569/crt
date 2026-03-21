@@ -92,10 +92,10 @@ python -u $SCRIPT \
     --n_learn           18 \
     --batch_size        128 \
     --seq_len           128 \
-    --lr                3e-4 \
+    --lr                1e-4 \
     --dropout           0.1 \
-    --corrupt_ratio     0.70 \
-    --corrupt_ratio_hi  0.30 \
+    --corrupt_ratio     0.50 \
+    --corrupt_ratio_hi  0.20 \
     --faiss_frac        0.90 \
     --focal_gamma       1.0 \
     --phase             all

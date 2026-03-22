@@ -79,7 +79,7 @@ echo " $(date)"
 echo "================================================================"
 
 python -u $SCRIPT \
-    --data_processed    $DATA_STORAGE/processed \
+    --data_processed    $DATA_STORAGE/processed_merged \
     --ckpt_dir          $CKPT_DIR \
     --output_dir        $OUTPUT_DIR \
     --target_dir        $TARGET_DIR \
@@ -88,7 +88,7 @@ python -u $SCRIPT \
     --n_learn           18 \
     --batch_size        128 \
     --seq_len           128 \
-    --steps             60000 \
+    --steps             120000 \
     --lr                1e-4 \
     --dropout           0.1 \
     --corrupt_ratio     0.30 \

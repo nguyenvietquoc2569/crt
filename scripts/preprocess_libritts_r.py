@@ -25,10 +25,10 @@ import pickle
 import time
 from collections import defaultdict
 
-import librosa
 import numpy as np
 import soundfile as sf
 import torch
+import torchaudio
 
 
 def main():
@@ -58,18 +58,34 @@ def main():
     mimi_dtype = next(mimi.parameters()).dtype
     print(f'  Mimi ready: SR={SR}, {mimi.config.num_quantizers} CBs', flush=True)
 
-    def encode(wav_np):
-        inputs = feat_ext(raw_audio=wav_np, sampling_rate=SR, return_tensors='pt')
-        inputs = {k: v.to(device=device, dtype=mimi_dtype if v.is_floating_point() else None)
-                  for k, v in inputs.items()}
+    def encode_batch(wav_list):
+        """Batch-encode multiple wavs through Mimi. Returns list of [32, T] tensors."""
+        if not wav_list:
+            return []
+        # Pad to same length for batched GPU encoding
+        max_len = max(len(w) for w in wav_list)
+        padded = np.zeros((len(wav_list), max_len), dtype=np.float32)
+        masks = np.zeros((len(wav_list), max_len), dtype=np.float32)
+        for i, w in enumerate(wav_list):
+            padded[i, :len(w)] = w
+            masks[i, :len(w)] = 1.0
+        input_values = torch.from_numpy(padded).unsqueeze(1).to(device=device, dtype=mimi_dtype)  # [B, 1, T]
+        padding_mask = torch.from_numpy(masks).to(device=device, dtype=mimi_dtype)  # [B, T]
         with torch.no_grad():
-            out = mimi.encode(inputs['input_values'], inputs.get('padding_mask'))
-        return out.audio_codes.cpu()
+            out = mimi.encode(input_values, padding_mask)
+        codes = out.audio_codes.cpu()  # [B, 32, T_max]
+        # Trim each to actual length (frames = ceil(samples / hop))
+        results = []
+        for i, w in enumerate(wav_list):
+            n_frames = int(np.ceil(len(w) / (SR / 12.5)))
+            if n_frames > 0:
+                results.append(codes[i, :, :n_frames])  # [32, T_actual]
+        return results
 
-    # --- Load Resemblyzer ---
+    # --- Load Resemblyzer (on GPU for speed) ---
     from resemblyzer import VoiceEncoder
     print('Loading Resemblyzer...', flush=True)
-    spk_enc = VoiceEncoder(device='cpu')
+    spk_enc = VoiceEncoder(device=device)
 
     # --- Scan wav files from extracted directory ---
     print(f'Scanning {args.data_dir}...', flush=True)
@@ -118,7 +134,9 @@ def main():
             try:
                 wav, orig_sr = sf.read(wav_path, dtype='float32')
                 if orig_sr != SR:
-                    wav = librosa.resample(wav, orig_sr=orig_sr, target_sr=SR)
+                    wav = torchaudio.functional.resample(
+                        torch.from_numpy(wav).unsqueeze(0), orig_sr, SR
+                    ).squeeze(0).numpy()
                 wav = wav[:int(args.max_utt_sec * SR)]
                 if len(wav) >= SR and total_samples + len(wav) <= max_samples:
                     wavs.append(wav)
@@ -129,13 +147,8 @@ def main():
         if not wavs:
             continue
 
-        # Mimi encode
-        code_tensors = []
-        for wav in wavs:
-            codes = encode(wav)  # [1, 32, T]
-            if codes.shape[2] > 0:
-                code_tensors.append(codes[0])  # [32, T]
-
+        # Mimi encode (batched for speed)
+        code_tensors = encode_batch(wavs)
         if not code_tensors:
             continue
 
@@ -145,11 +158,12 @@ def main():
 
         speaker_data[key] = {'codes': cat_codes}
 
-        # Resemblyzer embedding
+        # Resemblyzer embedding (resample 24k→16k)
         raw_audio = np.concatenate(wavs)
-        wav16k = librosa.resample(raw_audio, orig_sr=SR, target_sr=16000)
+        wav_t = torch.from_numpy(raw_audio).unsqueeze(0).float()
+        wav16k = torchaudio.functional.resample(wav_t, SR, 16000).squeeze(0).numpy()
         speaker_embeddings[key] = spk_enc.embed_utterance(wav16k)
-        del raw_audio, wav16k, wavs, code_tensors
+        del raw_audio, wav16k, wav_t, wavs, code_tensors
 
         if (si + 1) % 10 == 0:
             elapsed = time.time() - t0

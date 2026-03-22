@@ -1,0 +1,186 @@
+#!/usr/bin/env python3
+"""
+Encode LibriTTS-R train-clean-360 with Mimi + Resemblyzer (GPU job, offline).
+
+Reads raw wav files from the extracted LibriTTS-R directory structure:
+  LibriTTS_R/train-clean-360/{speaker_id}/{chapter_id}/{speaker_id}_{chapter_id}_{utt_id}.wav
+
+Prerequisites:
+  Run download_libritts_r.py on the login node first to download and extract.
+
+Output:
+  <output_dir>/libritts_r_data.pt
+  <output_dir>/libritts_r_embeddings.pkl
+
+Usage:
+  python preprocess_libritts_r.py \
+    --data_dir /path/to/LibriTTS_R/train-clean-360 \
+    --output_dir /path/to/output
+"""
+
+import argparse
+import gc
+import os
+import pickle
+import time
+from collections import defaultdict
+
+import librosa
+import numpy as np
+import soundfile as sf
+import torch
+
+
+def main():
+    p = argparse.ArgumentParser()
+    p.add_argument('--data_dir', required=True,
+                   help='Path to LibriTTS_R/train-clean-360/')
+    p.add_argument('--output_dir', required=True)
+    p.add_argument('--max_sec_per_speaker', type=float, default=150.0)
+    p.add_argument('--max_utts_per_speaker', type=int, default=20)
+    p.add_argument('--max_utt_sec', type=float, default=15.0)
+    args = p.parse_args()
+
+    os.makedirs(args.output_dir, exist_ok=True)
+
+    device = 'cuda' if torch.cuda.is_available() else 'cpu'
+    print(f'Device: {device}')
+    if device == 'cuda':
+        print(f'GPU: {torch.cuda.get_device_name()}')
+
+    # --- Load Mimi ---
+    from transformers import MimiModel, AutoFeatureExtractor
+    dtype = torch.float16 if device == 'cuda' else torch.float32
+    print('Loading Mimi...', flush=True)
+    mimi = MimiModel.from_pretrained('kyutai/mimi', torch_dtype=dtype).to(device).eval()
+    feat_ext = AutoFeatureExtractor.from_pretrained('kyutai/mimi')
+    SR = feat_ext.sampling_rate  # 24000
+    mimi_dtype = next(mimi.parameters()).dtype
+    print(f'  Mimi ready: SR={SR}, {mimi.config.num_quantizers} CBs', flush=True)
+
+    def encode(wav_np):
+        inputs = feat_ext(raw_audio=wav_np, sampling_rate=SR, return_tensors='pt')
+        inputs = {k: v.to(device=device, dtype=mimi_dtype if v.is_floating_point() else None)
+                  for k, v in inputs.items()}
+        with torch.no_grad():
+            out = mimi.encode(inputs['input_values'], inputs.get('padding_mask'))
+        return out.audio_codes.cpu()
+
+    # --- Load Resemblyzer ---
+    from resemblyzer import VoiceEncoder
+    print('Loading Resemblyzer...', flush=True)
+    spk_enc = VoiceEncoder(device='cpu')
+
+    # --- Scan wav files from extracted directory ---
+    print(f'Scanning {args.data_dir}...', flush=True)
+    speaker_wavs = defaultdict(list)
+    for spk_id in sorted(os.listdir(args.data_dir)):
+        spk_dir = os.path.join(args.data_dir, spk_id)
+        if not os.path.isdir(spk_dir):
+            continue
+        for chapter in sorted(os.listdir(spk_dir)):
+            ch_dir = os.path.join(spk_dir, chapter)
+            if not os.path.isdir(ch_dir):
+                continue
+            for fname in sorted(os.listdir(ch_dir)):
+                if fname.endswith('.wav'):
+                    speaker_wavs[spk_id].append(os.path.join(ch_dir, fname))
+    speakers = sorted(speaker_wavs.keys())
+    total_wavs = sum(len(v) for v in speaker_wavs.values())
+    print(f'  {len(speakers)} speakers, {total_wavs} wav files', flush=True)
+
+    # --- Resume support ---
+    partial_path = os.path.join(args.output_dir, 'libritts_r_partial.pt')
+    speaker_data = {}
+    speaker_embeddings = {}
+    if os.path.exists(partial_path):
+        print(f'Resuming from {partial_path}...', flush=True)
+        partial = torch.load(partial_path, weights_only=False, map_location='cpu')
+        speaker_data = partial['speaker_data']
+        speaker_embeddings = partial.get('speaker_embeddings', {})
+        print(f'  {len(speaker_data)} speakers already done', flush=True)
+    done_set = set(speaker_data.keys())
+
+    # --- Encode ---
+    max_frames = int(args.max_sec_per_speaker * 12.5)
+    t0 = time.time()
+    for si, spk_id in enumerate(speakers):
+        key = f'libritts_{spk_id}'
+        if key in done_set:
+            continue
+
+        wavs = []
+        total_samples = 0
+        max_samples = int(args.max_sec_per_speaker * SR)
+        wav_files = speaker_wavs[spk_id][:args.max_utts_per_speaker]
+
+        for wav_path in wav_files:
+            try:
+                wav, orig_sr = sf.read(wav_path, dtype='float32')
+                if orig_sr != SR:
+                    wav = librosa.resample(wav, orig_sr=orig_sr, target_sr=SR)
+                wav = wav[:int(args.max_utt_sec * SR)]
+                if len(wav) >= SR and total_samples + len(wav) <= max_samples:
+                    wavs.append(wav)
+                    total_samples += len(wav)
+            except Exception as e:
+                print(f'  [warn] skip {wav_path}: {e}', flush=True)
+
+        if not wavs:
+            continue
+
+        # Mimi encode
+        code_tensors = []
+        for wav in wavs:
+            codes = encode(wav)  # [1, 32, T]
+            if codes.shape[2] > 0:
+                code_tensors.append(codes[0])  # [32, T]
+
+        if not code_tensors:
+            continue
+
+        cat_codes = torch.cat(code_tensors, dim=1)  # [32, T_total]
+        if cat_codes.shape[1] > max_frames:
+            cat_codes = cat_codes[:, :max_frames]
+
+        speaker_data[key] = {'codes': cat_codes}
+
+        # Resemblyzer embedding
+        raw_audio = np.concatenate(wavs)
+        wav16k = librosa.resample(raw_audio, orig_sr=SR, target_sr=16000)
+        speaker_embeddings[key] = spk_enc.embed_utterance(wav16k)
+        del raw_audio, wav16k, wavs, code_tensors
+
+        if (si + 1) % 10 == 0:
+            elapsed = time.time() - t0
+            print(f'  {len(speaker_data)}/{len(speakers)} speakers | '
+                  f'{elapsed:.0f}s | {cat_codes.shape[1]} frames for {key}', flush=True)
+
+        if len(speaker_data) % 100 == 0:
+            print(f'  [checkpoint] saving {len(speaker_data)} speakers...', flush=True)
+            torch.save({'speaker_data': speaker_data,
+                        'speaker_embeddings': speaker_embeddings}, partial_path)
+            gc.collect()
+
+    # --- Save final ---
+    elapsed = time.time() - t0
+    total_frames = sum(v['codes'].shape[1] for v in speaker_data.values())
+    print(f'\nDone: {len(speaker_data)} speakers, {total_frames} frames '
+          f'({total_frames/12.5:.0f}s = {total_frames/12.5/3600:.1f}h) in {elapsed:.0f}s', flush=True)
+
+    data_path = os.path.join(args.output_dir, 'libritts_r_data.pt')
+    emb_path = os.path.join(args.output_dir, 'libritts_r_embeddings.pkl')
+
+    torch.save({'speaker_data': speaker_data}, data_path)
+    with open(emb_path, 'wb') as f:
+        pickle.dump({'speaker_embeddings': speaker_embeddings}, f)
+
+    print(f'Saved: {data_path} ({os.path.getsize(data_path)/1e9:.2f} GB)')
+    print(f'Saved: {emb_path}')
+
+    if os.path.exists(partial_path):
+        os.remove(partial_path)
+
+
+if __name__ == '__main__':
+    main()

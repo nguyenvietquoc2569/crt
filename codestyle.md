@@ -386,8 +386,58 @@ v5.3.2 adds:
 | v5.3.1 (768) | 250.7M | 30k | 5.317 | 31.3% | 0.7565 | 132.79 |
 | v5.3.1 (1024) | 419.5M | 30k | 4.761 | 40.5% | 0.7652 | 129.43 |
 | FAISS baseline | - | - | - | - | 0.8792 | 106.53 |
-| v5.3.2 (1280) | ~650M | 60k | running | - | - | - |
+| v5.3.2 (1280) | 706.4M | 60k | running | ~57% | - | - |
 | v5.4.0 (1024+SECS) | 419.5M | 60k | running | - | - | - |
+| v5.5 (residual) | 707.4M | 60k | **ABANDONED** | - | - | - |
+| v5.6 (1280+SECS) | 707.4M | 60k | running | - | - | - |
+
+### Training Data Statistics
+
+```
+Speakers:        2,338
+Total frames:    3,616,157
+Total duration:  289,292.6s (80.4h)
+
+Per-speaker duration:
+  Min:    47.8s
+  Max:    150.4s
+  Mean:   123.7s
+  Median: 126.6s
+  Std:    16.1s
+
+Duration distribution:
+    30-60s:     3 speakers (  0.1%)
+   60-120s:   802 speakers ( 34.3%)
+  120-300s: 1,533 speakers ( 65.6%)
+
+Top 10 longest speakers:
+  7939: 150.4s (1880 frames)
+  7423: 149.8s (1873 frames)
+  3054: 149.1s (1864 frames)
+  489:  148.9s (1861 frames)
+  4152: 148.9s (1861 frames)
+  23:   148.9s (1861 frames)
+  1870: 148.7s (1859 frames)
+  3172: 148.5s (1856 frames)
+  8718: 148.3s (1854 frames)
+  46:   148.2s (1852 frames)
+
+Bottom 10 shortest speakers:
+  1708: 47.8s  (598 frames)
+  844:  56.5s  (706 frames)
+  1552: 58.3s  (729 frames)
+  210:  61.5s  (769 frames)
+  6753: 62.0s  (775 frames)
+  6535: 62.1s  (776 frames)
+  4757: 62.3s  (779 frames)
+  149:  63.4s  (792 frames)
+  2149: 64.9s  (811 frames)
+  147:  65.9s  (824 frames)
+```
+
+Codec: Mimi (Kyutai), 32 codebooks, CB_SIZE=2048, 12.5 Hz frame rate, 24kHz audio.
+CB0 = semantic (speaker-independent), CB1-31 = acoustic (speaker-specific).
+FAISS index: per-speaker IndexFlatIP on CB0 embeddings (dim=256), cosine similarity.
 
 ---
 

@@ -301,6 +301,22 @@ def load_data(args):
     sample_emb = speaker_data[sample_key]['embeddings']
     print(f'  Embedding shape: {sample_emb.shape}, dtype: {sample_emb.dtype}', flush=True)
 
+    # Sanity check: codes and embeddings must have matching T dimension
+    mismatches = 0
+    for spk_id, sdata in speaker_data.items():
+        T_codes = sdata['codes'].shape[1]
+        T_embs = sdata['embeddings'].shape[1]
+        if T_codes != T_embs:
+            mismatches += 1
+            if mismatches <= 3:
+                print(f'  [WARN] {spk_id}: codes T={T_codes} != embeddings T={T_embs}', flush=True)
+            # Fix by trimming to minimum
+            min_T = min(T_codes, T_embs)
+            sdata['codes'] = sdata['codes'][:, :min_T]
+            sdata['embeddings'] = sdata['embeddings'][:, :min_T]
+    if mismatches:
+        print(f'  Fixed {mismatches} speakers with T mismatch (trimmed to min)', flush=True)
+
     # Extract CB0 codebook embeddings for FAISS
     print('Extracting CB0 embeddings from Mimi...', flush=True)
     from transformers import MimiModel
@@ -379,6 +395,8 @@ def corrupt_faiss_latent(cb0_np, tgt_spk_id, speaker_faiss, cb0_emb, frame_rate=
 
     # Return continuous embeddings from target speaker
     spk_embeddings = sfd['embeddings']  # [512, T_spk] fp16
+    T_emb = spk_embeddings.shape[1]
+    selected = np.clip(selected, 0, T_emb - 1)  # safety clamp
     return spk_embeddings[:, selected].float()  # [512, T]
 
 
@@ -526,9 +544,17 @@ class PrefetchQueue:
     def _worker(self, data, args, device):
         while not self._stop.is_set():
             try:
-                self.q.put(sample_batch(data, args, device), timeout=0.5)
+                batch = sample_batch(data, args, device)
+                self.q.put(batch, timeout=0.5)
             except queue.Full:
                 pass
+            except Exception as e:
+                import traceback
+                print(f'\n[PrefetchQueue ERROR] {e}', flush=True)
+                traceback.print_exc()
+                # Put a sentinel so training loop doesn't hang forever
+                self._stop.set()
+                break
 
     def get(self):
         return self.q.get()
@@ -612,8 +638,21 @@ def train(data, args, device):
     l1_losses  = []
     secs_losses = []
 
+    # Quick sanity test: run one sample_batch before starting queue
+    print('Testing sample_batch...', flush=True)
+    try:
+        test_batch = sample_batch(data, args, device)
+        print(f'  OK: shapes = {[t.shape for t in test_batch]}', flush=True)
+        del test_batch
+    except Exception as e:
+        import traceback
+        print(f'  FAILED: {e}', flush=True)
+        traceback.print_exc()
+        raise
+
     prefetch = PrefetchQueue(data, args, device, maxsize=4)
     _pending_save = None
+    print(f'Training loop starting from step {start_step}...', flush=True)
     for step in range(start_step, steps):
         if args.curriculum:
             args.corrupt_ratio = curriculum_ratio(step, steps)

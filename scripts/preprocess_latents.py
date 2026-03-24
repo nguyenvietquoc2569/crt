@@ -36,7 +36,10 @@ def parse_args():
 def main():
     args = parse_args()
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
-    print(f'Device: {device}')
+    print(f'Device: {device}', flush=True)
+    if device == 'cuda':
+        print(f'GPU: {torch.cuda.get_device_name()}', flush=True)
+        print(f'VRAM: {torch.cuda.get_device_properties(0).total_memory / 1e9:.1f} GB', flush=True)
 
     input_path = os.path.join(args.input_dir, 'prepared_data.pt')
     emb_path = os.path.join(args.input_dir, 'speaker_embeddings.pkl')
@@ -50,22 +53,29 @@ def main():
     # Copy speaker_embeddings.pkl to output dir
     out_emb_path = os.path.join(args.output_dir, 'speaker_embeddings.pkl')
     if not os.path.exists(out_emb_path):
-        print(f'Copying speaker_embeddings.pkl to {args.output_dir}...')
+        emb_sz = os.path.getsize(emb_path) / 1e6
+        print(f'Copying speaker_embeddings.pkl ({emb_sz:.1f}MB) to {args.output_dir}...', flush=True)
         shutil.copy2(emb_path, out_emb_path)
+        print(f'  Done.', flush=True)
+    else:
+        print(f'speaker_embeddings.pkl already exists in output dir.', flush=True)
 
     # Resume support: load partial output if it exists
     if os.path.exists(output_path):
-        print(f'Loading partial output from {output_path}...')
+        print(f'Loading partial output from {output_path}...', flush=True)
+        t_load = time.time()
         cached = torch.load(output_path, weights_only=False, map_location='cpu')
         speaker_data = cached['speaker_data']
         done_keys = {k for k, v in speaker_data.items() if 'embeddings' in v}
-        print(f'  {len(done_keys)}/{len(speaker_data)} speakers already processed')
+        print(f'  {len(done_keys)}/{len(speaker_data)} speakers already processed ({time.time()-t_load:.0f}s)', flush=True)
     else:
-        print(f'Loading input from {input_path}...')
+        sz = os.path.getsize(input_path) / 1e9
+        print(f'Loading input from {input_path} ({sz:.1f}GB)...', flush=True)
+        t_load = time.time()
         cached = torch.load(input_path, weights_only=False, map_location='cpu')
         speaker_data = cached['speaker_data']
         done_keys = set()
-        print(f'  {len(speaker_data)} speakers to process')
+        print(f'  {len(speaker_data)} speakers to process (loaded in {time.time()-t_load:.0f}s)', flush=True)
 
     # Speakers still needing embeddings
     todo_keys = [k for k in speaker_data if k not in done_keys]
@@ -74,10 +84,12 @@ def main():
         return
 
     # Load Mimi quantizer
-    print('Loading Mimi model for quantizer.decode()...')
+    print('Loading Mimi model for quantizer.decode()...', flush=True)
     from transformers import MimiModel
+    t_mimi = time.time()
     mimi = MimiModel.from_pretrained('kyutai/mimi').to(device).eval()
     quantizer = mimi.quantizer
+    print(f'  Mimi loaded in {time.time()-t_mimi:.0f}s', flush=True)
 
     t0 = time.time()
     total = len(todo_keys)

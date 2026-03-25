@@ -7,9 +7,9 @@
 #SBATCH --cpus-per-task=8
 #SBATCH --gres=mps:a100:1
 #SBATCH --mem=32G
-#SBATCH --time=6:00:00
+#SBATCH --time=24:00:00
 
-REQUIRED_VRAM=20480
+REQUIRED_VRAM=10240
 
 # =========================================================
 # ENVIRONMENT
@@ -90,7 +90,43 @@ else
 fi
 
 # =========================================================
-# Step 3: Merge all into processed_merged_v2
+# Step 2b: Encode LibriTTS-R train-other-500
+# =========================================================
+echo ""
+echo "--- LibriTTS-R train-other-500 ---"
+LIBRITTS500_DIR=$RAW_DIR/LibriTTS_R/train-other-500
+if [ -d "$LIBRITTS500_DIR" ]; then
+    python -u $WORK_DIR/scripts/preprocess_dataset.py \
+        --data_dir   $LIBRITTS500_DIR \
+        --output_dir $DATA_STORAGE/encoded_datasets \
+        --prefix     libritts500 \
+        --format     libritts \
+        --max_sec_per_speaker 300 \
+        --max_utts_per_speaker 50
+else
+    echo "SKIP: $LIBRITTS500_DIR not found. Run download first."
+fi
+
+# =========================================================
+# Step 2c: Encode Hi-Fi TTS
+# =========================================================
+echo ""
+echo "--- Hi-Fi TTS ---"
+HIFI_DIR=$RAW_DIR/hi_fi_tts_v0
+if [ -d "$HIFI_DIR" ]; then
+    python -u $WORK_DIR/scripts/preprocess_dataset.py \
+        --data_dir   $HIFI_DIR \
+        --output_dir $DATA_STORAGE/encoded_datasets \
+        --prefix     hifi \
+        --format     hifi \
+        --max_sec_per_speaker 3600 \
+        --max_utts_per_speaker 500
+else
+    echo "SKIP: $HIFI_DIR not found. Run download first."
+fi
+
+# =========================================================
+# Step 3: Merge all into processed_merged_v3
 # =========================================================
 echo ""
 echo "--- Merging all datasets ---"
@@ -117,12 +153,24 @@ if [ -f "$DATA_STORAGE/encoded_datasets/vctk_data.pt" ]; then
     EXTRA_EMB="$EXTRA_EMB $DATA_STORAGE/encoded_datasets/vctk_embeddings.pkl"
 fi
 
+# LibriTTS-R other-500
+if [ -f "$DATA_STORAGE/encoded_datasets/libritts500_data.pt" ]; then
+    EXTRA_DATA="$EXTRA_DATA $DATA_STORAGE/encoded_datasets/libritts500_data.pt"
+    EXTRA_EMB="$EXTRA_EMB $DATA_STORAGE/encoded_datasets/libritts500_embeddings.pkl"
+fi
+
+# Hi-Fi TTS
+if [ -f "$DATA_STORAGE/encoded_datasets/hifi_data.pt" ]; then
+    EXTRA_DATA="$EXTRA_DATA $DATA_STORAGE/encoded_datasets/hifi_data.pt"
+    EXTRA_EMB="$EXTRA_EMB $DATA_STORAGE/encoded_datasets/hifi_embeddings.pkl"
+fi
+
 if [ -n "$EXTRA_DATA" ]; then
     python -u $WORK_DIR/scripts/merge_all_datasets.py \
         --original  $DATA_STORAGE/processed \
         --extra     $EXTRA_DATA \
         --extra_emb $EXTRA_EMB \
-        --output    $DATA_STORAGE/processed_merged_v2
+        --output    $DATA_STORAGE/processed_merged_v3
 else
     echo "ERROR: No encoded datasets found! Check preprocessing logs."
     exit 1

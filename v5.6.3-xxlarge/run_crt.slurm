@@ -86,10 +86,10 @@ python -u $SCRIPT \
     --source_audio      $SOURCE_AUDIO \
     --model_size        xxlarge \
     --n_learn           18 \
-    --batch_size        64 \
+    --batch_size        128 \
     --seq_len           128 \
     --steps             120000 \
-    --lr                1e-4 \
+    --lr                2e-4 \
     --dropout           0.1 \
     --corrupt_ratio     0.30 \
     --corrupt_ratio_hi  0.15 \

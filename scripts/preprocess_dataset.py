@@ -2,9 +2,10 @@
 """
 Encode a speech dataset with Mimi + Resemblyzer (GPU job, offline).
 
-Supports two directory formats:
+Supports directory formats:
   libritts: {speaker_id}/{chapter_id}/{speaker_id}_{chapter_id}_{utt_id}.wav
   vctk:     {speaker_id}/{speaker_id}_{utt_id}_mic1.flac  (flat per-speaker)
+  hifi:     {speaker_id}/*/*.wav (recursive per speaker)
 
 For each speaker:
   1. Load wav files from disk (no internet needed)
@@ -76,12 +77,30 @@ def scan_vctk(data_dir):
     return speaker_wavs
 
 
+def scan_hifi(data_dir):
+    """Scan Hi-Fi TTS: audio/{speaker}_{quality}/{book_id}/*.flac
+    Speaker ID extracted from dir name: '6097_clean' → '6097'."""
+    speaker_wavs = defaultdict(list)
+    # Hi-Fi TTS has audio/ subdirectory
+    audio_dir = os.path.join(data_dir, 'audio') if os.path.isdir(os.path.join(data_dir, 'audio')) else data_dir
+    for spk_dir_name in sorted(os.listdir(audio_dir)):
+        spk_path = os.path.join(audio_dir, spk_dir_name)
+        if not os.path.isdir(spk_path):
+            continue
+        spk_id = spk_dir_name.split('_')[0]
+        for root, dirs, files in os.walk(spk_path):
+            for fname in sorted(files):
+                if fname.endswith('.wav') or fname.endswith('.flac'):
+                    speaker_wavs[spk_id].append(os.path.join(root, fname))
+    return speaker_wavs
+
+
 def main():
     p = argparse.ArgumentParser()
     p.add_argument('--data_dir', required=True, help='Path to extracted dataset')
     p.add_argument('--output_dir', required=True)
     p.add_argument('--prefix', required=True, help='Output file prefix (e.g. libritts100, vctk)')
-    p.add_argument('--format', required=True, choices=['libritts', 'vctk'])
+    p.add_argument('--format', required=True, choices=['libritts', 'vctk', 'hifi'])
     p.add_argument('--max_sec_per_speaker', type=float, default=150.0)
     p.add_argument('--max_utts_per_speaker', type=int, default=20)
     p.add_argument('--max_utt_sec', type=float, default=15.0)
@@ -134,8 +153,10 @@ def main():
     print(f'Scanning {args.data_dir} (format={args.format})...', flush=True)
     if args.format == 'libritts':
         speaker_wavs = scan_libritts(args.data_dir)
-    else:
+    elif args.format == 'vctk':
         speaker_wavs = scan_vctk(args.data_dir)
+    elif args.format == 'hifi':
+        speaker_wavs = scan_hifi(args.data_dir)
     speakers = sorted(speaker_wavs.keys())
     total_wavs = sum(len(v) for v in speaker_wavs.values())
     print(f'  {len(speakers)} speakers, {total_wavs} audio files', flush=True)
@@ -185,8 +206,12 @@ def main():
         if not wavs:
             continue
 
-        # Mimi encode (batched)
-        code_tensors = encode_batch(wavs)
+        # Mimi encode (in small batches to avoid OOM)
+        BATCH_ENC = 8
+        code_tensors = []
+        for bi in range(0, len(wavs), BATCH_ENC):
+            chunk = wavs[bi:bi + BATCH_ENC]
+            code_tensors.extend(encode_batch(chunk))
         if not code_tensors:
             continue
 
@@ -203,12 +228,17 @@ def main():
         speaker_embeddings[key] = spk_enc.embed_utterance(wav16k)
         del raw_audio, wav16k, wav_t, wavs, code_tensors
 
-        if (si + 1) % 10 == 0:
+        # Progress: every speaker if <50 speakers, every 10 otherwise
+        log_interval = 1 if len(speakers) < 50 else 10
+        if (si + 1) % log_interval == 0:
             elapsed = time.time() - t0
+            dur_s = cat_codes.shape[1] / 12.5
             print(f'  {len(speaker_data)}/{len(speakers)} speakers | '
-                  f'{elapsed:.0f}s | {cat_codes.shape[1]} frames for {key}', flush=True)
+                  f'{elapsed:.0f}s | {cat_codes.shape[1]} frames ({dur_s:.0f}s) | {key}', flush=True)
 
-        if len(speaker_data) % 100 == 0:
+        # Checkpoint every 100 speakers (or every speaker for small datasets)
+        ckpt_interval = 1 if len(speakers) < 50 else 100
+        if len(speaker_data) % ckpt_interval == 0:
             print(f'  [checkpoint] saving {len(speaker_data)} speakers...', flush=True)
             torch.save({'speaker_data': speaker_data,
                         'speaker_embeddings': speaker_embeddings}, partial_path)

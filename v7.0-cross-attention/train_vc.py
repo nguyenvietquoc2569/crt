@@ -874,12 +874,34 @@ def voice_convert(data, model, args, device, suffix=''):
         spk_d = spk_emb.unsqueeze(0).to(device)           # [1, 256]
         with torch.amp.autocast('cuda', enabled=(device == 'cuda'), dtype=torch.float16):
             logits, _spk_pred = model(src_d, ref_d, spk_d)
-        pred_cbs = logits.float().argmax(-1)[0].cpu()      # [N_CB, T_src]
+        probs = logits.float().softmax(-1)  # [1, N_CB, T_src, 2048]
+        pred_cbs = probs.argmax(-1)[0].cpu()      # [N_CB, T_src]
+
+        # Diagnose: is it true mode collapse or just peaked distribution?
+        top1_prob = probs.max(-1).values[0].cpu()  # [N_CB, T_src]
+        entropy = -(probs * (probs + 1e-10).log()).sum(-1)[0].cpu()  # [N_CB, T_src]
+        print(f'  CB1 top1_prob: mean={top1_prob[0].mean():.4f} min={top1_prob[0].min():.4f} max={top1_prob[0].max():.4f}', flush=True)
+        print(f'  CB1 entropy: mean={entropy[0].mean():.2f} (max possible={np.log(2048):.2f})', flush=True)
+        print(f'  CB1 unique argmax tokens: {pred_cbs[0].unique().tolist()[:10]}', flush=True)
+
+        # Try temperature sampling as alternative
+        temp = 0.8
+        sampled_cbs = torch.multinomial(
+            probs[0].reshape(-1, 2048) ** (1.0/temp),
+            num_samples=1
+        ).reshape(N_CB, T_src).cpu()
+        print(f'  CB1 sampled (T=0.8) unique: {sampled_cbs[0].unique().shape[0]}', flush=True)
 
     # Assemble: src CB0 + predicted CB1-{n_cb} + FAISS CB{n_cb+1}-31
-    full_codes = faiss_codes.clone()  # start with FAISS (all 32 CBs from target)
-    full_codes[0, 0] = src_cb0       # source content CB0
-    full_codes[0, 1:1 + N_CB] = pred_cbs  # model predictions for CB1-18
+    # Use SAMPLED tokens instead of argmax (avoids mode collapse)
+    full_codes = faiss_codes.clone()
+    full_codes[0, 0] = src_cb0
+    full_codes[0, 1:1 + N_CB] = sampled_cbs  # temperature sampling instead of argmax
+
+    # Also make an argmax version for comparison
+    full_codes_argmax = faiss_codes.clone()
+    full_codes_argmax[0, 0] = src_cb0
+    full_codes_argmax[0, 1:1 + N_CB] = pred_cbs
 
     # Debug: check code stats
     print(f'  Code stats: full_codes shape={full_codes.shape}, dtype={full_codes.dtype}', flush=True)
@@ -916,13 +938,21 @@ def voice_convert(data, model, args, device, suffix=''):
     fm = mcd_metric(src_wav, faiss_wav)
     print(f'{"FAISS baseline (all 32 CB)":<45} {fs:>12.4f} {fm:>8.2f}', flush=True)
 
+    # Argmax version
+    vc_argmax_wav = decode(full_codes_argmax)
+    s = secs_metric(vc_argmax_wav, tgt_ref)
+    m = mcd_metric(src_wav, vc_argmax_wav)
+    print(f'{"CrossAttn argmax (mode collapse?)":<45} {s:>12.4f} {m:>8.2f}', flush=True)
+
+    # Sampled version (temperature=0.8)
     s = secs_metric(vc_wav, tgt_ref)
     m = mcd_metric(src_wav, vc_wav)
-    print(f'{"CrossAttn CB1-18 + FAISS CB19-31":<45} {s:>12.4f} {m:>8.2f}', flush=True)
+    print(f'{"CrossAttn sampled T=0.8":<45} {s:>12.4f} {m:>8.2f}', flush=True)
 
     if not suffix:
         sf.write(os.path.join(args.output_dir, 'faiss_baseline.wav'), faiss_wav, SR)
-    out_path = os.path.join(args.output_dir, f'xattn_vc_{args.model_size}{suffix}.wav')
+    sf.write(os.path.join(args.output_dir, f'xattn_vc_{args.model_size}_argmax{suffix}.wav'), vc_argmax_wav, SR)
+    out_path = os.path.join(args.output_dir, f'xattn_vc_{args.model_size}_sampled{suffix}.wav')
     sf.write(out_path, vc_wav, SR)
     print(f'Saved to: {out_path}', flush=True)
 

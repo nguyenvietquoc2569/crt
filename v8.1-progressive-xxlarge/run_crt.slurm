@@ -89,7 +89,7 @@ python -u $SCRIPT \
     --batch_size        64 \
     --seq_len           128 \
     --steps             240000 \
-    --lr                1e-4 \
+    --lr                3e-4 \
     --dropout           0.1 \
     --corrupt_ratio     0.30 \
     --corrupt_ratio_hi  0.15 \

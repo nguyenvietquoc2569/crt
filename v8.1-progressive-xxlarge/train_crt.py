@@ -686,20 +686,29 @@ def train(data, args, device):
 
     prefetch = PrefetchQueue(data, args, device, maxsize=4)
     _pending_save = None
+    _t_data, _t_fwd, _t_bwd = [], [], []
     for step in range(start_step, steps):
         if args.progressive:
             args.corrupt_ratio, args.corrupt_ratio_hi, active = progressive_ratios(step, steps, N_LEARN)
             model.active_cbs = active
         elif args.curriculum:
             args.corrupt_ratio, args.corrupt_ratio_hi = curriculum_ratios(step, steps)
-        cb0_b, noisy_b, clean_b, spk_b = prefetch.get()
 
+        _ts = time.time()
+        cb0_b, noisy_b, clean_b, spk_b = prefetch.get()
+        _t_data.append(time.time() - _ts)
+
+        _ts = time.time()
         with torch.amp.autocast('cuda', enabled=use_amp, dtype=torch.float16):
             logits, spk_pred = model(cb0_b, noisy_b, spk_b)
             loss, ce_loss, secs_loss = model.compute_loss(
                 logits, clean_b, spk_pred, spk_b,
                 args.focal_gamma, args.secs_weight)
+        if device == 'cuda':
+            torch.cuda.synchronize()
+        _t_fwd.append(time.time() - _ts)
 
+        _ts = time.time()
         opt.zero_grad()
         scaler.scale(loss).backward()
         scaler.unscale_(opt)
@@ -707,6 +716,10 @@ def train(data, args, device):
         scaler.step(opt)
         scaler.update()
         sched.step()
+        if device == 'cuda':
+            torch.cuda.synchronize()
+        _t_bwd.append(time.time() - _ts)
+
         losses.append(loss.item())
         ce_losses.append(ce_loss.item())
         secs_losses.append(secs_loss.item())
@@ -731,10 +744,14 @@ def train(data, args, device):
                 phase_str = f' | corrupt:{args.corrupt_ratio:.0%}'
             else:
                 phase_str = ''
+            avg_td = np.mean(_t_data[-log_every:]) * 1000
+            avg_tf = np.mean(_t_fwd[-log_every:]) * 1000
+            avg_tb = np.mean(_t_bwd[-log_every:]) * 1000
             print(f'  [{args.model_size}] {step+1:5d}/{steps} | '
                   f'Loss:{avg:.4f} CE:{avg_ce:.4f} SECS:{avg_sec:.3f} | '
                   f'{cb_str} | {sps:.1f}step/s | ETA {eta:.0f}s'
                   + phase_str
+                  + f' | data:{avg_td:.0f}ms fwd:{avg_tf:.0f}ms bwd:{avg_tb:.0f}ms'
                   + (f' | {gpu_str}' if gpu_str else ''), flush=True)
 
         if (step + 1) % save_every == 0:

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dcmitype="http://purl.org/dc/dcmitype/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <dc:title>Sample manuscript showing specifications and style</dc:title>
+  <dc:subject/>
+  <dc:creator>marys</dc:creator>
+  <cp:keywords/>
+  <cp:lastModifiedBy>文 高</cp:lastModifiedBy>
+  <dcterms:created>2025-03-07T10:21:00Z</dcterms:created>
+  <dcterms:modified>2025-03-07T10:21:00Z</dcterms:modified>
+</cp:coreProperties>

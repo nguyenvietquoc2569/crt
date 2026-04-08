@@ -1,0 +1,4104 @@
+<?xml version="1.0" encoding="UTF-8"?><w:document xmlns:wpc="http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas" xmlns:cx="http://schemas.microsoft.com/office/drawing/2014/chartex" xmlns:cx1="http://schemas.microsoft.com/office/drawing/2015/9/8/chartex" xmlns:cx2="http://schemas.microsoft.com/office/drawing/2015/10/21/chartex" xmlns:cx3="http://schemas.microsoft.com/office/drawing/2016/5/9/chartex" xmlns:cx4="http://schemas.microsoft.com/office/drawing/2016/5/10/chartex" xmlns:cx5="http://schemas.microsoft.com/office/drawing/2016/5/11/chartex" xmlns:cx6="http://schemas.microsoft.com/office/drawing/2016/5/12/chartex" xmlns:cx7="http://schemas.microsoft.com/office/drawing/2016/5/13/chartex" xmlns:cx8="http://schemas.microsoft.com/office/drawing/2016/5/14/chartex" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:aink="http://schemas.microsoft.com/office/drawing/2016/ink" xmlns:am3d="http://schemas.microsoft.com/office/drawing/2017/model3d" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:oel="http://schemas.microsoft.com/office/2019/extlst" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml" xmlns:w15="http://schemas.microsoft.com/office/word/2012/wordml" xmlns:w16cex="http://schemas.microsoft.com/office/word/2018/wordml/cex" xmlns:w16cid="http://schemas.microsoft.com/office/word/2016/wordml/cid" xmlns:w16="http://schemas.microsoft.com/office/word/2018/wordml" xmlns:w16du="http://schemas.microsoft.com/office/word/2023/wordml/word16du" xmlns:w16sdtdh="http://schemas.microsoft.com/office/word/2020/wordml/sdtdatahash" xmlns:w16sdtfl="http://schemas.microsoft.com/office/word/2024/wordml/sdtformatlock" xmlns:w16se="http://schemas.microsoft.com/office/word/2015/wordml/symex" xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup" xmlns:wpi="http://schemas.microsoft.com/office/word/2010/wordprocessingInk" xmlns:wne="http://schemas.microsoft.com/office/word/2006/wordml" xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape" mc:Ignorable="w14 w15 w16se w16cid w16 w16cex w16sdtdh w16sdtfl w16du wp14">
+  <w:body>
+    <w:p w14:paraId="4FB9545B" w14:textId="77777777" w:rsidR="0055728D" w:rsidRDefault="003430BC">
+      <w:pPr>
+        <w:pStyle w:val="Title"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Kyndryl</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:spacing w:val="-6"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> </w:t>
+      </w:r>
+      <w:r>
+        <w:t>Publication</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:spacing w:val="-5"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> </w:t>
+      </w:r>
+      <w:r>
+        <w:t>Clearance</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:spacing w:val="-3"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> </w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:spacing w:val="-4"/>
+        </w:rPr>
+        <w:t>Form</w:t>
+      </w:r>
+    </w:p>
+    <w:p w14:paraId="13E5FA9B" w14:textId="77777777" w:rsidR="0055728D" w:rsidRDefault="0055728D">
+      <w:pPr>
+        <w:pStyle w:val="BodyText"/>
+        <w:spacing w:before="134"/>
+        <w:rPr>
+          <w:b/>
+          <w:sz w:val="24"/>
+        </w:rPr>
+      </w:pPr>
+    </w:p>
+    <w:p w14:paraId="78CBD416" w14:textId="77777777" w:rsidR="0055728D" w:rsidRDefault="003430BC">
+      <w:pPr>
+        <w:pStyle w:val="BodyText"/>
+        <w:tabs>
+          <w:tab w:val="left" w:pos="5286"/>
+        </w:tabs>
+        <w:spacing w:before="1" w:line="206" w:lineRule="exact"/>
+        <w:ind w:left="200"/>
+      </w:pPr>
+      <w:r>
+        <w:t xml:space="preserve">Date: 06/April/2026</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:u w:val="single" w:color="999999"/>
+        </w:rPr>
+        <w:tab/>
+      </w:r>
+    </w:p>
+    <w:p w14:paraId="3E9450A5" w14:textId="77777777" w:rsidR="0055728D" w:rsidRDefault="003430BC">
+      <w:pPr>
+        <w:tabs>
+          <w:tab w:val="left" w:pos="9878"/>
+        </w:tabs>
+        <w:ind w:left="200" w:right="778"/>
+        <w:rPr>
+          <w:sz w:val="16"/>
+        </w:rPr>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:sz w:val="18"/>
+        </w:rPr>
+        <w:t xml:space="preserve">Anticipated title of work: Codebook Refinement Transformer: Post-Retrieval Correction for Neural Codec Voice Conversion</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:sz w:val="18"/>
+          <w:u w:val="single" w:color="999999"/>
+        </w:rPr>
+        <w:tab/>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:sz w:val="18"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> Kyndryl Author(s) name and email: Quoc V. Nguyen (quoc.nguyen@kyndryl.com)</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:spacing w:val="40"/>
+          <w:sz w:val="18"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> </w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:sz w:val="18"/>
+          <w:u w:val="single" w:color="999999"/>
+        </w:rPr>
+        <w:tab/>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:sz w:val="18"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> Third Party Author(s) name (if applicable): N/A</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:spacing w:val="49"/>
+          <w:sz w:val="18"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> </w:t>
+      </w:r>
+      
+      <w:r>
+        <w:rPr>
+          <w:sz w:val="18"/>
+          <w:u w:val="single" w:color="999999"/>
+        </w:rPr>
+        <w:tab/>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:spacing w:val="-31"/>
+          <w:sz w:val="18"/>
+          <w:u w:val="single" w:color="999999"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> </w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:sz w:val="18"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> Anticipated publisher or conference: ICASIS 2026 (4th International Conference on Advanced Sensing and Intelligent Systems), Hong Kong, May 16-18, 2026. Published by SPIE. https://www.icasis.org/</w:t>
+      </w:r>
+      
+      
+      
+      <w:r>
+        <w:rPr>
+          <w:sz w:val="18"/>
+          <w:u w:val="single" w:color="999999"/>
+        </w:rPr>
+        <w:tab/>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:spacing w:val="-31"/>
+          <w:sz w:val="18"/>
+          <w:u w:val="single" w:color="999999"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> </w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:sz w:val="18"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> Anticipated </w:t>
+      </w:r>
+      
+      
+      <w:r>
+        <w:rPr>
+          <w:i/>
+          <w:sz w:val="18"/>
+        </w:rPr>
+        <w:t xml:space="preserve">actual </w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:sz w:val="18"/>
+        </w:rPr>
+        <w:t xml:space="preserve">publication date: 16/May/2026</w:t>
+      </w:r>
+      
+      <w:r>
+        <w:rPr>
+          <w:sz w:val="18"/>
+          <w:u w:val="single" w:color="999999"/>
+        </w:rPr>
+        <w:tab/>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:spacing w:val="-47"/>
+          <w:sz w:val="18"/>
+          <w:u w:val="single" w:color="999999"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> </w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:sz w:val="18"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> </w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:sz w:val="16"/>
+        </w:rPr>
+        <w:t>(Please be aware that the</w:t>
+      </w:r>
+      
+      
+      <w:r>
+        <w:rPr>
+          <w:spacing w:val="-2"/>
+          <w:sz w:val="16"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> </w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:sz w:val="16"/>
+        </w:rPr>
+        <w:t>publication</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:spacing w:val="-2"/>
+          <w:sz w:val="16"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> </w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:sz w:val="16"/>
+        </w:rPr>
+        <w:t>date</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:spacing w:val="-2"/>
+          <w:sz w:val="16"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> </w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:sz w:val="16"/>
+        </w:rPr>
+        <w:t>printed on a</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:spacing w:val="-2"/>
+          <w:sz w:val="16"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> </w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:sz w:val="16"/>
+        </w:rPr>
+        <w:t>publication</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:spacing w:val="-2"/>
+          <w:sz w:val="16"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> </w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:sz w:val="16"/>
+        </w:rPr>
+        <w:t>may</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:spacing w:val="-3"/>
+          <w:sz w:val="16"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> </w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:sz w:val="16"/>
+        </w:rPr>
+        <w:t>not be the date</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:spacing w:val="-2"/>
+          <w:sz w:val="16"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> </w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:sz w:val="16"/>
+        </w:rPr>
+        <w:t>of actual publication. For example, if</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:spacing w:val="-3"/>
+          <w:sz w:val="16"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> </w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:sz w:val="16"/>
+        </w:rPr>
+        <w:t>the October issue of a journal is distributed or made available on September 15, September 15 is the actual</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:spacing w:val="-1"/>
+          <w:sz w:val="16"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> </w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:sz w:val="16"/>
+        </w:rPr>
+        <w:t>publication date.)</w:t>
+      </w:r>
+    </w:p>
+    <w:p w14:paraId="5AE69F22" w14:textId="77777777" w:rsidR="0055728D" w:rsidRDefault="0055728D">
+      <w:pPr>
+        <w:pStyle w:val="BodyText"/>
+        <w:spacing w:before="24"/>
+        <w:rPr>
+          <w:sz w:val="16"/>
+        </w:rPr>
+      </w:pPr>
+    </w:p>
+    <w:p w14:paraId="5C73C958" w14:textId="77777777" w:rsidR="0055728D" w:rsidRDefault="003430BC">
+      <w:pPr>
+        <w:spacing w:before="1"/>
+        <w:ind w:left="215"/>
+        <w:rPr>
+          <w:b/>
+        </w:rPr>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:b/>
+          <w:spacing w:val="-2"/>
+        </w:rPr>
+        <w:t>Checklist</w:t>
+      </w:r>
+    </w:p>
+    <w:p w14:paraId="610027AF" w14:textId="77777777" w:rsidR="0055728D" w:rsidRDefault="0055728D">
+      <w:pPr>
+        <w:pStyle w:val="BodyText"/>
+        <w:spacing w:before="7"/>
+        <w:rPr>
+          <w:b/>
+          <w:sz w:val="17"/>
+        </w:rPr>
+      </w:pPr>
+    </w:p>
+    <w:tbl>
+      <w:tblPr>
+        <w:tblW w:w="0" w:type="auto"/>
+        <w:tblInd w:w="115" w:type="dxa"/>
+        <w:tblBorders>
+          <w:top w:val="single" w:sz="4" w:space="0" w:color="999999"/>
+          <w:left w:val="single" w:sz="4" w:space="0" w:color="999999"/>
+          <w:bottom w:val="single" w:sz="4" w:space="0" w:color="999999"/>
+          <w:right w:val="single" w:sz="4" w:space="0" w:color="999999"/>
+          <w:insideH w:val="single" w:sz="4" w:space="0" w:color="999999"/>
+          <w:insideV w:val="single" w:sz="4" w:space="0" w:color="999999"/>
+        </w:tblBorders>
+        <w:tblLayout w:type="fixed"/>
+        <w:tblCellMar>
+          <w:left w:w="0" w:type="dxa"/>
+          <w:right w:w="0" w:type="dxa"/>
+        </w:tblCellMar>
+        <w:tblLook w:val="01E0" w:firstRow="1" w:lastRow="1" w:firstColumn="1" w:lastColumn="1" w:noHBand="0" w:noVBand="0"/>
+      </w:tblPr>
+      <w:tblGrid>
+        <w:gridCol w:w="8539"/>
+        <w:gridCol w:w="556"/>
+        <w:gridCol w:w="540"/>
+      </w:tblGrid>
+      <w:tr w:rsidR="0055728D" w14:paraId="194CFD34" w14:textId="77777777">
+        <w:trPr>
+          <w:trHeight w:val="225"/>
+        </w:trPr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="8539" w:type="dxa"/>
+          </w:tcPr>
+          <w:p w14:paraId="5DFF41EF" w14:textId="77777777" w:rsidR="0055728D" w:rsidRDefault="003430BC">
+            <w:pPr>
+              <w:pStyle w:val="TableParagraph"/>
+              <w:spacing w:before="1" w:line="204" w:lineRule="exact"/>
+              <w:ind w:left="110"/>
+              <w:rPr>
+                <w:b/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+            </w:pPr>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>Does</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:spacing w:val="-5"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>the</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:spacing w:val="-4"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:spacing w:val="-2"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>work…</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="556" w:type="dxa"/>
+          </w:tcPr>
+          <w:p w14:paraId="2491541A" w14:textId="77777777" w:rsidR="0055728D" w:rsidRDefault="003430BC">
+            <w:pPr>
+              <w:pStyle w:val="TableParagraph"/>
+              <w:spacing w:before="1" w:line="204" w:lineRule="exact"/>
+              <w:ind w:left="109"/>
+              <w:rPr>
+                <w:b/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+            </w:pPr>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:spacing w:val="-5"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>Yes</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="540" w:type="dxa"/>
+          </w:tcPr>
+          <w:p w14:paraId="765440F5" w14:textId="77777777" w:rsidR="0055728D" w:rsidRDefault="003430BC">
+            <w:pPr>
+              <w:pStyle w:val="TableParagraph"/>
+              <w:spacing w:before="1" w:line="204" w:lineRule="exact"/>
+              <w:ind w:left="109"/>
+              <w:rPr>
+                <w:b/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+            </w:pPr>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:spacing w:val="-5"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>No</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+      </w:tr>
+      <w:tr w:rsidR="0055728D" w14:paraId="4E5011C4" w14:textId="77777777">
+        <w:trPr>
+          <w:trHeight w:val="220"/>
+        </w:trPr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="8539" w:type="dxa"/>
+          </w:tcPr>
+          <w:p w14:paraId="399A73A8" w14:textId="496FA161" w:rsidR="0055728D" w:rsidRDefault="003430BC">
+            <w:pPr>
+              <w:pStyle w:val="TableParagraph"/>
+              <w:spacing w:before="1" w:line="199" w:lineRule="exact"/>
+              <w:ind w:left="110"/>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+            </w:pPr>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>1.</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-8"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>Mention</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-5"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>an</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-5"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>unannounced</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>Kyndryl</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-4"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>service</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-4"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>offering</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-5"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve">, undisclosed invention, innovation or technology </w:t>
+            </w:r>
+            
+            
+            
+            
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>of</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-4"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-2"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>Kyndryl?</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="556" w:type="dxa"/>
+          </w:tcPr>
+          <w:p w14:paraId="7553BD9C" w14:textId="77777777" w:rsidR="0055728D" w:rsidRDefault="0055728D">
+            <w:pPr>
+              <w:pStyle w:val="TableParagraph"/>
+              <w:rPr>
+                <w:rFonts w:ascii="Times New Roman"/>
+                <w:sz w:val="14"/>
+              </w:rPr>
+            </w:pPr>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="540" w:type="dxa"/>
+          </w:tcPr>
+          <w:p w14:paraId="289DF1C0" w14:textId="77777777" w:rsidR="0055728D" w:rsidRDefault="0055728D">
+            <w:pPr>
+              <w:pStyle w:val="TableParagraph"/>
+              <w:rPr>
+                <w:rFonts w:ascii="Times New Roman"/>
+                <w:sz w:val="14"/>
+              </w:rPr>
+            </w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman"/><w:sz w:val="18"/></w:rPr><w:t>X</w:t></w:r></w:p>
+        </w:tc>
+      </w:tr>
+      <w:tr w:rsidR="0055728D" w14:paraId="132F28C0" w14:textId="77777777">
+        <w:trPr>
+          <w:trHeight w:val="225"/>
+        </w:trPr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="8539" w:type="dxa"/>
+          </w:tcPr>
+          <w:p w14:paraId="70C65CD3" w14:textId="77777777" w:rsidR="0055728D" w:rsidRDefault="003430BC">
+            <w:pPr>
+              <w:pStyle w:val="TableParagraph"/>
+              <w:spacing w:before="1" w:line="204" w:lineRule="exact"/>
+              <w:ind w:left="110"/>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+            </w:pPr>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>2.</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-7"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>Make</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-5"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>a</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-4"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>performance</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-5"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>statement</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-5"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>or</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-4"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>claim</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-5"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>that</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-5"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>is</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-2"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:i/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>not</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:i/>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>substantiated</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-4"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>by</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-4"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>supporting</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-2"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>data?</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="556" w:type="dxa"/>
+          </w:tcPr>
+          <w:p w14:paraId="04E3F594" w14:textId="77777777" w:rsidR="0055728D" w:rsidRDefault="0055728D">
+            <w:pPr>
+              <w:pStyle w:val="TableParagraph"/>
+              <w:rPr>
+                <w:rFonts w:ascii="Times New Roman"/>
+                <w:sz w:val="16"/>
+              </w:rPr>
+            </w:pPr>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="540" w:type="dxa"/>
+          </w:tcPr>
+          <w:p w14:paraId="3850EA09" w14:textId="77777777" w:rsidR="0055728D" w:rsidRDefault="0055728D">
+            <w:pPr>
+              <w:pStyle w:val="TableParagraph"/>
+              <w:rPr>
+                <w:rFonts w:ascii="Times New Roman"/>
+                <w:sz w:val="16"/>
+              </w:rPr>
+            </w:pPr><w:r><w:rPr><w:sz w:val="18"/></w:rPr><w:t>X</w:t></w:r></w:p>
+        </w:tc>
+      </w:tr>
+      <w:tr w:rsidR="0055728D" w14:paraId="54121EAC" w14:textId="77777777">
+        <w:trPr>
+          <w:trHeight w:val="220"/>
+        </w:trPr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="8539" w:type="dxa"/>
+          </w:tcPr>
+          <w:p w14:paraId="133AFA2F" w14:textId="77777777" w:rsidR="0055728D" w:rsidRDefault="003430BC">
+            <w:pPr>
+              <w:pStyle w:val="TableParagraph"/>
+              <w:spacing w:before="1" w:line="199" w:lineRule="exact"/>
+              <w:ind w:left="110"/>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+            </w:pPr>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>3.</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-9"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>Discuss</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-7"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>competitive</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-7"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>performance</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-7"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>information</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-7"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>or</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-7"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>functional</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-7"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-2"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>comparisons?</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="556" w:type="dxa"/>
+          </w:tcPr>
+          <w:p w14:paraId="589CABE6" w14:textId="77777777" w:rsidR="0055728D" w:rsidRDefault="0055728D">
+            <w:pPr>
+              <w:pStyle w:val="TableParagraph"/>
+              <w:rPr>
+                <w:rFonts w:ascii="Times New Roman"/>
+                <w:sz w:val="14"/>
+              </w:rPr>
+            </w:pPr>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="540" w:type="dxa"/>
+          </w:tcPr>
+          <w:p w14:paraId="0D7B73B2" w14:textId="77777777" w:rsidR="0055728D" w:rsidRDefault="0055728D">
+            <w:pPr>
+              <w:pStyle w:val="TableParagraph"/>
+              <w:rPr>
+                <w:rFonts w:ascii="Times New Roman"/>
+                <w:sz w:val="14"/>
+              </w:rPr>
+            </w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman"/><w:sz w:val="18"/></w:rPr><w:t>X</w:t></w:r></w:p>
+        </w:tc>
+      </w:tr>
+      <w:tr w:rsidR="0055728D" w14:paraId="7A66AE77" w14:textId="77777777">
+        <w:trPr>
+          <w:trHeight w:val="430"/>
+        </w:trPr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="8539" w:type="dxa"/>
+          </w:tcPr>
+          <w:p w14:paraId="562F905D" w14:textId="77777777" w:rsidR="0055728D" w:rsidRDefault="003430BC">
+            <w:pPr>
+              <w:pStyle w:val="TableParagraph"/>
+              <w:spacing w:line="206" w:lineRule="exact"/>
+              <w:ind w:left="110"/>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+            </w:pPr>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>4.</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>Mention</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>specific</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-1"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>third</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>party?</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="40"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>(If</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>yes,</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>identify</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>the</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>role</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>of</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>the</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>third</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>party</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-1"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>–</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>customer,</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-2"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>partner,</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>supplier, other (specify) under Additional Information below.)</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="556" w:type="dxa"/>
+          </w:tcPr>
+          <w:p w14:paraId="79C21E7E" w14:textId="77777777" w:rsidR="0055728D" w:rsidRDefault="0055728D">
+            <w:pPr>
+              <w:pStyle w:val="TableParagraph"/>
+              <w:rPr>
+                <w:rFonts w:ascii="Times New Roman"/>
+                <w:sz w:val="16"/>
+              </w:rPr>
+            </w:pPr>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="540" w:type="dxa"/>
+          </w:tcPr>
+          <w:p w14:paraId="2718B864" w14:textId="77777777" w:rsidR="0055728D" w:rsidRDefault="0055728D">
+            <w:pPr>
+              <w:pStyle w:val="TableParagraph"/>
+              <w:rPr>
+                <w:rFonts w:ascii="Times New Roman"/>
+                <w:sz w:val="16"/>
+              </w:rPr>
+            </w:pPr><w:r><w:rPr><w:sz w:val="18"/></w:rPr><w:t>X</w:t></w:r></w:p>
+        </w:tc>
+      </w:tr>
+      <w:tr w:rsidR="0055728D" w14:paraId="5B9F2A47" w14:textId="77777777">
+        <w:trPr>
+          <w:trHeight w:val="430"/>
+        </w:trPr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="8539" w:type="dxa"/>
+          </w:tcPr>
+          <w:p w14:paraId="503FF8C6" w14:textId="0D4E7C8C" w:rsidR="0055728D" w:rsidRDefault="003430BC">
+            <w:pPr>
+              <w:pStyle w:val="TableParagraph"/>
+              <w:spacing w:line="206" w:lineRule="exact"/>
+              <w:ind w:left="110"/>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+            </w:pPr>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>5.</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>Involve</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>a</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>third</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>party</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>in</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>the</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>drafting of the publication?</w:t>
+            </w:r>
+            
+            
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="40"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>(If</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>yes,</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>identify</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>the</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>role</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>of</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>the</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>third</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>party –</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-2"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>customer,</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-2"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>partner, supplier, other (specify) including IP rights, under Additional Information below.)</w:t>
+            </w:r>
+            
+            
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="556" w:type="dxa"/>
+          </w:tcPr>
+          <w:p w14:paraId="4137B333" w14:textId="77777777" w:rsidR="0055728D" w:rsidRDefault="0055728D">
+            <w:pPr>
+              <w:pStyle w:val="TableParagraph"/>
+              <w:rPr>
+                <w:rFonts w:ascii="Times New Roman"/>
+                <w:sz w:val="16"/>
+              </w:rPr>
+            </w:pPr>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="540" w:type="dxa"/>
+          </w:tcPr>
+          <w:p w14:paraId="10E27B41" w14:textId="77777777" w:rsidR="0055728D" w:rsidRDefault="0055728D">
+            <w:pPr>
+              <w:pStyle w:val="TableParagraph"/>
+              <w:rPr>
+                <w:rFonts w:ascii="Times New Roman"/>
+                <w:sz w:val="16"/>
+              </w:rPr>
+            </w:pPr><w:r><w:rPr><w:sz w:val="18"/></w:rPr><w:t>X</w:t></w:r></w:p>
+        </w:tc>
+      </w:tr>
+      <w:tr w:rsidR="0055728D" w14:paraId="2EF92CA9" w14:textId="77777777">
+        <w:trPr>
+          <w:trHeight w:val="635"/>
+        </w:trPr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="8539" w:type="dxa"/>
+          </w:tcPr>
+          <w:p w14:paraId="0425D271" w14:textId="1FD75C94" w:rsidR="0055728D" w:rsidRDefault="0055728D">
+            <w:pPr>
+              <w:pStyle w:val="TableParagraph"/>
+              <w:spacing w:line="206" w:lineRule="exact"/>
+              <w:ind w:left="110"/>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+            </w:pPr>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="556" w:type="dxa"/>
+          </w:tcPr>
+          <w:p w14:paraId="3A06FB10" w14:textId="77777777" w:rsidR="0055728D" w:rsidRDefault="0055728D">
+            <w:pPr>
+              <w:pStyle w:val="TableParagraph"/>
+              <w:rPr>
+                <w:rFonts w:ascii="Times New Roman"/>
+                <w:sz w:val="16"/>
+              </w:rPr>
+            </w:pPr>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="540" w:type="dxa"/>
+          </w:tcPr>
+          <w:p w14:paraId="38DA6FA0" w14:textId="77777777" w:rsidR="0055728D" w:rsidRDefault="0055728D">
+            <w:pPr>
+              <w:pStyle w:val="TableParagraph"/>
+              <w:rPr>
+                <w:rFonts w:ascii="Times New Roman"/>
+                <w:sz w:val="16"/>
+              </w:rPr>
+            </w:pPr><w:r><w:rPr><w:sz w:val="18"/></w:rPr><w:t>X</w:t></w:r></w:p>
+        </w:tc>
+      </w:tr>
+      <w:tr w:rsidR="0055728D" w14:paraId="328A6F65" w14:textId="77777777">
+        <w:trPr>
+          <w:trHeight w:val="220"/>
+        </w:trPr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="8539" w:type="dxa"/>
+          </w:tcPr>
+          <w:p w14:paraId="28331993" w14:textId="240758A2" w:rsidR="0055728D" w:rsidRDefault="00FC070F">
+            <w:pPr>
+              <w:pStyle w:val="TableParagraph"/>
+              <w:spacing w:before="1" w:line="199" w:lineRule="exact"/>
+              <w:ind w:left="110"/>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+            </w:pPr>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>6.</w:t>
+            </w:r>
+            
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-10"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>Contain</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-6"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>Kyndryl</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-6"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>confidential</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-6"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-2"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>material?</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="556" w:type="dxa"/>
+          </w:tcPr>
+          <w:p w14:paraId="4B68EF7F" w14:textId="77777777" w:rsidR="0055728D" w:rsidRDefault="0055728D">
+            <w:pPr>
+              <w:pStyle w:val="TableParagraph"/>
+              <w:rPr>
+                <w:rFonts w:ascii="Times New Roman"/>
+                <w:sz w:val="14"/>
+              </w:rPr>
+            </w:pPr>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="540" w:type="dxa"/>
+          </w:tcPr>
+          <w:p w14:paraId="13B8C5D6" w14:textId="77777777" w:rsidR="0055728D" w:rsidRDefault="0055728D">
+            <w:pPr>
+              <w:pStyle w:val="TableParagraph"/>
+              <w:rPr>
+                <w:rFonts w:ascii="Times New Roman"/>
+                <w:sz w:val="14"/>
+              </w:rPr>
+            </w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman"/><w:sz w:val="18"/></w:rPr><w:t>X</w:t></w:r></w:p>
+        </w:tc>
+      </w:tr>
+      <w:tr w:rsidR="0055728D" w14:paraId="620FE666" w14:textId="77777777">
+        <w:trPr>
+          <w:trHeight w:val="225"/>
+        </w:trPr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="8539" w:type="dxa"/>
+          </w:tcPr>
+          <w:p w14:paraId="03E04891" w14:textId="54A7D7EF" w:rsidR="0055728D" w:rsidRDefault="00FC070F">
+            <w:pPr>
+              <w:pStyle w:val="TableParagraph"/>
+              <w:spacing w:before="1" w:line="204" w:lineRule="exact"/>
+              <w:ind w:left="110"/>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+            </w:pPr>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>7.</w:t>
+            </w:r>
+            
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-8"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>Contain</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-5"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>confidential</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-5"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>material</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-6"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>of</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-5"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>a</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-5"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>third</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-5"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-2"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve">party (e.g., </w:t>
+            </w:r>
+            
+            
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>customer,</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-2"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>partner, supplier, or other?  If other, specify under Additional Information below</w:t>
+            </w:r>
+            
+            
+            
+            
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-2"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>.</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="556" w:type="dxa"/>
+          </w:tcPr>
+          <w:p w14:paraId="4E4C921B" w14:textId="14342397" w:rsidR="0055728D" w:rsidRDefault="0055728D">
+            <w:pPr>
+              <w:pStyle w:val="TableParagraph"/>
+              <w:rPr>
+                <w:rFonts w:ascii="Times New Roman"/>
+                <w:sz w:val="16"/>
+              </w:rPr>
+            </w:pPr>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="540" w:type="dxa"/>
+          </w:tcPr>
+          <w:p w14:paraId="6A8DEED2" w14:textId="77777777" w:rsidR="0055728D" w:rsidRDefault="0055728D">
+            <w:pPr>
+              <w:pStyle w:val="TableParagraph"/>
+              <w:rPr>
+                <w:rFonts w:ascii="Times New Roman"/>
+                <w:sz w:val="16"/>
+              </w:rPr>
+            </w:pPr><w:r><w:rPr><w:sz w:val="18"/></w:rPr><w:t>X</w:t></w:r></w:p>
+        </w:tc>
+      </w:tr>
+      <w:tr w:rsidR="0055728D" w14:paraId="2B2FD9B7" w14:textId="77777777">
+        <w:trPr>
+          <w:trHeight w:val="425"/>
+        </w:trPr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="8539" w:type="dxa"/>
+          </w:tcPr>
+          <w:p w14:paraId="1706B76A" w14:textId="77777777" w:rsidR="0055728D" w:rsidRDefault="003430BC">
+            <w:pPr>
+              <w:pStyle w:val="TableParagraph"/>
+              <w:spacing w:line="206" w:lineRule="exact"/>
+              <w:ind w:left="110"/>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+            </w:pPr>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>9.</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-4"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>Describe</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-4"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>an</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-4"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>internal</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-4"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>procedure,</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>or</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>an</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-4"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>Kyndryl</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>tool</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>or</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-4"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>offering, disclosing</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-4"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>previously</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-4"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>undisclosed information that gives Kyndryl a competitive edge?</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="556" w:type="dxa"/>
+          </w:tcPr>
+          <w:p w14:paraId="77B7279C" w14:textId="77777777" w:rsidR="0055728D" w:rsidRDefault="0055728D">
+            <w:pPr>
+              <w:pStyle w:val="TableParagraph"/>
+              <w:rPr>
+                <w:rFonts w:ascii="Times New Roman"/>
+                <w:sz w:val="16"/>
+              </w:rPr>
+            </w:pPr>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="540" w:type="dxa"/>
+          </w:tcPr>
+          <w:p w14:paraId="48777E2A" w14:textId="77777777" w:rsidR="0055728D" w:rsidRDefault="0055728D">
+            <w:pPr>
+              <w:pStyle w:val="TableParagraph"/>
+              <w:rPr>
+                <w:rFonts w:ascii="Times New Roman"/>
+                <w:sz w:val="16"/>
+              </w:rPr>
+            </w:pPr><w:r><w:rPr><w:sz w:val="18"/></w:rPr><w:t>X</w:t></w:r></w:p>
+        </w:tc>
+      </w:tr>
+      <w:tr w:rsidR="0055728D" w14:paraId="10B054DC" w14:textId="77777777">
+        <w:trPr>
+          <w:trHeight w:val="635"/>
+        </w:trPr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="8539" w:type="dxa"/>
+          </w:tcPr>
+          <w:p w14:paraId="13DCA1DF" w14:textId="5C4C8D7B" w:rsidR="0055728D" w:rsidRDefault="003430BC" w:rsidP="00E64587">
+            <w:pPr>
+              <w:pStyle w:val="TableParagraph"/>
+              <w:spacing w:before="1"/>
+              <w:ind w:left="90"/>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+            </w:pPr>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>10.</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-6"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>Contain</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-4"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>content</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>provided</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>or</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>created</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-4"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>by</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>a third party</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>(regardless</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>of</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>whether</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-2"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve">Kyndryl </w:t>
+            </w:r>
+            
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>paid</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>for</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>the</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>content),</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>e.g.,</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-1"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>text,</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>graphics,</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>data,</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>source</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-2"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>code,</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-2"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>etc.?</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-2"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>(If</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>yes,</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-2"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>please</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>identify</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-2"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>under</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>Additional Information below.)</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="556" w:type="dxa"/>
+          </w:tcPr>
+          <w:p w14:paraId="123AAC0D" w14:textId="77777777" w:rsidR="0055728D" w:rsidRDefault="0055728D">
+            <w:pPr>
+              <w:pStyle w:val="TableParagraph"/>
+              <w:rPr>
+                <w:rFonts w:ascii="Times New Roman"/>
+                <w:sz w:val="16"/>
+              </w:rPr>
+            </w:pPr>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="540" w:type="dxa"/>
+          </w:tcPr>
+          <w:p w14:paraId="6FE71F80" w14:textId="77777777" w:rsidR="0055728D" w:rsidRDefault="0055728D">
+            <w:pPr>
+              <w:pStyle w:val="TableParagraph"/>
+              <w:rPr>
+                <w:rFonts w:ascii="Times New Roman"/>
+                <w:sz w:val="16"/>
+              </w:rPr>
+            </w:pPr><w:r><w:rPr><w:sz w:val="18"/></w:rPr><w:t>X</w:t></w:r></w:p>
+        </w:tc>
+      </w:tr>
+      <w:tr w:rsidR="0055728D" w14:paraId="36BCA997" w14:textId="77777777">
+        <w:trPr>
+          <w:trHeight w:val="430"/>
+        </w:trPr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="8539" w:type="dxa"/>
+          </w:tcPr>
+          <w:p w14:paraId="57B429DA" w14:textId="32DA6D60" w:rsidR="0055728D" w:rsidRDefault="003430BC">
+            <w:pPr>
+              <w:pStyle w:val="TableParagraph"/>
+              <w:spacing w:line="210" w:lineRule="exact"/>
+              <w:ind w:left="90"/>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+            </w:pPr>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>11.</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>Contain</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>any</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-2"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>third</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-2"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> party</w:t>
+            </w:r>
+            
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>logo,</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-2"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>trademark,</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>product</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>or</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-2"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>offering name?</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="40"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>(If</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-2"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>yes,</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>please</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>identify</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-2"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>under Additional Information below).</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="556" w:type="dxa"/>
+          </w:tcPr>
+          <w:p w14:paraId="35B6774C" w14:textId="77777777" w:rsidR="0055728D" w:rsidRDefault="0055728D">
+            <w:pPr>
+              <w:pStyle w:val="TableParagraph"/>
+              <w:rPr>
+                <w:rFonts w:ascii="Times New Roman"/>
+                <w:sz w:val="16"/>
+              </w:rPr>
+            </w:pPr>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="540" w:type="dxa"/>
+          </w:tcPr>
+          <w:p w14:paraId="340B760D" w14:textId="77777777" w:rsidR="0055728D" w:rsidRDefault="0055728D">
+            <w:pPr>
+              <w:pStyle w:val="TableParagraph"/>
+              <w:rPr>
+                <w:rFonts w:ascii="Times New Roman"/>
+                <w:sz w:val="16"/>
+              </w:rPr>
+            </w:pPr><w:r><w:rPr><w:sz w:val="18"/></w:rPr><w:t>X</w:t></w:r></w:p>
+        </w:tc>
+      </w:tr>
+      <w:tr w:rsidR="0055728D" w14:paraId="7CD08E76" w14:textId="77777777">
+        <w:trPr>
+          <w:trHeight w:val="225"/>
+        </w:trPr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="8539" w:type="dxa"/>
+            <w:shd w:val="clear" w:color="auto" w:fill="F1F1F1"/>
+          </w:tcPr>
+          <w:p w14:paraId="7EC2C9A9" w14:textId="77777777" w:rsidR="0055728D" w:rsidRDefault="0055728D">
+            <w:pPr>
+              <w:pStyle w:val="TableParagraph"/>
+              <w:rPr>
+                <w:rFonts w:ascii="Times New Roman"/>
+                <w:sz w:val="16"/>
+              </w:rPr>
+            </w:pPr>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="556" w:type="dxa"/>
+            <w:shd w:val="clear" w:color="auto" w:fill="F1F1F1"/>
+          </w:tcPr>
+          <w:p w14:paraId="11BF675C" w14:textId="77777777" w:rsidR="0055728D" w:rsidRDefault="0055728D">
+            <w:pPr>
+              <w:pStyle w:val="TableParagraph"/>
+              <w:rPr>
+                <w:rFonts w:ascii="Times New Roman"/>
+                <w:sz w:val="16"/>
+              </w:rPr>
+            </w:pPr>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="540" w:type="dxa"/>
+            <w:shd w:val="clear" w:color="auto" w:fill="F1F1F1"/>
+          </w:tcPr>
+          <w:p w14:paraId="76ECFDC6" w14:textId="77777777" w:rsidR="0055728D" w:rsidRDefault="0055728D">
+            <w:pPr>
+              <w:pStyle w:val="TableParagraph"/>
+              <w:rPr>
+                <w:rFonts w:ascii="Times New Roman"/>
+                <w:sz w:val="16"/>
+              </w:rPr>
+            </w:pPr><w:r><w:rPr><w:sz w:val="18"/></w:rPr><w:t>X</w:t></w:r></w:p>
+        </w:tc>
+      </w:tr>
+      <w:tr w:rsidR="0055728D" w14:paraId="783A4781" w14:textId="77777777">
+        <w:trPr>
+          <w:trHeight w:val="220"/>
+        </w:trPr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="8539" w:type="dxa"/>
+          </w:tcPr>
+          <w:p w14:paraId="67F63688" w14:textId="77777777" w:rsidR="0055728D" w:rsidRDefault="003430BC">
+            <w:pPr>
+              <w:pStyle w:val="TableParagraph"/>
+              <w:spacing w:before="1" w:line="199" w:lineRule="exact"/>
+              <w:ind w:left="90"/>
+              <w:rPr>
+                <w:b/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+            </w:pPr>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>If</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>the</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:spacing w:val="-2"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>work</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:spacing w:val="-2"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>is</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:spacing w:val="-2"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>published</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>by</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:spacing w:val="-2"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>a third</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:spacing w:val="-1"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:spacing w:val="-2"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>party...</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="556" w:type="dxa"/>
+          </w:tcPr>
+          <w:p w14:paraId="6B96EE5F" w14:textId="77777777" w:rsidR="0055728D" w:rsidRDefault="0055728D">
+            <w:pPr>
+              <w:pStyle w:val="TableParagraph"/>
+              <w:rPr>
+                <w:rFonts w:ascii="Times New Roman"/>
+                <w:sz w:val="14"/>
+              </w:rPr>
+            </w:pPr>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="540" w:type="dxa"/>
+          </w:tcPr>
+          <w:p w14:paraId="1843B317" w14:textId="77777777" w:rsidR="0055728D" w:rsidRDefault="0055728D">
+            <w:pPr>
+              <w:pStyle w:val="TableParagraph"/>
+              <w:rPr>
+                <w:rFonts w:ascii="Times New Roman"/>
+                <w:sz w:val="14"/>
+              </w:rPr>
+            </w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman"/><w:sz w:val="18"/></w:rPr><w:t>X</w:t></w:r></w:p>
+        </w:tc>
+      </w:tr>
+      <w:tr w:rsidR="0055728D" w14:paraId="64AAFAD3" w14:textId="77777777">
+        <w:trPr>
+          <w:trHeight w:val="430"/>
+        </w:trPr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="8539" w:type="dxa"/>
+          </w:tcPr>
+          <w:p w14:paraId="6ED60B02" w14:textId="0F60C8A4" w:rsidR="0055728D" w:rsidRDefault="003430BC">
+            <w:pPr>
+              <w:pStyle w:val="TableParagraph"/>
+              <w:spacing w:line="206" w:lineRule="exact"/>
+              <w:ind w:left="90"/>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+            </w:pPr>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>12.</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>If the</w:t>
+            </w:r>
+            
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-2"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>publisher</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-2"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>requires</w:t>
+            </w:r>
+            
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-2"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+                <w:u w:val="single"/>
+              </w:rPr>
+              <w:t>any</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-2"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>agreement</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>from</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>Kyndryl</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-2"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>in</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>order</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>to</w:t>
+            </w:r>
+            
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>publish,</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>e.g.,</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-1"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>transfer</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>of</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>copyright ownership to the publisher, please provide the agreement to the reviewing attorney.  If the publisher&#x2019;s terms are passive / click-through (e.g., most websites or mobile apps) always follow those terms.  If you have any questions, contact the reviewing attorney.</w:t>
+            </w:r>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="556" w:type="dxa"/>
+          </w:tcPr>
+          <w:p w14:paraId="24714231" w14:textId="77777777" w:rsidR="0055728D" w:rsidRDefault="0055728D">
+            <w:pPr>
+              <w:pStyle w:val="TableParagraph"/>
+              <w:rPr>
+                <w:rFonts w:ascii="Times New Roman"/>
+                <w:sz w:val="16"/>
+              </w:rPr>
+            </w:pPr>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="540" w:type="dxa"/>
+          </w:tcPr>
+          <w:p w14:paraId="28050C06" w14:textId="77777777" w:rsidR="0055728D" w:rsidRDefault="0055728D">
+            <w:pPr>
+              <w:pStyle w:val="TableParagraph"/>
+              <w:rPr>
+                <w:rFonts w:ascii="Times New Roman"/>
+                <w:sz w:val="16"/>
+              </w:rPr>
+            </w:pPr><w:r><w:rPr><w:sz w:val="18"/></w:rPr><w:t>X</w:t></w:r></w:p>
+        </w:tc>
+      </w:tr>
+      <w:tr w:rsidR="0055728D" w14:paraId="1A78E5E0" w14:textId="77777777">
+        <w:trPr>
+          <w:trHeight w:val="635"/>
+        </w:trPr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="9635" w:type="dxa"/>
+            <w:gridSpan w:val="3"/>
+          </w:tcPr>
+          <w:p w14:paraId="60BF003C" w14:textId="7F37851D" w:rsidR="0055728D" w:rsidRDefault="003430BC" w:rsidP="003430BC">
+            <w:pPr>
+              <w:pStyle w:val="TableParagraph"/>
+              <w:spacing w:before="1"/>
+              <w:ind w:left="110" w:right="146"/>
+              <w:rPr>
+                <w:b/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+            </w:pPr>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>If</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>you</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>answered</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>Yes</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>to</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>any</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>of</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>these</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>questions,</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>provide</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:spacing w:val="-3"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>an</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:spacing w:val="-2"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>explanation</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:spacing w:val="-2"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>for</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:spacing w:val="-2"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>each</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:spacing w:val="-2"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>&#x201C;yes&#x201D;</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:spacing w:val="-2"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>answer</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:spacing w:val="-2"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>in</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:spacing w:val="-2"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve">the &#x201C;additional information&#x201D; section below and submit the completed Clearance Form to </w:t>
+            </w:r>
+            <w:hyperlink r:id="rId10" w:history="1">
+              <w:r>
+                <w:rPr>
+                  <w:rStyle w:val="Hyperlink"/>
+                  <w:b/>
+                  <w:sz w:val="18"/>
+                </w:rPr>
+                <w:t>IPLaw@kyndryl.com</w:t>
+              </w:r>
+            </w:hyperlink>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:spacing w:val="-13"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>and</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:spacing w:val="-12"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>Stacie</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:spacing w:val="-13"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>Large</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:spacing w:val="-12"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:hyperlink r:id="rId11">
+              <w:r>
+                <w:rPr>
+                  <w:b/>
+                  <w:sz w:val="18"/>
+                </w:rPr>
+                <w:t>(</w:t>
+              </w:r>
+              <w:r>
+                <w:rPr>
+                  <w:b/>
+                  <w:color w:val="0000FF"/>
+                  <w:sz w:val="18"/>
+                  <w:u w:val="single" w:color="0000FF"/>
+                </w:rPr>
+                <w:t>stacie.large@kyndryl.com</w:t>
+              </w:r>
+            </w:hyperlink>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>)</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:spacing w:val="-12"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>in</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:spacing w:val="-12"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:b/>
+                <w:spacing w:val="-2"/>
+                <w:sz w:val="18"/>
+              </w:rPr>
+              <w:t>Legal.</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+      </w:tr>
+    </w:tbl>
+    <w:p w14:paraId="2B178151" w14:textId="77777777" w:rsidR="0055728D" w:rsidRPr="003430BC" w:rsidRDefault="003430BC">
+      <w:pPr>
+        <w:pStyle w:val="BodyText"/>
+        <w:spacing w:before="208"/>
+        <w:ind w:left="200"/>
+        <w:rPr>
+          <w:b/>
+          <w:bCs/>
+          <w:sz w:val="22"/>
+          <w:szCs w:val="22"/>
+        </w:rPr>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:b/>
+          <w:bCs/>
+          <w:sz w:val="22"/>
+          <w:szCs w:val="22"/>
+        </w:rPr>
+        <w:t>Additional</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:b/>
+          <w:bCs/>
+          <w:spacing w:val="-8"/>
+          <w:sz w:val="22"/>
+          <w:szCs w:val="22"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> </w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:b/>
+          <w:bCs/>
+          <w:sz w:val="22"/>
+          <w:szCs w:val="22"/>
+        </w:rPr>
+        <w:t>information</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:b/>
+          <w:bCs/>
+          <w:spacing w:val="-8"/>
+          <w:sz w:val="22"/>
+          <w:szCs w:val="22"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> </w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:b/>
+          <w:bCs/>
+          <w:sz w:val="22"/>
+          <w:szCs w:val="22"/>
+        </w:rPr>
+        <w:t>(if</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:b/>
+          <w:bCs/>
+          <w:spacing w:val="-7"/>
+          <w:sz w:val="22"/>
+          <w:szCs w:val="22"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> </w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:b/>
+          <w:bCs/>
+          <w:spacing w:val="-2"/>
+          <w:sz w:val="22"/>
+          <w:szCs w:val="22"/>
+        </w:rPr>
+        <w:t>applicable):</w:t>
+      </w:r>
+    </w:p>
+    <w:p w14:paraId="3FC8CA15" w14:textId="06445107" w:rsidR="0055728D" w:rsidRDefault="003430BC">
+      <w:pPr>
+        <w:pStyle w:val="BodyText"/>
+        <w:ind w:left="200"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:sz w:val="18"/>
+        </w:rPr>
+        <w:t xml:space="preserve">This paper presents academic research on voice conversion using open-source neural audio codec technology (Kyutai Mimi codec, MIT license). All software tools used are publicly available open-source projects: Mimi codec (kyutai/mimi), kNN-VC (bshall/knn-vc), FreeVC (OlaWod/FreeVC), FAISS (facebookresearch/faiss). Training data consists of publicly available speech datasets: LibriTTS-R (CC BY 4.0) and VCTK (CC BY 4.0). The work does not reference any Kyndryl proprietary technology, customer data, confidential information, or internal tools. No Kyndryl trademarks, logos, or product names appear in the paper. The affiliation is listed as &#x201C;Enterprise AI Center&#x201D; without specific Kyndryl branding. Computational resources were provided by the Enterprise AI Center DGX cluster. The paper will be published under SPIE proceedings, indexed in EI Compendex and Scopus.</w:t>
+      </w:r>
+    </w:p>
+    <w:p w14:paraId="14FD5050" w14:textId="77777777" w:rsidR="0055728D" w:rsidRDefault="0055728D">
+      <w:pPr>
+        <w:pStyle w:val="BodyText"/>
+      </w:pPr>
+    </w:p>
+    <w:p w14:paraId="54FEC7E1" w14:textId="77777777" w:rsidR="0055728D" w:rsidRDefault="0055728D">
+      <w:pPr>
+        <w:pStyle w:val="BodyText"/>
+      </w:pPr>
+    </w:p>
+    <w:p w14:paraId="4D46F321" w14:textId="77777777" w:rsidR="0055728D" w:rsidRDefault="0055728D">
+      <w:pPr>
+        <w:pStyle w:val="BodyText"/>
+      </w:pPr>
+    </w:p>
+    <w:p w14:paraId="35EA2483" w14:textId="77777777" w:rsidR="0055728D" w:rsidRDefault="0055728D">
+      <w:pPr>
+        <w:pStyle w:val="BodyText"/>
+        <w:spacing w:before="3"/>
+      </w:pPr>
+    </w:p>
+    <w:p w14:paraId="7287822A" w14:textId="1DC2FC7C" w:rsidR="0055728D" w:rsidRDefault="003430BC">
+      <w:pPr>
+        <w:pStyle w:val="BodyText"/>
+        <w:ind w:left="200" w:right="778"/>
+      </w:pPr>
+      <w:r>
+        <w:t>All</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:spacing w:val="-4"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> </w:t>
+      </w:r>
+      <w:r>
+        <w:t>external</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:spacing w:val="-3"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> </w:t>
+      </w:r>
+      <w:r>
+        <w:t>publications</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:spacing w:val="-3"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> </w:t>
+      </w:r>
+      <w:r>
+        <w:t>must</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:spacing w:val="-3"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> </w:t>
+      </w:r>
+      <w:r>
+        <w:t>be</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:spacing w:val="-3"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> </w:t>
+      </w:r>
+      <w:r>
+        <w:t>technically</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:spacing w:val="-3"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> </w:t>
+      </w:r>
+      <w:r>
+        <w:t>accurate</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:spacing w:val="-3"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> </w:t>
+      </w:r>
+      <w:r>
+        <w:t>and</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:spacing w:val="-4"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> </w:t>
+      </w:r>
+      <w:r>
+        <w:t>comply</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:spacing w:val="-3"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> </w:t>
+      </w:r>
+      <w:r>
+        <w:t>with</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:spacing w:val="-3"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> </w:t>
+      </w:r>
+      <w:r>
+        <w:t>applicable</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:spacing w:val="-1"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> </w:t>
+      </w:r>
+      <w:hyperlink r:id="rId12">
+        <w:r>
+          <w:rPr>
+            <w:rStyle w:val="Hyperlink"/>
+          </w:rPr>
+          <w:t>Kyndryl Corporate Documents</w:t>
+        </w:r>
+        
+        
+        
+      </w:hyperlink>
+      <w:r>
+        <w:t xml:space="preserve"> &amp; requirements including:</w:t>
+      </w:r>
+      
+      
+    </w:p>
+    <w:p w14:paraId="53997786" w14:textId="4F465738" w:rsidR="0055728D" w:rsidRDefault="037F675E" w:rsidP="71FAE45D">
+      <w:pPr>
+        <w:pStyle w:val="BodyText"/>
+        <w:numPr>
+          <w:ilvl w:val="0"/>
+          <w:numId w:val="1"/>
+        </w:numPr>
+        <w:spacing w:before="10"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Corporate Policy 8: Receipt and Disclosure of Confidential Information</w:t>
+      </w:r>
+    </w:p>
+    <w:p w14:paraId="4E07B894" w14:textId="41FD4AB6" w:rsidR="71FAE45D" w:rsidRDefault="037F675E" w:rsidP="71FAE45D">
+      <w:pPr>
+        <w:pStyle w:val="BodyText"/>
+        <w:numPr>
+          <w:ilvl w:val="0"/>
+          <w:numId w:val="1"/>
+        </w:numPr>
+        <w:spacing w:before="10"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Corporate Instruction IPL 112 – Patents and Inventions</w:t>
+      </w:r>
+    </w:p>
+    <w:p w14:paraId="70B2BA8C" w14:textId="5601977B" w:rsidR="037F675E" w:rsidRDefault="00FD5F1F" w:rsidP="665E093F">
+      <w:pPr>
+        <w:pStyle w:val="BodyText"/>
+        <w:numPr>
+          <w:ilvl w:val="0"/>
+          <w:numId w:val="1"/>
+        </w:numPr>
+        <w:spacing w:before="10"/>
+      </w:pPr>
+      <w:hyperlink r:id="rId13" w:history="1">
+        <w:r>
+          <w:rPr>
+            <w:rStyle w:val="Hyperlink"/>
+          </w:rPr>
+          <w:t>Kyndryl Brand request process and Brand Standards</w:t>
+        </w:r>
+        
+        
+      </w:hyperlink>
+    </w:p>
+    <w:p w14:paraId="19076605" w14:textId="77777777" w:rsidR="0055728D" w:rsidRDefault="003430BC">
+      <w:pPr>
+        <w:pStyle w:val="BodyText"/>
+        <w:spacing w:line="249" w:lineRule="auto"/>
+        <w:ind w:left="200"/>
+      </w:pPr>
+      <w:r>
+        <w:t>The</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:spacing w:val="-2"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> </w:t>
+      </w:r>
+      <w:r>
+        <w:t>requestor</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:spacing w:val="-2"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> </w:t>
+      </w:r>
+      <w:r>
+        <w:t>must</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:spacing w:val="-2"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> </w:t>
+      </w:r>
+      <w:r>
+        <w:t>obtain</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:spacing w:val="-2"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> </w:t>
+      </w:r>
+      <w:r>
+        <w:t>manager</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:spacing w:val="-2"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> </w:t>
+      </w:r>
+      <w:r>
+        <w:t>and</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:spacing w:val="-2"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> </w:t>
+      </w:r>
+      <w:r>
+        <w:t>Alliance</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:spacing w:val="-2"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> </w:t>
+      </w:r>
+      <w:r>
+        <w:t>leader</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:spacing w:val="-2"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> </w:t>
+      </w:r>
+      <w:r>
+        <w:t>(if</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:spacing w:val="-2"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> </w:t>
+      </w:r>
+      <w:r>
+        <w:t>applicable)</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:spacing w:val="-2"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> </w:t>
+      </w:r>
+      <w:r>
+        <w:t>approval</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:spacing w:val="-2"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> </w:t>
+      </w:r>
+      <w:r>
+        <w:t>of</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:spacing w:val="-2"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> </w:t>
+      </w:r>
+      <w:r>
+        <w:t>the</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:spacing w:val="-3"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> </w:t>
+      </w:r>
+      <w:r>
+        <w:t>publication and should</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:spacing w:val="-2"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> </w:t>
+      </w:r>
+      <w:r>
+        <w:t>retain</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:spacing w:val="-2"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> </w:t>
+      </w:r>
+      <w:r>
+        <w:t>this</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:spacing w:val="-2"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> </w:t>
+      </w:r>
+      <w:r>
+        <w:t>completed form and all approvals.</w:t>
+      </w:r>
+    </w:p>
+    <w:sectPr w:rsidR="0055728D">
+      <w:footerReference w:type="even" r:id="rId14"/>
+      <w:footerReference w:type="default" r:id="rId15"/>
+      <w:footerReference w:type="first" r:id="rId16"/>
+      <w:type w:val="continuous"/>
+      <w:pgSz w:w="12240" w:h="15840"/>
+      <w:pgMar w:top="640" w:right="320" w:bottom="280" w:left="1240" w:header="720" w:footer="720" w:gutter="0"/>
+      <w:cols w:space="720"/>
+    </w:sectPr>
+  </w:body>
+</w:document>

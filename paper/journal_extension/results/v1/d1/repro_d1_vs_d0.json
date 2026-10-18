@@ -1,0 +1,139 @@
+{
+ "written": "2026-10-18 12:42:08",
+ "label": "D1 vs D0",
+ "reference": {
+  "name": "D0",
+  "rc": "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/v1/d0/rc",
+  "anc": "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/v1/d0/anc",
+  "cand": {
+   "C1": [
+    "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/v1/d0/lab/cand",
+    "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/v1/d0/lab/metrics.jsonl",
+    "cand_"
+   ],
+   "C2": [
+    "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/v1/d0/lab/cand",
+    "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/v1/d0/lab/metrics.jsonl",
+    "cand_"
+   ],
+   "C3": [
+    "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/v1/d0/lab/cand",
+    "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/v1/d0/lab/metrics.jsonl",
+    "cand_"
+   ],
+   "C4": [
+    "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/v1/d0/lab/cand",
+    "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/v1/d0/lab/metrics.jsonl",
+    "cand_"
+   ],
+   "C5": [
+    "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/v1/d0/lab/cand",
+    "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/v1/d0/lab/metrics.jsonl",
+    "cand_"
+   ]
+  }
+ },
+ "pairs": "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/pairs/dev.jsonl",
+ "n_screen_pairs": 50,
+ "tolerance": {
+  "sim_wavlm": 0.001,
+  "utmos": 0.01
+ },
+ "passed": true,
+ "summary": "D1 vs D0 (50 screen pairs): S1/S3 codes OK (50/50 pairs equal); A1-A5,C1 out_codes of anc OK",
+ "checks": {
+  "codes": {
+   "test": "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/v1/d1/rc",
+   "ref": "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/v1/d0/rc",
+   "n_pairs": 50,
+   "missing": [],
+   "unreadable": {},
+   "s1_differ": [],
+   "s3_differ": [],
+   "mask_differ_tokens": 0,
+   "n_equal": 50,
+   "passed": true
+  },
+  "out_codes": [
+   {
+    "test": "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/v1/d1/anc",
+    "ref": "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/v1/d0/anc",
+    "n_pairs": 50,
+    "missing": [],
+    "unreadable": {},
+    "systems": {
+     "A1": {
+      "system": "R1_s0_pm_rq_T1",
+      "n_equal": 50,
+      "differ": [],
+      "absent": []
+     },
+     "A2": {
+      "system": "R3_r0_pm_rq_T1",
+      "n_equal": 50,
+      "differ": [],
+      "absent": []
+     },
+     "A3": {
+      "system": "R3_s0_argmax",
+      "n_equal": 50,
+      "differ": [],
+      "absent": []
+     },
+     "A4": {
+      "system": "R3_s0_tau0.4",
+      "n_equal": 50,
+      "differ": [],
+      "absent": []
+     },
+     "A5": {
+      "system": "src0_faiss",
+      "n_equal": 50,
+      "differ": [],
+      "absent": []
+     },
+     "C1": {
+      "system": "R3_s0_pm_rq_T1",
+      "n_equal": 50,
+      "differ": [],
+      "absent": []
+     }
+    },
+    "passed": true
+   }
+  ]
+ },
+ "info": {
+  "timings": null,
+  "runs": [],
+  "sizes": [
+   {
+    "dir": "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/v1/d1/rc/dumps/dev/30",
+    "n_files": 1000,
+    "bytes": 4101378020,
+    "mb_per_pair": 4.101,
+    "mb_per_pair_by_group": {
+     "crt_logits": 3.945,
+     "other": 0.154
+    },
+    "unreadable": []
+   },
+   {
+    "dir": "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/v1/d1/anc/dumps/dev/30",
+    "n_files": 1000,
+    "bytes": 4432792178,
+    "mb_per_pair": 4.433,
+    "mb_per_pair_by_group": {
+     "G0.5": 0.09,
+     "Psim": 0.062,
+     "R1": 0.09,
+     "R3": 0.09,
+     "R3_logits": 3.948,
+     "R3s": 0.09,
+     "other": 0.057
+    },
+    "unreadable": []
+   }
+  ]
+ }
+}

@@ -1,0 +1,128 @@
+{
+ "written": "2026-10-18 17:58:17",
+ "label": "D2 vs D0",
+ "reference": {
+  "name": "D0",
+  "rc": "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/v1/d0/rc",
+  "anc": "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/v1/d0/anc",
+  "cand": {
+   "C1": [
+    "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/v1/d0/lab/cand",
+    "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/v1/d0/lab/metrics.jsonl",
+    "cand_"
+   ],
+   "C2": [
+    "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/v1/d0/lab/cand",
+    "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/v1/d0/lab/metrics.jsonl",
+    "cand_"
+   ],
+   "C3": [
+    "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/v1/d0/lab/cand",
+    "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/v1/d0/lab/metrics.jsonl",
+    "cand_"
+   ],
+   "C4": [
+    "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/v1/d0/lab/cand",
+    "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/v1/d0/lab/metrics.jsonl",
+    "cand_"
+   ],
+   "C5": [
+    "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/v1/d0/lab/cand",
+    "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/v1/d0/lab/metrics.jsonl",
+    "cand_"
+   ]
+  }
+ },
+ "pairs": "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/pairs/dev.jsonl",
+ "n_screen_pairs": 50,
+ "tolerance": {
+  "sim_wavlm": 0.001,
+  "utmos": 0.01
+ },
+ "passed": true,
+ "summary": "D2 vs D0 (50 screen pairs): C1-C5 WAVs: C1 identical, C2 identical, C3 identical, C4 identical, C5 identical",
+ "checks": {
+  "wavs": {
+   "C1": {
+    "system": "pm_rq_T1",
+    "test": "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/v1/d2/lab/cand/pm_rq_T1",
+    "ref": "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/v1/d0/lab/cand/pm_rq_T1",
+    "n_pairs": 50,
+    "missing": [],
+    "unreadable": {},
+    "n_identical": 50,
+    "shape_differs": [],
+    "max_abs_diff": 0,
+    "max_abs_diff_float": 0.0,
+    "wavs_identical": true,
+    "metrics_check": null,
+    "passed": true
+   },
+   "C2": {
+    "system": "pm18_rq",
+    "test": "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/v1/d2/lab/cand/pm18_rq",
+    "ref": "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/v1/d0/lab/cand/pm18_rq",
+    "n_pairs": 50,
+    "missing": [],
+    "unreadable": {},
+    "n_identical": 50,
+    "shape_differs": [],
+    "max_abs_diff": 0,
+    "max_abs_diff_float": 0.0,
+    "wavs_identical": true,
+    "metrics_check": null,
+    "passed": true
+   },
+   "C3": {
+    "system": "gv1_pm_cont_T1",
+    "test": "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/v1/d2/lab/cand/gv1_pm_cont_T1",
+    "ref": "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/v1/d0/lab/cand/gv1_pm_cont_T1",
+    "n_pairs": 50,
+    "missing": [],
+    "unreadable": {},
+    "n_identical": 50,
+    "shape_differs": [],
+    "max_abs_diff": 0,
+    "max_abs_diff_float": 0.0,
+    "wavs_identical": true,
+    "metrics_check": null,
+    "passed": true
+   },
+   "C4": {
+    "system": "gv1_shrink0.85_cont",
+    "test": "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/v1/d2/lab/cand/gv1_shrink0.85_cont",
+    "ref": "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/v1/d0/lab/cand/gv1_shrink0.85_cont",
+    "n_pairs": 50,
+    "missing": [],
+    "unreadable": {},
+    "n_identical": 50,
+    "shape_differs": [],
+    "max_abs_diff": 0,
+    "max_abs_diff_float": 0.0,
+    "wavs_identical": true,
+    "metrics_check": null,
+    "passed": true
+   },
+   "C5": {
+    "system": "gv0.5_shrink0.75_cont",
+    "test": "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/v1/d2/lab/cand/gv0.5_shrink0.75_cont",
+    "ref": "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/v1/d0/lab/cand/gv0.5_shrink0.75_cont",
+    "n_pairs": 50,
+    "missing": [],
+    "unreadable": {},
+    "n_identical": 50,
+    "shape_differs": [],
+    "max_abs_diff": 0,
+    "max_abs_diff_float": 0.0,
+    "wavs_identical": true,
+    "metrics_check": null,
+    "passed": true
+   }
+  }
+ },
+ "info": {
+  "timings": null,
+  "runs": [],
+  "sizes": []
+ }
+}

@@ -1,0 +1,546 @@
+{
+ "written": "2026-10-18 06:31:11",
+ "label": "D0 vs the screen",
+ "reference": {
+  "name": "the screen",
+  "rc": "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/clustering_check",
+  "anc": "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/anchor_lab",
+  "cand": {
+   "C1": [
+    "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/clustering_check/lab_r3a",
+    "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/clustering_check/lab_r3_metrics.jsonl",
+    "r3a_"
+   ],
+   "C2": [
+    "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/clustering_check/lab_r3a",
+    "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/clustering_check/lab_r3_metrics.jsonl",
+    "r3a_"
+   ],
+   "C3": [
+    "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/clustering_check/lab_r3a",
+    "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/clustering_check/lab_r3_metrics.jsonl",
+    "r3a_"
+   ],
+   "C4": [
+    "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/clustering_check/lab_r4p",
+    "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/clustering_check/lab_r4_metrics.jsonl",
+    "r4p_"
+   ],
+   "C5": [
+    "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/clustering_check/lab_r4p",
+    "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/clustering_check/lab_r4_metrics.jsonl",
+    "r4p_"
+   ]
+  }
+ },
+ "pairs": "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/pairs/dev.jsonl",
+ "n_screen_pairs": 50,
+ "tolerance": {
+  "sim_wavlm": 0.001,
+  "utmos": 0.01
+ },
+ "passed": true,
+ "summary": "D0 vs the screen (50 screen pairs): S1/S3 codes OK (50/50 pairs equal); A1-A5,C1 out_codes of anc OK; A1-A5,C1 out_codes of anc_r1r3 OK; C1-C5 WAVs: C1 identical, C2 identical, C3 identical, C4 identical, C5 identical; pair lists OK",
+ "checks": {
+  "codes": {
+   "test": "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/v1/d0/rc",
+   "ref": "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/clustering_check",
+   "n_pairs": 50,
+   "missing": [],
+   "unreadable": {},
+   "s1_differ": [],
+   "s3_differ": [],
+   "mask_differ_tokens": 0,
+   "n_equal": 50,
+   "passed": true
+  },
+  "out_codes": [
+   {
+    "test": "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/v1/d0/anc",
+    "ref": "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/anchor_lab",
+    "n_pairs": 50,
+    "missing": [],
+    "unreadable": {},
+    "systems": {
+     "A1": {
+      "system": "R1_s0_pm_rq_T1",
+      "n_equal": 50,
+      "differ": [],
+      "absent": []
+     },
+     "A2": {
+      "system": "R3_r0_pm_rq_T1",
+      "n_equal": 50,
+      "differ": [],
+      "absent": []
+     },
+     "A3": {
+      "system": "R3_s0_argmax",
+      "n_equal": 50,
+      "differ": [],
+      "absent": []
+     },
+     "A4": {
+      "system": "R3_s0_tau0.4",
+      "n_equal": 50,
+      "differ": [],
+      "absent": []
+     },
+     "A5": {
+      "system": "src0_faiss",
+      "n_equal": 50,
+      "differ": [],
+      "absent": []
+     },
+     "C1": {
+      "system": "R3_s0_pm_rq_T1",
+      "n_equal": 50,
+      "differ": [],
+      "absent": []
+     }
+    },
+    "passed": true
+   },
+   {
+    "test": "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/v1/d0/anc_r1r3",
+    "ref": "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/anchor_lab",
+    "n_pairs": 50,
+    "missing": [],
+    "unreadable": {},
+    "systems": {
+     "A1": {
+      "system": "R1_s0_pm_rq_T1",
+      "n_equal": 50,
+      "differ": [],
+      "absent": []
+     },
+     "A2": {
+      "system": "R3_r0_pm_rq_T1",
+      "n_equal": 50,
+      "differ": [],
+      "absent": []
+     },
+     "A3": {
+      "system": "R3_s0_argmax",
+      "n_equal": 50,
+      "differ": [],
+      "absent": []
+     },
+     "A4": {
+      "system": "R3_s0_tau0.4",
+      "n_equal": 50,
+      "differ": [],
+      "absent": []
+     },
+     "A5": {
+      "system": "src0_faiss",
+      "n_equal": 50,
+      "differ": [],
+      "absent": []
+     },
+     "C1": {
+      "system": "R3_s0_pm_rq_T1",
+      "n_equal": 50,
+      "differ": [],
+      "absent": []
+     }
+    },
+    "passed": true
+   }
+  ],
+  "wavs": {
+   "C1": {
+    "system": "pm_rq_T1",
+    "test": "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/v1/d0/lab/cand/pm_rq_T1",
+    "ref": "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/clustering_check/lab_r3a/pm_rq_T1",
+    "n_pairs": 50,
+    "missing": [],
+    "unreadable": {},
+    "n_identical": 50,
+    "shape_differs": [],
+    "max_abs_diff": 0,
+    "max_abs_diff_float": 0.0,
+    "wavs_identical": true,
+    "metrics_check": null,
+    "passed": true
+   },
+   "C2": {
+    "system": "pm18_rq",
+    "test": "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/v1/d0/lab/cand/pm18_rq",
+    "ref": "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/clustering_check/lab_r3a/pm18_rq",
+    "n_pairs": 50,
+    "missing": [],
+    "unreadable": {},
+    "n_identical": 50,
+    "shape_differs": [],
+    "max_abs_diff": 0,
+    "max_abs_diff_float": 0.0,
+    "wavs_identical": true,
+    "metrics_check": null,
+    "passed": true
+   },
+   "C3": {
+    "system": "gv1_pm_cont_T1",
+    "test": "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/v1/d0/lab/cand/gv1_pm_cont_T1",
+    "ref": "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/clustering_check/lab_r3a/gv1_pm_cont_T1",
+    "n_pairs": 50,
+    "missing": [],
+    "unreadable": {},
+    "n_identical": 50,
+    "shape_differs": [],
+    "max_abs_diff": 0,
+    "max_abs_diff_float": 0.0,
+    "wavs_identical": true,
+    "metrics_check": null,
+    "passed": true
+   },
+   "C4": {
+    "system": "gv1_shrink0.85_cont",
+    "test": "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/v1/d0/lab/cand/gv1_shrink0.85_cont",
+    "ref": "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/clustering_check/lab_r4p/gv1_shrink0.85_cont",
+    "n_pairs": 50,
+    "missing": [],
+    "unreadable": {},
+    "n_identical": 50,
+    "shape_differs": [],
+    "max_abs_diff": 0,
+    "max_abs_diff_float": 0.0,
+    "wavs_identical": true,
+    "metrics_check": null,
+    "passed": true
+   },
+   "C5": {
+    "system": "gv0.5_shrink0.75_cont",
+    "test": "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/v1/d0/lab/cand/gv0.5_shrink0.75_cont",
+    "ref": "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/clustering_check/lab_r4p/gv0.5_shrink0.75_cont",
+    "n_pairs": 50,
+    "missing": [],
+    "unreadable": {},
+    "n_identical": 50,
+    "shape_differs": [],
+    "max_abs_diff": 0,
+    "max_abs_diff_float": 0.0,
+    "wavs_identical": true,
+    "metrics_check": null,
+    "passed": true
+   }
+  },
+  "lists": [
+   {
+    "dir": "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/pairs",
+    "sets": [
+     "dev",
+     "vctk2k",
+     "ltc2k"
+    ],
+    "passed": true,
+    "lines": [
+     "[check] dev: 1000 pairs, 20 source / 20 target speakers, 20 sources are targets, 20 sources have an E set (target E), without one [] (0 pairs); E sets with a source or foreign recording [] -> OK",
+     "[check] vctk2k: 2000 pairs, 20 source / 20 target speakers, 0 sources are targets, 20 sources have an E set (vctk2k_source_E.json), without one [] (0 pairs); E sets with a source or foreign recording [] -> OK",
+     "[check] ltc2k: 1800 pairs, 36 source / 36 target speakers, 36 sources are targets, 36 sources have an E set (target E), without one [] (0 pairs); E sets with a source or foreign recording [] -> OK"
+    ]
+   },
+   {
+    "dir": "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/pairs_vctk2k_t10",
+    "sets": [
+     "vctk2k"
+    ],
+    "passed": true,
+    "lines": [
+     "[check] vctk2k: 4000 pairs, 20 source / 20 target speakers, 0 sources are targets, 20 sources have an E set (vctk2k_source_E.json), without one [] (0 pairs); E sets with a source or foreign recording [] -> OK"
+    ]
+   }
+  ]
+ },
+ "info": {
+  "timings": [
+   {
+    "step": "1. pair lists",
+    "s": 118,
+    "s_per_pair": 2.36,
+    "h_per_1000_pairs": 0.66
+   },
+   {
+    "step": "2. conversions: FAISS, CRT \u03c4 0.1-0.9, CRT argmax",
+    "s": 80,
+    "s_per_pair": 1.6,
+    "h_per_1000_pairs": 0.44
+   },
+   {
+    "step": "3. Mimi copies",
+    "s": 31,
+    "s_per_pair": 0.62,
+    "h_per_1000_pairs": 0.17
+   },
+   {
+    "step": "4. anchor lab, full Dev mode",
+    "s": 86,
+    "s_per_pair": 1.72,
+    "h_per_1000_pairs": 0.48
+   },
+   {
+    "step": "5. anchor lab, test-set mode R1+R3",
+    "s": 53,
+    "s_per_pair": 1.06,
+    "h_per_1000_pairs": 0.29
+   },
+   {
+    "step": "6. anchor lab summary over all dumps",
+    "s": 2,
+    "s_per_pair": 0.04,
+    "h_per_1000_pairs": 0.01
+   },
+   {
+    "step": "7a. decode lab: C1-C5",
+    "s": 34,
+    "s_per_pair": 0.68,
+    "h_per_1000_pairs": 0.19
+   },
+   {
+    "step": "7b. decode lab: S1u settings, E17",
+    "s": 19,
+    "s_per_pair": 0.38,
+    "h_per_1000_pairs": 0.11
+   },
+   {
+    "step": "8. rows",
+    "s": 1,
+    "s_per_pair": 0.02,
+    "h_per_1000_pairs": 0.01
+   },
+   {
+    "step": "9a. metrics: anchor lab",
+    "s": 2185,
+    "s_per_pair": 43.7,
+    "h_per_1000_pairs": 12.14
+   },
+   {
+    "step": "9b. metrics: decode lab",
+    "s": 589,
+    "s_per_pair": 11.78,
+    "h_per_1000_pairs": 3.27
+   },
+   {
+    "step": "9c. metrics: conversions, Mimi copies, natural controls",
+    "s": 945,
+    "s_per_pair": 18.9,
+    "h_per_1000_pairs": 5.25
+   }
+  ],
+  "runs": [
+   {
+    "path": "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/v1/d0/rc/dev/30/runs.jsonl",
+    "time": "2026-10-18 05:24:19",
+    "n_pairs_done": 50,
+    "n_errors": 0,
+    "n_shortfall": 0,
+    "total_s": 77.4,
+    "stage_s": {
+     "load_src": {
+      "n": 50,
+      "mean_s": 0.2954,
+      "max_s": 14.4259
+     },
+     "encode_src": {
+      "n": 50,
+      "mean_s": 0.0551,
+      "max_s": 1.3768
+     },
+     "ref_load": {
+      "n": 10,
+      "mean_s": 0.0564,
+      "max_s": 0.0972
+     },
+     "ref_encode": {
+      "n": 10,
+      "mean_s": 0.0395,
+      "max_s": 0.1395
+     },
+     "ref_index": {
+      "n": 10,
+      "mean_s": 0.0011,
+      "max_s": 0.0091
+     },
+     "ref_spk": {
+      "n": 10,
+      "mean_s": 0.2853,
+      "max_s": 1.7957
+     },
+     "retrieve": {
+      "n": 50,
+      "mean_s": 0.0013,
+      "max_s": 0.0106
+     },
+     "crt_forward": {
+      "n": 50,
+      "mean_s": 0.0165,
+      "max_s": 0.0917
+     },
+     "crt_stats": {
+      "n": 50,
+      "mean_s": 0.0037,
+      "max_s": 0.1333
+     },
+     "gate": {
+      "n": 50,
+      "mean_s": 0.0007,
+      "max_s": 0.0081
+     },
+     "write_dump": {
+      "n": 50,
+      "mean_s": 0.1966,
+      "max_s": 0.4224
+     },
+     "decode": {
+      "n": 481,
+      "mean_s": 0.01,
+      "max_s": 0.1338
+     },
+     "write_wav": {
+      "n": 550,
+      "mean_s": 0.0124,
+      "max_s": 0.0578
+     }
+    }
+   },
+   {
+    "path": "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/v1/d0/mc/dev/30/runs.jsonl",
+    "time": "2026-10-18 05:24:51",
+    "n_pairs_done": 50,
+    "n_errors": 0,
+    "n_shortfall": 0,
+    "total_s": 29.9,
+    "stage_s": {
+     "load_src": {
+      "n": 50,
+      "mean_s": 0.0391,
+      "max_s": 1.7315
+     },
+     "encode_src": {
+      "n": 50,
+      "mean_s": 0.0362,
+      "max_s": 0.4836
+     },
+     "load_P": {
+      "n": 30,
+      "mean_s": 0.0078,
+      "max_s": 0.012
+     },
+     "encode_P": {
+      "n": 30,
+      "mean_s": 0.0269,
+      "max_s": 0.0385
+     },
+     "ref_load": {
+      "n": 10,
+      "mean_s": 0.0331,
+      "max_s": 0.0388
+     },
+     "ref_encode": {
+      "n": 10,
+      "mean_s": 0.03,
+      "max_s": 0.0563
+     },
+     "ref_index": {
+      "n": 10,
+      "mean_s": 0.0003,
+      "max_s": 0.0007
+     },
+     "ref_spk": {
+      "n": 10,
+      "mean_s": 0.092,
+      "max_s": 0.4344
+     },
+     "retrieve": {
+      "n": 50,
+      "mean_s": 0.0011,
+      "max_s": 0.002
+     },
+     "crt_forward": {
+      "n": 50,
+      "mean_s": 0.0159,
+      "max_s": 0.0416
+     },
+     "crt_stats": {
+      "n": 50,
+      "mean_s": 0.0015,
+      "max_s": 0.0416
+     },
+     "gate": {
+      "n": 50,
+      "mean_s": 0.0,
+      "max_s": 0.0
+     },
+     "write_dump": {
+      "n": 50,
+      "mean_s": 0.0159,
+      "max_s": 0.0243
+     },
+     "decode": {
+      "n": 80,
+      "mean_s": 0.0196,
+      "max_s": 0.0421
+     },
+     "write_wav": {
+      "n": 80,
+      "mean_s": 0.0154,
+      "max_s": 0.2265
+     }
+    }
+   }
+  ],
+  "sizes": [
+   {
+    "dir": "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/v1/d0/rc/dumps/dev/30",
+    "n_files": 50,
+    "bytes": 214955737,
+    "mb_per_pair": 4.299,
+    "mb_per_pair_by_group": {
+     "crt_logits": 4.134,
+     "other": 0.162
+    },
+    "unreadable": []
+   },
+   {
+    "dir": "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/v1/d0/mc/dumps/dev/30",
+    "n_files": 50,
+    "bytes": 8132340,
+    "mb_per_pair": 0.163,
+    "mb_per_pair_by_group": {
+     "other": 0.161
+    },
+    "unreadable": []
+   },
+   {
+    "dir": "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/v1/d0/anc/dumps/dev/30",
+    "n_files": 50,
+    "bytes": 232260514,
+    "mb_per_pair": 4.645,
+    "mb_per_pair_by_group": {
+     "G0.5": 0.094,
+     "Psim": 0.065,
+     "R1": 0.095,
+     "R3": 0.095,
+     "R3_logits": 4.136,
+     "R3s": 0.095,
+     "other": 0.06
+    },
+    "unreadable": []
+   },
+   {
+    "dir": "/datastore/nvquoc/crt/mimi_vc/benchmark/journal/v1/d0/anc_r1r3/dumps/dev/30",
+    "n_files": 50,
+    "bytes": 223229375,
+    "mb_per_pair": 4.465,
+    "mb_per_pair_by_group": {
+     "G0.5": 0.094,
+     "R1": 0.095,
+     "R3": 0.095,
+     "R3_logits": 4.136,
+     "other": 0.041
+    },
+    "unreadable": []
+   }
+  ]
+ }
+}

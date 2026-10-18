@@ -765,3 +765,73 @@ def test_f3_record_reverts_to_family_v(tmp_path, monkeypatch):
     assert [c['vctk2k'] for c in rec['size']['conds']] == ['V1', 'V3', 'V5', 'V7']
     assert rec['size']['conds'][0]['wer_capped'] is False and 'V = S2 − S1 only' in md
     assert rec['listening']['n_items'] == 32
+
+
+# ---- C1 identity by WAV hashes (§8.1 item 9: byte-identical WAVs first, the metrics tolerance only otherwise) ----
+
+def test_read_wav_hashes(tmp_path):
+    f = tmp_path / 'c1.sha256'
+    f.write_text('aa  dev__p1_001__p2.wav\nbb *dev__p1_002__p3.wav\n\ncc  /x/y/dev__p4_005__p5.wav\n')
+    assert S.read_wav_hashes(str(f)) == {'dev__p1_001__p2': 'aa', 'dev__p1_002__p3': 'bb', 'dev__p4_005__p5': 'cc'}
+
+
+def hashes(ids, change=None):
+    h = {k: f'h{i}' for i, k in enumerate(ids)}
+    if change:
+        k, v = change
+        if v is None:
+            h.pop(k)
+        else:
+            h[k] = v
+    return h
+
+
+@pytest.mark.parametrize('hyp_off, hash_change, within, by', [
+    (False, None, True, 'wav'),
+    (True, None, True, 'wav'),                  # identical audio, a batched-Whisper hypothesis difference: passes
+    (True, 'other', False, 'metrics'),          # one WAV differs: the metrics tolerance decides, and fails
+    (True, 'missing', False, 'metrics'),        # a pair without a hash: not proven identical, the metrics decide
+    (False, 'other', True, 'metrics'),          # one WAV differs but the metrics are within tolerance
+])
+def test_c1_identity_check_by_wav_hashes(hyp_off, hash_change, within, by):
+    pairs, R = small()
+    ids = [p['pair_id'] for p in pairs]
+    twin = SY['C1_anchor']
+    if hyp_off:
+        r = R[twin][ids[5]]
+        R[twin][ids[5]] = dict(r, **{W: dict(r[W], hyp='another hypothesis')})
+    hb = hashes(ids, None if hash_change is None else (ids[3], None if hash_change == 'missing' else 'zz'))
+    ck = S.c1_check(S.Dev(R, pairs), ids, (hashes(ids), hb))
+    assert ck['within_tolerance'] is within and ck['by'] == by and ck['wav_n'] == len(ids) - (hash_change == 'missing')
+    assert ck['same_hyp'] == len(ids) - hyp_off            # the metrics comparison is still reported
+
+
+def twin_hyp_off(p, tmp):
+    rows = S.read_jsonl(p['metrics'][0])
+    k = next(i for i, r in enumerate(rows) if r['system'] == SY['C1_anchor'] and 'error' not in r)
+    rows[k] = dict(rows[k], **{W: dict(rows[k][W], hyp='another hypothesis')})
+    return {'metrics': ','.join([F._jsonl(str(tmp / 'd1.jsonl'), rows)] + p['metrics'][1:])}, rows[k]['pair_id']
+
+
+def test_record_c1_check_passes_on_identical_wavs(complete, tmp_path, monkeypatch):
+    quick(monkeypatch)
+    over, _ = twin_hyp_off(complete['paths'], tmp_path)
+    code, rec, _ = run(monkeypatch, complete['opts'], out=str(tmp_path / 'A.md'), **over)
+    assert code == 0 and rec['status'].startswith('INCOMPLETE') and rec['c1_check']['by'] == 'metrics'
+    ids = sorted({r['pair_id'] for r in S.read_jsonl(complete['paths']['metrics'][0])})
+    for name in ('c1.sha256', 'anc.sha256'):
+        (tmp_path / name).write_text(''.join(f'{i:064x}  {k}.wav\n' for i, k in enumerate(ids)))
+    code, rec, md = run(monkeypatch, complete['opts'], out=str(tmp_path / 'B.md'),
+                        c1_wavs=f"{tmp_path / 'c1.sha256'},{tmp_path / 'anc.sha256'}", **over)
+    assert code == 0 and rec['status'] == 'complete' and rec['c1_check']['by'] == 'wav'
+    assert rec['c1_check']['within_tolerance'] and 'byte-identical' in md
+    assert os.path.abspath(str(tmp_path / 'c1.sha256')) in [e['path'] for e in rec['inputs']['evidence']]
+
+
+def test_c1_wavs_needs_two_lists(complete, tmp_path, monkeypatch):
+    quick(monkeypatch)
+    (tmp_path / 'one.sha256').write_text('')
+    monkeypatch.setattr(sys, 'argv', F.argv(complete['opts'], out=str(tmp_path / 'C.md'),
+                                            c1_wavs=str(tmp_path / 'one.sha256')))
+    with pytest.raises(SystemExit, match='two sha256sum lists'):
+        S.main()

@@ -112,6 +112,9 @@ def parse_args():
     p.add_argument('--sacct', default='', help='comma list of `sacct -P -X` output files')
     p.add_argument('--jobs', default='2634=2634', help='comma list role=jobid (roles 2634, D0, D1, D2)')
     p.add_argument('--baselines', default='', help='JSON list of the baselines that will run (§2.4)')
+    p.add_argument('--c1_wavs', default='',
+                   help='two `sha256sum *.wav` lists (comma), of the C1 and C1_anchor WAV directories: when every '
+                        'common pair has byte-identical WAVs, the C1 check passes by identity (§8.1 item 9)')
     p.add_argument('--out', default=DEFAULT_OUT, help='record markdown; the JSON and the item list go next to it')
     return p.parse_args()
 
@@ -422,7 +425,20 @@ def crt_al_rule(dev, pids, s2, levels=False, wer='wer'):
     return out
 
 
-def c1_check(dev, common):
+def read_wav_hashes(path):
+    """`sha256sum *.wav` output -> {pair_id: sha256} (the WAV file name without .wav)."""
+    out = {}
+    for line in open(path):
+        if line.strip():
+            h, name = line.split(maxsplit=1)
+            out[os.path.basename(name.strip().lstrip('*'))[:-4] if name.strip().endswith('.wav') else name.strip()] = h
+    return out
+
+
+def c1_check(dev, common, wavs=None):
+    """C1 against its anchor-lab twin. §8.1 item 9 takes byte-identical WAVs first and the metrics tolerance only when
+    the WAVs differ, so with wavs (the two {pair_id: sha256} maps) and every common pair identical the check passes by
+    identity, whatever the Whisper hypotheses (batched decoding can transcribe identical audio differently)."""
     a, b = SYSTEMS['C1'], SYSTEMS['C1_anchor']
     out = {'systems': [a, b], 'compared': dev.has(a) and dev.has(b)}
     if not out['compared']:
@@ -445,6 +461,13 @@ def c1_check(dev, common):
     out['within_tolerance'] = (hyp == len(ids) and (out['max_dsim'] or 0) <= 0.001 and
                                (out['max_dutmos'] or 0) <= 0.01) if ids else None
     out['identical'] = out['within_tolerance'] and not any(out[k] for k in ('max_dsim', 'max_dutmos', 'max_dmcd'))
+    out['by'] = 'metrics'
+    if wavs is not None:
+        ha, hb = wavs
+        both = [k for k in ids if k in ha and k in hb]
+        out['wav_n'], out['wav_identical'] = len(both), sum(ha[k] == hb[k] for k in both)
+        if ids and len(both) == len(ids) and out['wav_identical'] == len(ids):
+            out.update(within_tolerance=True, identical=True, by='wav')
     return out
 
 
@@ -724,7 +747,10 @@ def render(res):
                  f"{fm(ck['max_dutmos'], 4)}, max |ΔdB-MCD| {fm(ck['max_dmcd'], 4)}, capped WER {fm(ck['wer'][0])} vs "
                  f"{fm(ck['wer'][1])} % (uncapped {fm(ck['wer_u'][0])} vs {fm(ck['wer_u'][1])} %); @src pairs "
                  f"{ck['n_src']}, max |ΔSIM_src| {fm(ck['max_dsim_src'], 4)}. "
-                 f"Within the §8.1 item 9 tolerance: {yn(ck['within_tolerance'])}; identical: {yn(ck['identical'])}.")
+                 f"Within the §8.1 item 9 tolerance: {yn(ck['within_tolerance'])}; identical: {yn(ck['identical'])}."
+                 + (f" WAVs (sha256): {ck['wav_identical']}/{ck['wav_n']} byte-identical"
+                    + ('; the check passes by identity (§8.1 item 9), and a differing Whisper hypothesis on identical '
+                       'audio comes from batched decoding.' if ck['by'] == 'wav' else '.') if 'wav_n' in ck else ''))
     else:
         L.append(f"not compared: no rows for {ck['missing']}")
     L.append('')
@@ -948,10 +974,13 @@ def main():
     jobs = dict(x.split('=', 1) for x in a.jobs.split(',') if x)
     sacct = [x for x in a.sacct.split(',') if x]
     job_rows = read_sacct(sacct, jobs)
-    c1 = c1_check(dev, common)
+    c1_wavs = [x for x in a.c1_wavs.split(',') if x]
+    if c1_wavs and len(c1_wavs) != 2:
+        raise SystemExit('--c1_wavs takes two sha256sum lists: C1 and C1_anchor')
+    c1 = c1_check(dev, common, [read_wav_hashes(x) for x in c1_wavs] if c1_wavs else None)
     repro = read_repro([x for x in a.repro.split(',') if x])
     baselines = json.load(open(a.baselines)) if a.baselines else None
-    evidence = [*sacct, *(x['path'] for x in repro), *([a.baselines] if a.baselines else []),
+    evidence = [*sacct, *(x['path'] for x in repro), *([a.baselines] if a.baselines else []), *c1_wavs,
                 *(v[k] for v in lists.values() for k in ('pairs', 'summary', 'source_e') if v[k]),
                 *([a.ltc_pairs] if a.ltc_pairs else [])]
 

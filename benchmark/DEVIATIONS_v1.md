@@ -8,8 +8,8 @@
 |---|---|---|
 | Plan v1 public | Tag `analysis-plan-v1` (tag object cdff77ee20678108f8bcc66c0abf7be6466c0701) pushed to github.com/nguyenvietquoc2569/crt; GitHub `pushed_at` 2026-10-18T04:42:31Z | 2026-10-18 11:42:31 |
 | D1 submitted | Job 4344 (`job_d1_conv.slurm`), `sacct` Submit | 2026-10-18 11:43:03 |
-| Selection record public | – | – |
-| T1 submitted | – | – |
+| Selection record public | Commit c9bc2aa, tag `dev-selection-record-v1` (tag object 097119be96490e5868f7423d3b4f62c52c3a2240) pushed to github.com/nguyenvietquoc2569/crt; GitHub `pushed_at` 2026-10-18T17:39:22Z | 2026-10-19 00:39:22 |
+| T1 submitted | Job 4487 (`job_t1.slurm`), `sacct` Submit | 2026-10-19 01:55:43 |
 
 ## Deviations
 

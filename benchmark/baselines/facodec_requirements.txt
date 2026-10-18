@@ -1,0 +1,7 @@
+# S8 FACodec (baselines/facodec.py): the one import of Amphion's models/codec/ns3_codec that the mimi_vc env lacks.
+# Everything else (torch 2.5.1+cu121, torchaudio, librosa 0.11, pyworld, soundfile) comes from mimi_vc; facodec.py
+# appends this env's site-packages to sys.path and runs under the mimi_vc python. Built on the HPC with
+#   module load python312
+#   python3.12 -m venv /datastore/nvquoc/crt/envs/facodec
+#   /datastore/nvquoc/crt/envs/facodec/bin/pip install --no-cache-dir -r facodec_requirements.txt
+einops==0.8.2

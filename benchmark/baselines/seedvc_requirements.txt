@@ -1,0 +1,64 @@
+# Seed-VC (S7, baselines/seedvc.py) venv /datastore/nvquoc/crt/envs/seedvc: a layer over the mimi_vc env, 280 MB.
+# The layer holds what mimi_vc lacks or pins incompatibly: munch, einops and descript-audio-codec (imported by
+# modules/commons.py, modules/encodec.py and modules/length_regulator.py; dac imports audiotools, which imports
+# torch.utils.tensorboard), and Seed-VC's transformers 4.46.3 / tokenizers 0.20.3 with a 0.x huggingface_hub:
+# BigVGAN's _from_pretrained takes proxies and resume_download as required keywords, which hub 1.x no longer passes,
+# and mimi_vc's transformers 5.3.0 needs hub >= 1.3. torch 2.5.1+cu121, torchaudio, numpy, scipy, librosa,
+# soundfile, pyyaml, tqdm and matplotlib come from mimi_vc through mimi_vc_base.pth, which appends mimi_vc's
+# site-packages to sys.path after the layer's, so the layer's packages win. pip leaves mimi_vc untouched ("Not
+# uninstalling ... outside environment"). Not taken from the repository's requirements.txt: the torch nightly and
+# 2.4.0 / torchvision / torchaudio 2.4.0 pins, numpy 1.26.4, scipy 1.13.1, librosa 0.10.2, soundfile 0.12.1
+# (mimi_vc's versions instead); GUI and real-time deps (gradio, FreeSimpleGUI, sounddevice, pydub); training, V2 and
+# evaluation deps (accelerate, hydra-core, modelscope, funasr, resemblyzer, jiwer, python-dotenv).
+# Built on the login node, 18 Oct 2026:
+#   module load python312
+#   python3.12 -m venv /datastore/nvquoc/crt/envs/seedvc
+#   echo /datastore/nvquoc/crt/envs/mimi_vc/lib/python3.12/site-packages \
+#       > /datastore/nvquoc/crt/envs/seedvc/lib/python3.12/site-packages/mimi_vc_base.pth
+#   /datastore/nvquoc/crt/envs/seedvc/bin/pip install --no-cache-dir transformers==4.46.3 tokenizers==0.20.3 \
+#       huggingface-hub==0.36.2 munch==4.0.0 einops==0.8.0 descript-audio-codec==1.0.0
+# (log: /datastore/nvquoc/crt/envs/build_seedvc_env.log). The resolved layer below is
+# pip freeze --path /datastore/nvquoc/crt/envs/seedvc/lib/python3.12/site-packages (plus the venv's pip 25.0.1);
+# an exact rebuild after the venv and .pth steps: pip install --no-cache-dir --no-deps -r seedvc_requirements.txt
+absl-py==2.5.1
+argbind==0.3.9
+asttokens==3.0.2
+descript-audio-codec==1.0.0
+descript-audiotools==0.7.2
+docstring_parser==0.18.0
+einops==0.8.0
+executing==2.3.0
+ffmpy==1.0.0
+fire==0.7.1
+flatten-dict==0.5.0
+grpcio==1.84.0
+huggingface_hub==0.36.2
+importlib_resources==7.1.0
+ipython==9.17.1
+ipython_pygments_lexers==1.1.1
+jedi==0.20.1
+julius==0.2.8
+Markdown==3.11.1
+markdown2==2.5.5
+matplotlib-inline==0.2.2
+munch==4.0.0
+parso==0.8.7
+pexpect==4.9.0
+prompt_toolkit==3.0.53
+protobuf==3.19.6
+psutil==7.2.2
+ptyprocess==0.7.0
+pure_eval==0.2.4
+pyloudnorm==0.2.0
+pystoi==0.4.1
+randomname==0.2.1
+stack-data==0.6.3
+tensorboard==2.20.0
+tensorboard-data-server==0.7.2
+termcolor==3.3.0
+tokenizers==0.20.3
+torch-stoi==0.2.3
+traitlets==5.16.1
+transformers==4.46.3
+wcwidth==0.9.2
+Werkzeug==3.1.9

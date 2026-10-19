@@ -217,3 +217,18 @@ Row names on the test sets:
 - `cand_<CRT-AL code name>` if CRT-AL is C2–C5;
 - the baselines `knnvc`, `freevc`, `seedvc`, `facodec`;
 - each with `@src`.
+
+## 8. Since 19 Oct 2026: the account ceai (DEVIATIONS_v1.md item 4)
+
+CRT moved to `ceai`, at `/datastore/ceai/crt` with a 1.2 TB quota. `nvquoc` now serves Qwen and support models.
+
+T3 and T4 finish on `nvquoc` with the frozen scripts. They cannot move first: the anchor lab's resume check and the baselines' `conv_cfg_sha` both hold absolute paths. Then:
+
+1. Delete T3's logit dumps on `nvquoc` once its decodes are checked (item 3), so that they are not relayed.
+2. Relay from the Mac with `relay_copy.sh sync` (nvquoc → Mac → ceai). Repeat until `relay_copy.sh verify` shows no difference.
+3. Push the job layer for ceai: `job_*.slurm`, `submit_ceai.sh` and `move_paths.py`. They use paths under `/datastore/ceai/crt`, and their guards refuse pair lists that still hold `nvquoc`, `ceai/nvquoc` or `eaic` paths.
+4. Run `bash submit_ceai.sh job_move_ceai.slurm`. It rewrites the paths and logs each change, maps the frozen hashes back, checks the environment, then re-scores 32 Dev rows and compares them with D1. It writes `v1/move/move.done`.
+5. Run M on ceai: `bash submit_ceai.sh job_m.slurm --export=ALL,PART=t1`, then t2, t3 and t4. On ceai, CRT runs at most 2 jobs and the interpreter's P1 runs 1. Both use `submit_ceai.sh` (lock `/tmp/submit_ceai.lock`, log `_transfer_logs/submit_ceai.log`).
+6. Delete `/datastore/nvquoc/crt` once the copy on ceai is verified, as the author instructed.
+
+From here on, use `J=/datastore/ceai/crt/mimi_vc/benchmark/journal`.

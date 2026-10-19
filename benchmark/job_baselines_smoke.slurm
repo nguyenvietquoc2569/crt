@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=baselines_smoke
-#SBATCH --output=/datastore/nvquoc/crt/mimi_vc/benchmark/journal/logs/baselines_smoke_%j.out
-#SBATCH --error=/datastore/nvquoc/crt/mimi_vc/benchmark/journal/logs/baselines_smoke_%j.err
+#SBATCH --output=/datastore/ceai/crt/mimi_vc/benchmark/journal/logs/baselines_smoke_%j.out
+#SBATCH --error=/datastore/ceai/crt/mimi_vc/benchmark/journal/logs/baselines_smoke_%j.err
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
@@ -22,7 +22,7 @@
 # an earlier one returned. A baseline counts as running when it converts these 20 pairs and is in the record; the
 # smoke numbers are not used to change any setting (§2.4). metrics.py exits 0 even with error rows, so the summary
 # fails the job unless every baseline has all pairs converted, recorded and scored.
-# Slurm does not create the log directory: mkdir -p $J/logs first. Submit with submit_nvquoc.sh.
+# Slurm does not create the log directory: mkdir -p $J/logs first. Submit with submit_ceai.sh.
 
 source /etc/profile.d/modules.sh 2>/dev/null
 module load python312
@@ -30,10 +30,10 @@ echo "Job $SLURM_JOB_ID on $(hostname), GPU: $CUDA_VISIBLE_DEVICES"
 nvidia-smi -L
 echo "$(git --version) (FreeVC, Seed-VC and FACodec read their commit with git)"
 
-WORK_DIR=/datastore/nvquoc/crt/mimi_vc
+WORK_DIR=/datastore/ceai/crt/mimi_vc
 J=$WORK_DIR/benchmark/journal
 DATA_STORAGE=$WORK_DIR/data_storage
-ENVS=/datastore/nvquoc/crt/envs
+ENVS=/datastore/ceai/crt/envs
 export XDG_CACHE_HOME=$DATA_STORAGE/cache
 export HF_HOME=$DATA_STORAGE/hf_cache
 export HUGGINGFACE_HUB_CACHE=$DATA_STORAGE/hf_cache/hub
@@ -49,8 +49,8 @@ source $ENVS/mimi_vc/bin/activate
 mkdir -p $OUT
 python -c "import sys; open(sys.argv[2], 'w').writelines([l for l in open(sys.argv[1]) if l.strip()][::20][:20])" \
     $J/pairs/dev.jsonl $P || exit 1
-! grep -q -e /datastore/ceai -e /datastore/eaic $P \
-    || { echo "ERROR: $P holds /datastore/ceai or /datastore/eaic paths"; exit 1; }
+! grep -q -e /datastore/nvquoc -e /datastore/ceai/nvquoc -e /datastore/eaic $P \
+    || { echo "ERROR: $P holds paths of an old home (nvquoc, ceai/nvquoc, eaic)"; exit 1; }
 echo " smoke pairs: $(wc -l < $P) rows of $J/pairs/dev.jsonl, sha256 $(sha256sum $P | cut -c1-64)"
 
 echo " 1. kNN-VC, FreeVC, FACodec (mimi_vc env): $(date)"

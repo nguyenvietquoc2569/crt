@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=crt_m
-#SBATCH --output=/datastore/nvquoc/crt/mimi_vc/benchmark/logs/crt_m_%j.out
-#SBATCH --error=/datastore/nvquoc/crt/mimi_vc/benchmark/logs/crt_m_%j.err
+#SBATCH --output=/datastore/ceai/crt/mimi_vc/benchmark/logs/crt_m_%j.out
+#SBATCH --error=/datastore/ceai/crt/mimi_vc/benchmark/logs/crt_m_%j.err
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
@@ -13,7 +13,7 @@
 # Job M (ANALYSIS_PLAN_v1.md §8.2): metrics.py on every test output, @src rows included, only after the last test
 # conversion job (T4, or T3 if the record lists no baseline; §9: no test-set metric before every test conversion has
 # finished), under the selection.env that job ran with. One part per submission, PART=t1|t2|t3|t4
-# (bash submit_nvquoc.sh job_m.slurm --export=ALL,PART=t1), new out dir $J/v1/m/<part>:
+# (bash submit_ceai.sh job_m.slurm --export=ALL,PART=t1), new out dir $J/v1/m/<part>:
 #   t1  VCTK-2k 30 s: S1-S4, the Mimi copies, the natural controls (source_copy, target_copy from the FAISS rows, as
 #       run_budget_check.slurm), A1-A5 and C1 (anc_*), S1u / E17 (front_*), CRT-AL if C2-C5 (cand_*)
 #   t2  LTC-2k 30 s: the same, without P (no mimi_copy_P, no target_copy)
@@ -29,11 +29,11 @@
 
 source /etc/profile.d/modules.sh 2>/dev/null
 module load python312
-source /datastore/nvquoc/crt/envs/mimi_vc/bin/activate
+source /datastore/ceai/crt/envs/mimi_vc/bin/activate
 echo "Job $SLURM_JOB_ID on $(hostname), GPU: $CUDA_VISIBLE_DEVICES"
 nvidia-smi -L
 
-WORK_DIR=/datastore/nvquoc/crt/mimi_vc
+WORK_DIR=/datastore/ceai/crt/mimi_vc
 J=$WORK_DIR/benchmark/journal
 DATA_STORAGE=$WORK_DIR/data_storage
 export XDG_CACHE_HOME=$DATA_STORAGE/cache
@@ -45,7 +45,7 @@ export PYTHONUNBUFFERED=1
 export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
 case ${PART:-} in
     t1|t2|t3|t4) ;;
-    *) echo "ERROR: PART=${PART:-} is not t1, t2, t3 or t4 (bash submit_nvquoc.sh job_m.slurm --export=ALL,PART=t1)"
+    *) echo "ERROR: PART=${PART:-} is not t1, t2, t3 or t4 (bash submit_ceai.sh job_m.slurm --export=ALL,PART=t1)"
        exit 1 ;;
 esac
 OUT=$J/v1/m/$PART
@@ -180,7 +180,7 @@ t4)
     ;;
 esac
 stamp "done"
-du -sh $OUT /datastore/nvquoc/crt
+du -sh $OUT /datastore/ceai/crt
 echo " finished part $PART, failed steps:${FAILED:- none}: $(date)"
 [ -z "$FAILED" ] && echo "job $SLURM_JOB_ID $(date '+%F %T') selection sha256 $SELSHA" > $OUT/m.done
 [ -z "$FAILED" ]

@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=crt_ot_screen
-#SBATCH --output=/datastore/nvquoc/crt/mimi_vc/benchmark/logs/crt_ot_screen_%j.out
-#SBATCH --error=/datastore/nvquoc/crt/mimi_vc/benchmark/logs/crt_ot_screen_%j.err
+#SBATCH --output=/datastore/ceai/crt/mimi_vc/benchmark/logs/crt_ot_screen_%j.out
+#SBATCH --error=/datastore/ceai/crt/mimi_vc/benchmark/logs/crt_ot_screen_%j.err
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
@@ -17,15 +17,15 @@
 #     ot16nm = the map without the mean shift);
 #   - CRT-AL + transport: ot16 / ot64 of the R3 posterior-mean latent with the source CB0 (C3's base).
 # Rows are tagged r7_<system>; metrics with Whisper-large-v3 only (Dev) and the @src rows. Submit with
-# submit_nvquoc.sh. Output: $J/v1/ot_screen.
+# submit_ceai.sh. Output: $J/v1/ot_screen.
 
 source /etc/profile.d/modules.sh 2>/dev/null
 module load python312
-source /datastore/nvquoc/crt/envs/mimi_vc/bin/activate
+source /datastore/ceai/crt/envs/mimi_vc/bin/activate
 echo "Job $SLURM_JOB_ID on $(hostname), GPU: $CUDA_VISIBLE_DEVICES"
 nvidia-smi -L
 
-WORK_DIR=/datastore/nvquoc/crt/mimi_vc
+WORK_DIR=/datastore/ceai/crt/mimi_vc
 J=$WORK_DIR/benchmark/journal
 DATA_STORAGE=$WORK_DIR/data_storage
 export XDG_CACHE_HOME=$DATA_STORAGE/cache
@@ -59,6 +59,6 @@ st $? metrics
 python -u $J/metrics.py --in_jsonl $OUT/manifest_src.jsonl --out_jsonl $OUT/metrics_src.jsonl \
     --metrics sim,secs --device cuda
 st $? metrics_src
-du -sh $OUT /datastore/nvquoc/crt
+du -sh $OUT /datastore/ceai/crt
 echo " finished, failed steps:${FAILED:- none}: $(date)"
 [ -z "$FAILED" ]

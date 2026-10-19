@@ -1,7 +1,7 @@
 #!/bin/bash
 # Envs of the baselines S5-S8 (ANALYSIS_PLAN_v1 §2.4) as built on the HPC on 18 Oct 2026; download_baselines.sh fetches
 # their code and weights (either script may run first). Login node only (venv and pip downloads):
-#   ssh <user>@<hpc-login-host> "bash /datastore/nvquoc/crt/mimi_vc/benchmark/journal/setup_baselines.sh"
+#   ssh <user>@<hpc-login-host> "bash /datastore/ceai/crt/mimi_vc/benchmark/journal/setup_baselines.sh"
 #   S5 kNN-VC, S6 FreeVC  the mimi_vc env itself (python 3.12.13, torch 2.5.1+cu121; envs/build_mimi_vc_env.sh with
 #                         envs/requirements_mimi_vc.txt), no new env. FreeVC's utils.py imports torchvision, which
 #                         mimi_vc lacks, only for training; baselines/freevc.py puts an empty module in its place.
@@ -13,8 +13,8 @@
 set -e
 source /etc/profile.d/modules.sh 2>/dev/null || true
 module load python312
-E=/datastore/nvquoc/crt/envs
-J=/datastore/nvquoc/crt/mimi_vc/benchmark/journal
+E=/datastore/ceai/crt/envs
+J=/datastore/ceai/crt/mimi_vc/benchmark/journal
 SP=lib/python3.12/site-packages
 [ -x $E/mimi_vc/bin/python ] || { echo "ERROR: no $E/mimi_vc; build it with $E/build_mimi_vc_env.sh"; exit 1; }
 

@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=crt_t1
-#SBATCH --output=/datastore/nvquoc/crt/mimi_vc/benchmark/logs/crt_t1_%j.out
-#SBATCH --error=/datastore/nvquoc/crt/mimi_vc/benchmark/logs/crt_t1_%j.err
+#SBATCH --output=/datastore/ceai/crt/mimi_vc/benchmark/logs/crt_t1_%j.out
+#SBATCH --error=/datastore/ceai/crt/mimi_vc/benchmark/logs/crt_t1_%j.err
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
@@ -12,7 +12,7 @@
 #SBATCH --time=72:00:00
 # Job T1 (ANALYSIS_PLAN_v1.md §8.2), only after the selection record is committed and timestamped (§4.6, §8.4 step
 # 8): VCTK-2k at 30 s, the variant the record chose (§5.3), new out dir $J/v1/t1. No metrics: job M scores every
-# test output after the last test conversion (§9). Submit with submit_nvquoc.sh (RUNBOOK_v1.md).
+# test output after the last test conversion (§9). Submit with submit_ceai.sh (RUNBOOK_v1.md).
 #   1. run_conversions.py: S1 FAISS, S3 CRT τ = 0.4, S2 CRT τ_dev (left out when τ_dev = 0.4: S2 = S3, §2.1), S4 CRT
 #      argmax, logits dumped for S1u and E17 (rc/)
 #   2. run_conversions.py: the Mimi copies of the source and of P (mc/: its own out dir, so a P read cannot fail
@@ -29,11 +29,11 @@
 
 source /etc/profile.d/modules.sh 2>/dev/null
 module load python312
-source /datastore/nvquoc/crt/envs/mimi_vc/bin/activate
+source /datastore/ceai/crt/envs/mimi_vc/bin/activate
 echo "Job $SLURM_JOB_ID on $(hostname), GPU: $CUDA_VISIBLE_DEVICES"
 nvidia-smi -L
 
-WORK_DIR=/datastore/nvquoc/crt/mimi_vc
+WORK_DIR=/datastore/ceai/crt/mimi_vc
 J=$WORK_DIR/benchmark/journal
 DATA_STORAGE=$WORK_DIR/data_storage
 export XDG_CACHE_HOME=$DATA_STORAGE/cache
@@ -101,8 +101,8 @@ ANC_DUMP=$([ -n "$CAND" ] && echo --dump_logits --dump_recipes R3)
 FRONT=$S1U$([ $E17 = yes ] && echo ,lmbr_k2_g1_T1)
 # ------------------------------------------------------------------------------------------------------------------
 
-[ -f $VP ] && [ -f $SE ] && ! grep -q -e /datastore/ceai -e /datastore/eaic $VP \
-    || { echo "ERROR: $VP or $SE is missing, or $VP holds /datastore/ceai or /datastore/eaic paths"; exit 1; }
+[ -f $VP ] && [ -f $SE ] && ! grep -q -e /datastore/nvquoc -e /datastore/ceai/nvquoc -e /datastore/eaic $VP \
+    || { echo "ERROR: $VP or $SE is missing, or $VP holds paths of an old home (nvquoc, ceai/nvquoc, eaic)"; exit 1; }
 N=$(grep -c . $VP)
 echo "  $VP: $N pairs; source E $SE; run_conversions $RC_SYS; anchor lab $ANC_SYS $ANC_DUMP; front $FRONT;" \
      "cand ${CAND:-none}"
@@ -141,7 +141,7 @@ for f in $RC/vctk2k/30/manifest.jsonl $MC/vctk2k/30/manifest.jsonl $ANC/vctk2k/3
     st $? "rows:$f"
 done
 du -sb $RC/dumps $MC/dumps $ANC/dumps
-du -sh $RC $MC $ANC $LAB /datastore/nvquoc/crt
+du -sh $RC $MC $ANC $LAB /datastore/ceai/crt
 echo " finished, failed steps:${FAILED:- none}: $(date)"
 [ -z "$FAILED" ] && echo "job $SLURM_JOB_ID $(date '+%F %T') selection sha256 $SELSHA" > $OUT/t1.done
 [ -z "$FAILED" ]

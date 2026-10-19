@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=crt_t2
-#SBATCH --output=/datastore/nvquoc/crt/mimi_vc/benchmark/logs/crt_t2_%j.out
-#SBATCH --error=/datastore/nvquoc/crt/mimi_vc/benchmark/logs/crt_t2_%j.err
+#SBATCH --output=/datastore/ceai/crt/mimi_vc/benchmark/logs/crt_t2_%j.out
+#SBATCH --error=/datastore/ceai/crt/mimi_vc/benchmark/logs/crt_t2_%j.err
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
@@ -11,7 +11,7 @@
 #SBATCH --mem=48G
 #SBATCH --time=72:00:00
 # Job T2 (ANALYSIS_PLAN_v1.md §8.2), after T1 ($J/v1/t1/t1.done, written under the same selection.env): LTC-2k at
-# 30 s, as T1 without parallel recordings, new out dir $J/v1/t2. No metrics (job M). Submit with submit_nvquoc.sh.
+# 30 s, as T1 without parallel recordings, new out dir $J/v1/t2. No metrics (job M). Submit with submit_ceai.sh.
 #   1. run_conversions.py: S1 FAISS, S3 CRT τ = 0.4, S2 CRT τ_dev (left out when τ_dev = 0.4), S4 CRT argmax, logits
 #      dumped for S1u and E17 (rc/)
 #   2. run_conversions.py: the Mimi copy of the source (mc/; LTC-2k has no P, so no mimi_copy_P)
@@ -23,11 +23,11 @@
 
 source /etc/profile.d/modules.sh 2>/dev/null
 module load python312
-source /datastore/nvquoc/crt/envs/mimi_vc/bin/activate
+source /datastore/ceai/crt/envs/mimi_vc/bin/activate
 echo "Job $SLURM_JOB_ID on $(hostname), GPU: $CUDA_VISIBLE_DEVICES"
 nvidia-smi -L
 
-WORK_DIR=/datastore/nvquoc/crt/mimi_vc
+WORK_DIR=/datastore/ceai/crt/mimi_vc
 J=$WORK_DIR/benchmark/journal
 DATA_STORAGE=$WORK_DIR/data_storage
 export XDG_CACHE_HOME=$DATA_STORAGE/cache
@@ -96,8 +96,8 @@ FRONT=$S1U$([ $E17 = yes ] && echo ,lmbr_k2_g1_T1)
 
 grep -q "selection sha256 $SELSHA" $J/v1/t1/t1.done 2>/dev/null \
     || { echo "ERROR: $J/v1/t1/t1.done missing or written under another selection.env"; exit 1; }
-[ -f $LP ] && ! grep -q -e /datastore/ceai -e /datastore/eaic $LP \
-    || { echo "ERROR: $LP is missing or holds /datastore/ceai or /datastore/eaic paths"; exit 1; }
+[ -f $LP ] && ! grep -q -e /datastore/nvquoc -e /datastore/ceai/nvquoc -e /datastore/eaic $LP \
+    || { echo "ERROR: $LP is missing or holds paths of an old home (nvquoc, ceai/nvquoc, eaic)"; exit 1; }
 N=$(grep -c . $LP)
 echo "  $LP: $N pairs; run_conversions $RC_SYS; anchor lab $ANC_SYS $ANC_DUMP; front $FRONT; cand ${CAND:-none}"
 python -c "import torch; print('cuda', torch.cuda.is_available(), torch.cuda.get_device_name(0))" || exit 1
@@ -135,7 +135,7 @@ for f in $RC/ltc2k/30/manifest.jsonl $MC/ltc2k/30/manifest.jsonl $ANC/ltc2k/30/m
     st $? "rows:$f"
 done
 du -sb $RC/dumps $MC/dumps $ANC/dumps
-du -sh $RC $MC $ANC $LAB /datastore/nvquoc/crt
+du -sh $RC $MC $ANC $LAB /datastore/ceai/crt
 echo " finished, failed steps:${FAILED:- none}: $(date)"
 [ -z "$FAILED" ] && echo "job $SLURM_JOB_ID $(date '+%F %T') selection sha256 $SELSHA" > $OUT/t2.done
 [ -z "$FAILED" ]

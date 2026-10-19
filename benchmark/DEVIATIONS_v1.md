@@ -34,3 +34,43 @@
      - run 1, frozen script: `DEV_SELECTION_RECORD_v1_run1_frozen.md` (sha256 781b1acc5a8585b0d8298ec2899c7599d77f9d416015316f66614786387ed114), status INCOMPLETE;
      - run 2, fixed script: `DEV_SELECTION_RECORD_v1.md` (sha256 dafcf3004da07f9dad6b5b6e2b2ed906b8fb333ecc3d61643a47d747b0f106ea), status complete.
      - Every decision is identical in the two runs: τ_dev 0.9, S1u `us32_w0.2_0.2_0.1`, E17 enters, CRT-AL = C2 (950-pair check C2), VCTK-2k 5 targets, the same 32 listening items. Only the status and the C1-check fields differ.
+
+3. **19 Oct 2026, operational: nvquoc hit a disk quota; logit dumps deleted with the author's approval; T3 re-run.**
+   - **What happened:** from 04:56 (+07:00) every write on `nvquoc` failed with "Disk quota exceeded" (EDQUOT).
+     - The account then held about 332,836 MiB: CRT 160,210, the interpreter project 139,770, Qwen 32,797, home 59. So the account is capped at about 325 GiB. The "no longer limited" of item 1 was wrong.
+     - T3 (job 4490) died in the LTC-2k 3 s anchor lab inside `np.savez_compressed`; its `.err` stops at exactly 8,192 bytes. Every later LTC-2k step of that job failed. The LibriTTS-R train-clean-360 download failed at the same moment.
+   - **Space freed:**
+     - 05:31: the partial train-clean-360 archive, 11,106,287,700 bytes. That download is not used by this plan.
+     - About 08:33: the logit dumps of D1, T1 and T2, 9,600 files, 41.8 GiB. §8.2 allows this once the decodes that read them have been checked, but only with the user's approval; the corresponding author gave it that morning.
+     - The files are listed with sizes and times in `results/v1/deleted_dumps_20261019.tsv` (sha256 72e2ee5f87c8938e3e30279a8e78de34175d6236c3d0f63e5bc8985ad2ed71b1).
+     - Every decode that read them was complete. D2: C1–C5, S1u, E17. T1 and T2: 2,000 and 1,800 WAVs for each of `pm18_rq`, `lmbr_k2_g1_T1` and `us32_w0.2_0.2_0.1`. Each run's `anchor_summary.json` exists.
+     - The decoded WAVs, manifests and metrics are kept. The dumps can be regenerated from the frozen code and weights.
+     - The author also approved deleting T3's dumps once its decodes are checked.
+   - **T3 re-runs** use `job_t3.slurm` unchanged. RUNBOOK_v1.md, "Rules for the account": the conversion and anchor steps resume and `crt_decode_lab.py` reruns whole.
+     - Job 4506 (Submit 08:34:41) completed VCTK-2k at 3 s and 180 s, and LTC-2k at 180 s: 1,699 decodes plus the 101 expected reference shortfalls.
+     - It failed again in the LTC-2k 3 s anchor lab on EDQUOT at 08:45:57. That was brief: the job wrote about 8.5 GiB right after. A likely cause is that the 08:33 deletion was credited to the quota late.
+     - Job 4617 (Submit 15:37:47) re-runs it.
+     - Slurm planned it for 17:25, because the free MIG slices were held for a higher-priority job and a 72 h limit cannot backfill. Its limit was therefore lowered to 1:15:00 (`scontrol update`; the script is unchanged), and it started at 15:58:05. The remaining work is about 30 min; job 4506 did the comparable steps in 32 min.
+     - Job 4617 completed at 16:38:10 with no failed step. All decodes are complete: VCTK-2k 2,000 at 3 s and 2,000 at 180 s; LTC-2k 1,800 at 3 s, and 1,699 at 180 s plus the 101 shortfalls. `t3.done` carries selection sha256 9c7275f56ac5779235e5838304dbd4edfc319e53f6d4142c77fe537b938bc105.
+     - T3's anchor-lab logit dumps were then deleted, with the author's approval as above: 7,499 files, 34.1 GiB, listed in `results/v1/deleted_dumps_t3_20261019.tsv` (sha256 7545b7c827520239dee5269985587de7cebb11010af7399881a6f2f947f990d2). T3's run_conversions dumps (codes, no logits) are kept.
+     - T4 (job 4626) was submitted at 17:33:23.
+   - No setting, system, rule or result is affected.
+
+4. **19 Oct 2026, operational, in progress: CRT moves from `nvquoc` to `ceai`.**
+   - **The author's instruction, the same morning:** "move everything to ceai account which has just been raised to 1.2TB. Then delete everything on nvquoc. Nvquoc from now will be used to run gwen and other support model to support Q2 journal target".
+     - A 50 GiB write test on ceai passed at 08:38.
+     - CRT's new home is `/datastore/ceai/crt`. The interpreter project moves to `/datastore/ceai/p1`.
+   - **T3 and T4 run on `nvquoc` with the frozen scripts.** They cannot move first: `crt_anchor_lab.py`'s resume check (`run_cfg`: `weights`, `conv_dir`) and the baselines' `conv_cfg_sha` hold absolute paths, and T4's rows must keep the smoke test's `conv_cfg_sha` (RUNBOOK_v1.md §7). Job M runs on `ceai`.
+   - **The copy:** a tar relay through the author's Mac, nvquoc → Mac → ceai, because the two accounts cannot read each other's folders. It is checked by comparing the (path, type, size, mtime, link target) lists of both sides.
+   - **New files:**
+     - `move_paths.py`, with 23 tests: rewrites `/datastore/nvquoc/crt` → `/datastore/ceai/crt` in every text file and symlink, logs each change, and checks the logged hashes and the section-2 hashes of `FREEZE_v1.sha256` mapped back.
+     - `job_move_ceai.slurm`: runs that rewrite and check, compares `pip freeze` with `FREEZE_v1_pip_freeze.txt`, and re-scores the first 32 rows of the D1 anchor-lab manifest on ceai against D1.
+     - `submit_ceai.sh`: `submit_nvquoc.sh` with the account, log and lock changed, shared with the interpreter project. The tests run on both wrappers and check that they do not drift apart.
+   - **Changed frozen files**, only to name the new home:
+     - In every `job_*.slurm` and in `setup_baselines.sh`, `/datastore/nvquoc/crt` becomes `/datastore/ceai/crt`.
+     - The stale-path guards now refuse pair lists that hold `/datastore/nvquoc`, `/datastore/ceai/nvquoc` or `/datastore/eaic` paths, instead of `/datastore/ceai`. Their messages and the "submit with" comments change accordingly.
+     - `tests/test_job_scripts.py` follows.
+     - `RUNBOOK_v1.md` gains §8.
+     - No setting, system, rule or statistic changes.
+   - **Also new:** `analyze_tests.py`, the one-shot test-set statistics of §5 and §7, with 48 tests. It was checked against this plan by an independent review before any test metric existed.
+   - The relay's final check, the rewrite and environment checks, and the deletion of `/datastore/nvquoc/crt` are recorded here once done.

@@ -1,5 +1,6 @@
-"""Tests of benchmark/submit_nvquoc.sh, run as `bash submit_nvquoc.sh <script> [args]` with PATH starting at a
-temporary directory of stand-ins for date, sleep, id, flock, squeue, sacct and sbatch (plus scancel and scontrol, which
+"""Tests of benchmark/submit_nvquoc.sh and of benchmark/submit_ceai.sh (the same wrapper for the account ceai, with
+its own log and lock), each run against the stand-ins of its account as `bash <wrapper> <script> [args]` with PATH
+starting at a temporary directory of stand-ins for date, sleep, id, flock, squeue, sacct and sbatch (plus scancel and scontrol, which
 must never be called). Nothing real is submitted or queried.
 
 The stand-ins share a state directory (STUB_STATE): a fake clock (`now`, epoch s) that `date` reads and `sleep`
@@ -9,8 +10,9 @@ sacct does not show yet (`lag`); and calls.log, one line per call. `date` is GNU
 -d @N, -d '-N days', -d <ISO time>), computed by the system date at the fake clock, in the zone of TZ or, with TZ
 unset, of the login node (STUB_LOCALTIME, default Asia/Ho_Chi_Minh); STUB_NO_TZDATA makes every zone UTC, as glibc
 does without the zone file. `flock 9` locks the descriptor it inherits with flock(2) and exits, leaving it locked, as
-util-linux flock does. The wrapper writes its log and lock under tmp_path (SUBMIT_NVQUOC_LOG, SUBMIT_NVQUOC_LOCK) and
-never sees the caller's environment.
+util-linux flock does. The wrapper writes its log and lock under tmp_path (SUBMIT_NVQUOC_LOG and SUBMIT_NVQUOC_LOCK,
+or SUBMIT_CEAI_*) and never sees the caller's environment. squeue and sacct answer only for the account under test
+(STUB_ACCOUNT), and id prints it unless STUB_USER says otherwise.
 """
 import fcntl
 import marshal
@@ -25,7 +27,7 @@ from zoneinfo import ZoneInfo
 import pytest
 
 BENCH = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-WRAPPER = os.path.join(BENCH, 'submit_nvquoc.sh')
+ACCOUNTS = {'nvquoc': ('submit_nvquoc', 'SUBMIT_NVQUOC'), 'ceai': ('submit_ceai', 'SUBMIT_CEAI')}   # name, env prefix
 BASH = shutil.which('bash')
 SYSTEM_PATH = '/usr/bin:/bin:/usr/sbin:/sbin'
 SYSTEM_DATE = shutil.which('date', path=SYSTEM_PATH)
@@ -91,7 +93,7 @@ fi
 
 ID = r'''#!/bin/bash
 ''' + LOG_CALL + r'''[ "$args" = -un ] || { echo "id stub: unexpected arguments $*" >&2; exit 2; }
-echo "${STUB_USER:-nvquoc}"
+echo "${STUB_USER:-$STUB_ACCOUNT}"
 '''
 
 NOOP = '#!/bin/bash\n' + LOG_CALL   # scancel, scontrol: recorded, so a test can check they were never called
@@ -145,7 +147,7 @@ def squeue(argv, d, now):
     if os.environ.get('SQUEUE_FAIL'):
         fail('squeue: error: Unable to contact slurm controller (connect failure)')
     jobs = [j for j in d['queue'] if j['submit'] <= now < j['until']]
-    if argv == ['-h', '-u', 'nvquoc', '-o', '%i|%j|%T|%V']:
+    if argv == ['-h', '-u', os.environ['STUB_ACCOUNT'], '-o', '%i|%j|%T|%V']:
         for j in jobs:
             print(f"{j['id']}|{j['name']}|{'RUNNING' if now >= j['submit'] + 60 else 'PENDING'}|{iso(j['submit'])}")
         for line in d['squeue_extra']:
@@ -161,7 +163,8 @@ def squeue(argv, d, now):
 def sacct(argv, d, now):
     if os.environ.get('SACCT_FAIL'):
         fail('sacct: error: Problem talking to the database: Connection refused')
-    if len(argv) == 9 and argv[:3] == ['-u', 'nvquoc', '-S'] and argv[4:] == ['-X', '-n', '-P', '-o', 'Submit']:
+    if len(argv) == 9 and argv[:3] == ['-u', os.environ['STUB_ACCOUNT'], '-S'] \
+            and argv[4:] == ['-X', '-n', '-P', '-o', 'Submit']:
         start = parse_iso(argv[3])
         times = {t for t in d['sacct'] if start <= t <= now}
         times |= {j['submit'] for j in d['queue'] if j['submit'] <= now and j['until'] >= start}
@@ -241,7 +244,11 @@ def write_stubs(bin_dir):
 
 
 class Slurm:
-    def __init__(self, root, bin_dir):
+    def __init__(self, root, bin_dir, acct='nvquoc'):
+        self.acct = acct
+        self.name, prefix = ACCOUNTS[acct]
+        self.wrapper = os.path.join(BENCH, self.name + '.sh')
+        self.log_var, self.lock_var = prefix + '_LOG', prefix + '_LOCK'
         self.root = root
         self.bin = bin_dir
         self.state_dir = root / 'state'
@@ -287,17 +294,17 @@ class Slurm:
 
     def env(self, **kw):
         e = {'PATH': f'{self.bin}:{SYSTEM_PATH}', 'HOME': str(self.root / 'home'), 'LANG': 'C', 'LC_ALL': 'C',
-             'STUB_STATE': str(self.state_dir), 'SUBMIT_NVQUOC_LOG': str(self.log),
-             'SUBMIT_NVQUOC_LOCK': str(self.lock), 'POLL': '300'}
+             'STUB_STATE': str(self.state_dir), 'STUB_ACCOUNT': self.acct, self.log_var: str(self.log),
+             self.lock_var: str(self.lock), 'POLL': '300'}
         e.update(kw)
         return {k: v for k, v in e.items() if v is not None}
 
     def popen(self, *args, **env):
-        return subprocess.Popen([BASH, WRAPPER, *args], env=self.env(**env), stdout=subprocess.PIPE,
+        return subprocess.Popen([BASH, self.wrapper, *args], env=self.env(**env), stdout=subprocess.PIPE,
                                 stderr=subprocess.PIPE, text=True)
 
     def run(self, *args, **env):
-        p = subprocess.run([BASH, WRAPPER, *args], env=self.env(**env), capture_output=True, text=True, timeout=120)
+        p = subprocess.run([BASH, self.wrapper, *args], env=self.env(**env), capture_output=True, text=True, timeout=120)
         assert not self.calls('scancel') and not self.calls('scontrol'), 'the wrapper must never cancel or change a job'
         return p
 
@@ -319,9 +326,9 @@ def stub_bin(tmp_path_factory):
     return d
 
 
-@pytest.fixture
-def slurm(tmp_path, stub_bin):
-    return Slurm(tmp_path, stub_bin)
+@pytest.fixture(params=sorted(ACCOUNTS))
+def slurm(request, tmp_path, stub_bin):
+    return Slurm(tmp_path, stub_bin, request.param)
 
 
 def submitted_once(slurm, p):
@@ -369,11 +376,11 @@ def test_submits_at_once_when_all_rules_hold(slurm):
     line = ['2026-10-18 10:00:00', '9000', '2026-10-18T10:00:00', real, '']
     assert slurm.log_lines() == [line]
     assert 'submitted: ' + '\t'.join(line) in p.stdout
-    # the lock first, then the queue of nvquoc, then sacct over the last 3 days
+    # the lock first, then the queue of the account, then sacct over the last 3 days
     cmds = [c['cmd'] for c in slurm.calls() if c['cmd'] not in ('date', 'id')]
     assert cmds == ['flock', 'flock-acquired', 'squeue', 'sacct', 'sbatch', 'squeue'], cmds
     assert slurm.calls('flock')[0]['argv'] == ['9']
-    assert slurm.calls('sacct')[0]['argv'] == ['-u', 'nvquoc', '-S', '2026-10-15T10:00:00', '-X', '-n', '-P', '-o',
+    assert slurm.calls('sacct')[0]['argv'] == ['-u', slurm.acct, '-S', '2026-10-15T10:00:00', '-X', '-n', '-P', '-o',
                                                'Submit']
 
 
@@ -401,7 +408,7 @@ def test_sbatch_failure_is_refused_without_a_log_line(slurm):
     assert slurm.submitted() == [] and not slurm.log.exists()
 
 
-# ── Rule 1: fewer than 3 jobs of nvquoc (any name) running or pending ──
+# ── Rule 1: fewer than 3 jobs of the account (any name) running or pending ──
 
 def test_two_jobs_in_the_queue_do_not_block_only_the_gap_from_their_submit(slurm):
     crt = {'id': 101, 'name': 'crt_d0', 'submit': '2026-10-18T09:30:00', 'until': '2026-10-18T12:10:00'}
@@ -409,8 +416,8 @@ def test_two_jobs_in_the_queue_do_not_block_only_the_gap_from_their_submit(slurm
     p = slurm.run(slurm.script())
     sub = submitted_once(slurm, p)
     assert T('2026-10-18T10:31:00') <= sub['now'] <= T('2026-10-18T10:31:00') + 300, ict(sub['now'])
-    assert 'jobs of nvquoc are in the queue' not in p.stdout
-    assert 'the last Submit of a job of nvquoc was at 2026-10-18 09:30:00' in p.stdout
+    assert f'jobs of {slurm.acct} are in the queue' not in p.stdout
+    assert f'the last Submit of a job of {slurm.acct} was at 2026-10-18 09:30:00' in p.stdout
 
 
 def test_three_jobs_of_any_name_block_until_one_leaves(slurm):
@@ -420,7 +427,7 @@ def test_three_jobs_of_any_name_block_until_one_leaves(slurm):
     p = slurm.run(slurm.script(), POLL='1200')
     sub = submitted_once(slurm, p)
     assert T('2026-10-18T10:20:00') <= sub['now'] < T('2026-10-18T10:40:00'), ict(sub['now'])
-    assert ('3 or more jobs of nvquoc are in the queue: 100 qwen-serve RUNNING;7 interactive RUNNING;'
+    assert (f'3 or more jobs of {slurm.acct} are in the queue: 100 qwen-serve RUNNING;7 interactive RUNNING;'
             '8 qwen-serve-test RUNNING;') in p.stdout
 
 
@@ -430,7 +437,7 @@ def test_pending_jobs_count_toward_the_three(slurm):
     slurm.set(now='2026-10-18T10:00:00', queue=[QWEN, run, pend])                                    # for its first 60 s
     p = slurm.run(slurm.script(), POLL='1200')
     sub = submitted_once(slurm, p)
-    assert '3 or more jobs of nvquoc are in the queue' in p.stdout and '102 crt_d1 PENDING' in p.stdout
+    assert f'3 or more jobs of {slurm.acct} are in the queue' in p.stdout and '102 crt_d1 PENDING' in p.stdout
     assert sub['now'] >= T('2026-10-18T09:59:30') + 3660                     # then the gap from its Submit
 
 
@@ -451,7 +458,7 @@ def test_gap_from_a_finished_job_known_only_to_sacct(slurm):
     p = slurm.run(slurm.script())
     sub = submitted_once(slurm, p)
     assert sub['now'] == T('2026-10-18T10:35:00') and slurm.sleeps() == [['300']] * 7, ict(sub['now'])
-    assert 'the last Submit of a job of nvquoc was at 2026-10-18 09:30:00, 1800 s ago (< 3660 s)' in p.stdout
+    assert f'the last Submit of a job of {slurm.acct} was at 2026-10-18 09:30:00, 1800 s ago (< 3660 s)' in p.stdout
 
 
 @pytest.mark.parametrize('ago, waits', [(3660, False), (3659, True), (3661, False), (60, True)])
@@ -641,14 +648,15 @@ def test_passes_name_value_options_to_sbatch_in_order(slurm):
 
 # ── Refusals: user, script, zone data ────────────────────────
 
-def test_refuses_when_not_nvquoc(slurm):
-    refused(slurm, slurm.run(slurm.script(), STUB_USER='ceai'), 'this is ceai, not nvquoc')
+def test_refuses_when_not_the_wrappers_account(slurm):
+    other = 'ceai' if slurm.acct == 'nvquoc' else 'nvquoc'
+    refused(slurm, slurm.run(slurm.script(), STUB_USER=other), f'this is {other}, not {slurm.acct}')
     assert not slurm.calls('squeue') and not slurm.calls('sacct')
 
 
 def test_refuses_a_missing_script_and_no_arguments(slurm):
     refused(slurm, slurm.run(str(slurm.jobs / 'nope.slurm')), 'no script')
-    refused(slurm, slurm.run(), 'usage: bash submit_nvquoc.sh <script.slurm>')
+    refused(slurm, slurm.run(), f'usage: bash {slurm.name}.sh <script.slurm>')
     refused(slurm, slurm.run(str(slurm.jobs)), 'no script')
 
 
@@ -668,7 +676,7 @@ def test_sbatch_variables_are_unset(slurm):
     p = slurm.run(slurm.script(), **env)
     assert submitted_once(slurm, p)['env'] == {}
     for k, v in env.items():
-        assert f'submit_nvquoc: ignoring {k}={v}' in p.stdout
+        assert f'{slurm.name}: ignoring {k}={v}' in p.stdout
 
 
 def test_poll_defaults_to_300_s(slurm):
@@ -696,7 +704,7 @@ def test_waits_for_the_lock_of_another_wrapper(slurm):
 
 
 def test_refuses_when_the_lock_cannot_be_opened(slurm):
-    p = slurm.run(slurm.script(), SUBMIT_NVQUOC_LOCK=str(slurm.root / 'no' / 'such' / 'dir' / 'lock'))
+    p = slurm.run(slurm.script(), **{slurm.lock_var: str(slurm.root / 'no' / 'such' / 'dir' / 'lock')})
     refused(slurm, p, 'cannot lock')
 
 
@@ -708,3 +716,23 @@ def test_two_wrappers_never_both_submit_into_an_empty_queue(slurm):
     first, second = slurm.submitted()
     assert second['now'] - first['now'] >= 3660, (ict(first['now']), ict(second['now']))
     assert len(slurm.log_lines()) == 2
+
+
+# ── The ceai wrapper ─────────────────────────────────────────
+
+def test_ceai_wrapper_is_the_nvquoc_wrapper_with_its_account_log_and_lock():
+    def body(name):
+        text = open(os.path.join(BENCH, name)).read()
+        text = text[text.index('\nUSR='):]
+        for a, b in (('_transfer_logs/submit_ceai.log', '_transfer_logs/submit.log'), ('submit_nvquoc', 'submit_X'),
+                     ('submit_ceai', 'submit_X'), ('SUBMIT_NVQUOC', 'SUBMIT_X'),
+                     ('SUBMIT_CEAI', 'SUBMIT_X'), ('USR=nvquoc', 'USR=X'), ('USR=ceai', 'USR=X'),
+                     ('/datastore/nvquoc/crt/', '/datastore/X/crt/'), ('/datastore/ceai/crt/', '/datastore/X/crt/')):
+            text = text.replace(a, b)
+        return text
+    assert body('submit_ceai.sh') == body('submit_nvquoc.sh')
+    ceai = open(os.path.join(BENCH, 'submit_ceai.sh')).read()
+    assert '\nUSR=ceai\nGAP=3660\nMAXJOBS=3\n' in ceai
+    assert 'LOG=${SUBMIT_CEAI_LOG:-/datastore/ceai/crt/_transfer_logs/submit_ceai.log}' in ceai
+    assert 'LOCK=${SUBMIT_CEAI_LOCK:-/tmp/submit_ceai.lock}' in ceai
+    assert 'nvquoc' not in ceai[ceai.index('\nUSR='):].replace('test_submit_nvquoc.py', '')

@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=crt_d0
-#SBATCH --output=/datastore/nvquoc/crt/mimi_vc/benchmark/logs/crt_d0_%j.out
-#SBATCH --error=/datastore/nvquoc/crt/mimi_vc/benchmark/logs/crt_d0_%j.err
+#SBATCH --output=/datastore/ceai/crt/mimi_vc/benchmark/logs/crt_d0_%j.out
+#SBATCH --error=/datastore/ceai/crt/mimi_vc/benchmark/logs/crt_d0_%j.err
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
@@ -12,7 +12,7 @@
 #SBATCH --time=12:00:00
 # Job D0 (ANALYSIS_PLAN_v1.md §8.1 items 3 and 9), before the freeze, on the 50 screen pairs: rows k % 20 == 0 of
 # pairs/dev.jsonl, i.e. --shard 0/20 of the whole list (crt_anchor_lab needs the whole list for the source and third
-# speakers), 30 s references, new out dir $J/v1/d0. Submit with submit_nvquoc.sh (RUNBOOK_v1.md).
+# speakers), 30 s references, new out dir $J/v1/d0. Submit with submit_ceai.sh (RUNBOOK_v1.md).
 #   1. pair lists (CPU): the source-E file of pairs/vctk2k.jsonl and the 10-target VCTK-2k variant in
 #      pairs_vctk2k_t10/, each made only if absent (a re-run never rewrites a list that may already be hashed);
 #      make_pairs --check on both directories (every Dev / LTC-2k source is a target, every VCTK-2k source has E)
@@ -39,11 +39,11 @@
 
 source /etc/profile.d/modules.sh 2>/dev/null
 module load python312
-source /datastore/nvquoc/crt/envs/mimi_vc/bin/activate
+source /datastore/ceai/crt/envs/mimi_vc/bin/activate
 echo "Job $SLURM_JOB_ID on $(hostname), GPU: $CUDA_VISIBLE_DEVICES"
 nvidia-smi -L
 
-WORK_DIR=/datastore/nvquoc/crt/mimi_vc
+WORK_DIR=/datastore/ceai/crt/mimi_vc
 J=$WORK_DIR/benchmark/journal
 DATA_STORAGE=$WORK_DIR/data_storage
 export XDG_CACHE_HOME=$DATA_STORAGE/cache
@@ -71,8 +71,8 @@ stamp() { echo " $1: $(date)"; echo "$(date +%s) $1" >> $TIMES; }
 st() { [ "$1" -eq 0 ] || FAILED="$FAILED $2"; }
 
 for f in $P $J/pairs/vctk2k.jsonl $J/pairs/ltc2k.jsonl; do
-    [ -f $f ] && ! grep -q -e /datastore/ceai -e /datastore/eaic $f \
-        || { echo "ERROR: $f is missing or holds /datastore/ceai or /datastore/eaic paths (RUNBOOK_v1.md, 0)"; exit 1; }
+    [ -f $f ] && ! grep -q -e /datastore/nvquoc -e /datastore/ceai/nvquoc -e /datastore/eaic $f \
+        || { echo "ERROR: $f is missing or holds an old home's paths (nvquoc, ceai/nvquoc, eaic)"; exit 1; }
 done
 python -c "import torch; print('cuda', torch.cuda.is_available(), torch.cuda.get_device_name(0))" || exit 1
 rm -f $OUT/check_d0.json   # a re-run that fails must not leave the last run's marker
@@ -172,7 +172,7 @@ st $? metrics_conv_src
 
 stamp "10. checks"
 du -sb $RC/dumps $MC/dumps $ANC/dumps $AR/dumps
-du -sh $RC $MC $ANC $AR $LAB /datastore/nvquoc/crt
+du -sh $RC $MC $ANC $AR $LAB /datastore/ceai/crt
 python -u $J/check_d0.py --pairs $P --ref_screen $J --rc $RC --anc $ANC --anc $AR --cand $LAB/cand \
     --cand_metrics $LAB/metrics.jsonl --lists $J/pairs:dev,vctk2k,ltc2k --lists $T10:vctk2k --timings $TIMES \
     --runs $RC/dev/30/runs.jsonl --runs $MC/dev/30/runs.jsonl --sizes $RC/dumps/dev/30 --sizes $MC/dumps/dev/30 \

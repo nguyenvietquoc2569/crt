@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=crt_d1_conv
-#SBATCH --output=/datastore/nvquoc/crt/mimi_vc/benchmark/logs/crt_d1_conv_%j.out
-#SBATCH --error=/datastore/nvquoc/crt/mimi_vc/benchmark/logs/crt_d1_conv_%j.err
+#SBATCH --output=/datastore/ceai/crt/mimi_vc/benchmark/logs/crt_d1_conv_%j.out
+#SBATCH --error=/datastore/ceai/crt/mimi_vc/benchmark/logs/crt_d1_conv_%j.err
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
@@ -11,7 +11,7 @@
 #SBATCH --mem=48G
 #SBATCH --time=48:00:00
 # Job D1, part 1 of 2: the conversions (ANALYSIS_PLAN_v1.md §8.2), after the freeze and its public timestamp (§8.4):
-# the 1,000 Dev pairs at 30 s, new out dir $J/v1/d1. Submit with submit_nvquoc.sh (RUNBOOK_v1.md).
+# the 1,000 Dev pairs at 30 s, new out dir $J/v1/d1. Submit with submit_ceai.sh (RUNBOOK_v1.md).
 #   1. run_conversions.py --systems faiss --dump_logits (rc/): S1, and the R1 logits that S1u and E17 (D2) and
 #      codeword_clustering.py (D2) read
 #   2. crt_anchor_lab.py in the full Dev mode, 36 systems (the R1 and R3 τ grids, A1-A5, C1), R3 logits dumped (anc/)
@@ -30,11 +30,11 @@
 
 source /etc/profile.d/modules.sh 2>/dev/null
 module load python312
-source /datastore/nvquoc/crt/envs/mimi_vc/bin/activate
+source /datastore/ceai/crt/envs/mimi_vc/bin/activate
 echo "Job $SLURM_JOB_ID on $(hostname), GPU: $CUDA_VISIBLE_DEVICES"
 nvidia-smi -L
 
-WORK_DIR=/datastore/nvquoc/crt/mimi_vc
+WORK_DIR=/datastore/ceai/crt/mimi_vc
 J=$WORK_DIR/benchmark/journal
 DATA_STORAGE=$WORK_DIR/data_storage
 export XDG_CACHE_HOME=$DATA_STORAGE/cache
@@ -56,8 +56,8 @@ FAILED=
 stamp() { echo " $1: $(date)"; echo "$(date +%s) $1" >> $TIMES; }
 st() { [ "$1" -eq 0 ] || FAILED="$FAILED $2"; }
 
-[ -f $P ] && ! grep -q -e /datastore/ceai -e /datastore/eaic $P \
-    || { echo "ERROR: $P is missing or holds /datastore/ceai or /datastore/eaic paths"; exit 1; }
+[ -f $P ] && ! grep -q -e /datastore/nvquoc -e /datastore/ceai/nvquoc -e /datastore/eaic $P \
+    || { echo "ERROR: $P is missing or holds paths of an old home (nvquoc, ceai/nvquoc, eaic)"; exit 1; }
 [ -f $D0/check_d0.json ] || { echo "ERROR: $D0/check_d0.json missing: run job_d0.slurm first"; exit 1; }
 python - <<PY || exit 1
 import json, sys
@@ -81,7 +81,7 @@ python -u $J/crt_anchor_lab.py --pairs $P --set dev --budget 30 --out_dir $ANC -
 st $? summarize
 stamp "4. D1 vs D0 on the screen pairs"
 du -sb $RC/dumps $ANC/dumps
-du -sh $RC $ANC /datastore/nvquoc/crt
+du -sh $RC $ANC /datastore/ceai/crt
 python -u $J/check_d0.py --pairs $P --ref_d0 $D0 --rc $RC --anc $ANC --sizes $RC/dumps/dev/30 \
     --sizes $ANC/dumps/dev/30 --label 'D1 vs D0' --out $OUT/repro_d1_vs_d0.json
 echo "  D1 vs D0 reproduction: exit $? (repro_d1_vs_d0.json)"

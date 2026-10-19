@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=crt_d2
-#SBATCH --output=/datastore/nvquoc/crt/mimi_vc/benchmark/logs/crt_d2_%j.out
-#SBATCH --error=/datastore/nvquoc/crt/mimi_vc/benchmark/logs/crt_d2_%j.err
+#SBATCH --output=/datastore/ceai/crt/mimi_vc/benchmark/logs/crt_d2_%j.out
+#SBATCH --error=/datastore/ceai/crt/mimi_vc/benchmark/logs/crt_d2_%j.err
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
@@ -11,7 +11,7 @@
 #SBATCH --mem=48G
 #SBATCH --time=72:00:00
 # Job D2 (ANALYSIS_PLAN_v1.md §8.2), after D1 ($J/v1/d1/conv.done): the 1,000 Dev pairs at 30 s, new out dir
-# $J/v1/d2. Submit with submit_nvquoc.sh (RUNBOOK_v1.md).
+# $J/v1/d2. Submit with submit_ceai.sh (RUNBOOK_v1.md).
 #   1. crt_decode_lab.py on the D1 dumps, the §8.2 D2 commands: C1-C5 on the R3 logits of the D1 anchor dumps with the
 #      source CB0 (lab/cand), the S1u settings and E17 on the R1 logits with the retrieved CB0 (lab/front). Each must
 #      exit 0 with 1,000 pairs per system before it is scored: it writes its manifest afresh and has no resume, so a
@@ -32,11 +32,11 @@
 
 source /etc/profile.d/modules.sh 2>/dev/null
 module load python312
-source /datastore/nvquoc/crt/envs/mimi_vc/bin/activate
+source /datastore/ceai/crt/envs/mimi_vc/bin/activate
 echo "Job $SLURM_JOB_ID on $(hostname), GPU: $CUDA_VISIBLE_DEVICES"
 nvidia-smi -L
 
-WORK_DIR=/datastore/nvquoc/crt/mimi_vc
+WORK_DIR=/datastore/ceai/crt/mimi_vc
 J=$WORK_DIR/benchmark/journal
 DATA_STORAGE=$WORK_DIR/data_storage
 export XDG_CACHE_HOME=$DATA_STORAGE/cache
@@ -81,8 +81,8 @@ PY
 
 [ -f $D1/conv.done ] || { echo "ERROR: $D1/conv.done missing: job_d1_conv.slurm did not finish successfully"; exit 1; }
 [ -f $D1/metrics.done ] || echo "  WARN: $D1/metrics.done missing: the D1 scoring has not finished successfully"
-[ -f $P ] && ! grep -q -e /datastore/ceai -e /datastore/eaic $P \
-    || { echo "ERROR: $P is missing or holds /datastore/ceai or /datastore/eaic paths"; exit 1; }
+[ -f $P ] && ! grep -q -e /datastore/nvquoc -e /datastore/ceai/nvquoc -e /datastore/eaic $P \
+    || { echo "ERROR: $P is missing or holds paths of an old home (nvquoc, ceai/nvquoc, eaic)"; exit 1; }
 python -c "import torch; print('cuda', torch.cuda.is_available(), torch.cuda.get_device_name(0))" || exit 1
 rm -f $OUT/d2.done   # a re-run that fails must not leave the last run's marker
 
@@ -167,7 +167,7 @@ stamp "6. D2 vs D0 on the screen pairs"
 python -u $J/check_d0.py --pairs $P --ref_d0 $D0 --cand $LAB/cand --cand_metrics $LAB/metrics.jsonl \
     --label 'D2 vs D0' --out $OUT/repro_d2_vs_d0.json
 echo "  D2 vs D0 reproduction: exit $? (repro_d2_vs_d0.json)"
-du -sh $LAB $MC /datastore/nvquoc/crt
+du -sh $LAB $MC /datastore/ceai/crt
 echo " finished, failed steps:${FAILED:- none}: $(date)"
 [ -z "$FAILED" ] && echo "job $SLURM_JOB_ID $(date '+%F %T')" > $OUT/d2.done
 [ -z "$FAILED" ]

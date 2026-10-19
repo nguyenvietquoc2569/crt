@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=crt_t4
-#SBATCH --output=/datastore/nvquoc/crt/mimi_vc/benchmark/logs/crt_t4_%j.out
-#SBATCH --error=/datastore/nvquoc/crt/mimi_vc/benchmark/logs/crt_t4_%j.err
+#SBATCH --output=/datastore/ceai/crt/mimi_vc/benchmark/logs/crt_t4_%j.out
+#SBATCH --error=/datastore/ceai/crt/mimi_vc/benchmark/logs/crt_t4_%j.err
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
@@ -24,11 +24,11 @@
 
 source /etc/profile.d/modules.sh 2>/dev/null
 module load python312
-source /datastore/nvquoc/crt/envs/mimi_vc/bin/activate
+source /datastore/ceai/crt/envs/mimi_vc/bin/activate
 echo "Job $SLURM_JOB_ID on $(hostname), GPU: $CUDA_VISIBLE_DEVICES"
 nvidia-smi -L
 
-WORK_DIR=/datastore/nvquoc/crt/mimi_vc
+WORK_DIR=/datastore/ceai/crt/mimi_vc
 J=$WORK_DIR/benchmark/journal
 DATA_STORAGE=$WORK_DIR/data_storage
 export XDG_CACHE_HOME=$DATA_STORAGE/cache
@@ -42,7 +42,7 @@ export MPLCONFIGDIR=$DATA_STORAGE/cache/matplotlib
 OUT=$J/v1/t4
 LP=$J/pairs/ltc2k.jsonl
 BL=$OUT/bl
-ENVS=/datastore/nvquoc/crt/envs
+ENVS=/datastore/ceai/crt/envs
 mkdir -p $OUT
 TIMES=$OUT/timings.tsv
 : > $TIMES
@@ -93,8 +93,8 @@ for s in ${RUN//,/ }; do
     [[ ",$BASELINES," == *",$s,"* ]] || { echo "ERROR: ONLY=$ONLY names $s, which the record does not list"; exit 1; }
 done
 for f in $VP $LP; do
-    [ -f $f ] && ! grep -q -e /datastore/ceai -e /datastore/eaic $f \
-        || { echo "ERROR: $f is missing or holds /datastore/ceai or /datastore/eaic paths"; exit 1; }
+    [ -f $f ] && ! grep -q -e /datastore/nvquoc -e /datastore/ceai/nvquoc -e /datastore/eaic $f \
+        || { echo "ERROR: $f is missing or holds paths of an old home (nvquoc, ceai/nvquoc, eaic)"; exit 1; }
 done
 echo "  baselines listed: $BASELINES; this submission: $RUN"
 python -c "import torch; print('cuda', torch.cuda.is_available(), torch.cuda.get_device_name(0))" || exit 1
@@ -122,7 +122,7 @@ for SET in vctk2k ltc2k; do
         done
     done
 done
-du -sh $BL /datastore/nvquoc/crt
+du -sh $BL /datastore/ceai/crt
 echo " finished, failed steps:${FAILED:- none}, every listed baseline complete: $COMPLETE: $(date)"
 [ -z "$FAILED" ] && [ $COMPLETE = 1 ] && echo "job $SLURM_JOB_ID $(date '+%F %T') selection sha256 $SELSHA" \
     > $OUT/t4.done

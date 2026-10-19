@@ -9,8 +9,10 @@ import pytest
 
 BENCH = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 JOBS = sorted(glob.glob(os.path.join(BENCH, 'job_*.slurm')))
-ROOT = '/datastore/nvquoc/crt/'
-DEV_JOBS = ('job_d0.slurm', 'job_d1_metrics.slurm', 'job_d2.slurm', 'job_ot_screen.slurm', 'job_otf_screen.slurm')
+ROOT = '/datastore/ceai/crt/'          # CRT's home since 19 Oct 2026 (DEVIATIONS_v1.md item 4); before: /datastore/nvquoc/crt
+DEV_JOBS = ('job_d0.slurm', 'job_d1_metrics.slurm', 'job_d2.slurm', 'job_ot_screen.slurm', 'job_otf_screen.slurm',
+            'job_move_ceai.slurm')
+OLD_HOMES = r'/datastore/(nvquoc|eaic)|/datastore/ceai/nvquoc'
 
 
 def sbatch(path):
@@ -38,7 +40,8 @@ def hours(t):
 def test_job_layer_present():
     names = {os.path.basename(p) for p in JOBS}
     for n in ('job_d0.slurm', 'job_d1_conv.slurm', 'job_d1_metrics.slurm', 'job_d2.slurm', 'job_t1.slurm',
-              'job_t2.slurm', 'job_t3.slurm', 'job_t4.slurm', 'job_m.slurm', 'job_baselines_smoke.slurm'):
+              'job_t2.slurm', 'job_t3.slurm', 'job_t4.slurm', 'job_m.slurm', 'job_baselines_smoke.slurm',
+              'job_move_ceai.slurm'):
         assert n in names
 
 
@@ -62,14 +65,14 @@ def test_account_rules(path):
 
 
 @pytest.mark.parametrize('path', JOBS, ids=os.path.basename)
-def test_logs_and_env_under_nvquoc(path):
+def test_logs_and_env_under_ceai(path):
     o = sbatch(path)
     for k in ('output', 'error'):
         assert o[k].startswith(ROOT), o[k]
     b = body(path)
     envs = re.search(r'^ENVS=(\S+)', b, re.M)       # the smoke job selects its envs through $ENVS
     b_env = b.replace('$ENVS', envs.group(1)) if envs else b
-    assert re.search(r'source /datastore/nvquoc/crt/envs/\w+/bin/activate', b_env)
+    assert re.search(r'source /datastore/ceai/crt/envs/\w+/bin/activate', b_env)
     assert re.search(r'export HF_HUB_OFFLINE=1', b)
     for var in ('XDG_CACHE_HOME', 'HF_HOME', 'TORCH_HOME'):
         m = re.search(rf'export {var}=(\S+)', b)
@@ -79,10 +82,10 @@ def test_logs_and_env_under_nvquoc(path):
 @pytest.mark.parametrize('path', JOBS, ids=os.path.basename)
 def test_no_old_accounts_or_service(path):
     for i, line in enumerate(body(path).splitlines(), 1):
-        if re.search(r'/datastore/(ceai|eaic)', line):
-            # only the guards that refuse lists still holding the old prefixes may name them
+        if re.search(OLD_HOMES, line):
+            # only the guards that refuse lists still holding an old home's paths may name them
             assert 'grep -q' in line or 'ERROR' in line, f'line {i}: {line}'
-        assert '/datastore/nvquoc/qwen' not in line, f'line {i}: {line}'
+        assert not re.search(r'/datastore/(nvquoc|ceai)/qwen', line), f'line {i}: {line}'
         assert not re.search(r'\bscancel\b', line), f'line {i}: {line}'
 
 

@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=crt_t3
-#SBATCH --output=/datastore/nvquoc/crt/mimi_vc/benchmark/logs/crt_t3_%j.out
-#SBATCH --error=/datastore/nvquoc/crt/mimi_vc/benchmark/logs/crt_t3_%j.err
+#SBATCH --output=/datastore/ceai/crt/mimi_vc/benchmark/logs/crt_t3_%j.out
+#SBATCH --error=/datastore/ceai/crt/mimi_vc/benchmark/logs/crt_t3_%j.err
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
@@ -25,11 +25,11 @@
 
 source /etc/profile.d/modules.sh 2>/dev/null
 module load python312
-source /datastore/nvquoc/crt/envs/mimi_vc/bin/activate
+source /datastore/ceai/crt/envs/mimi_vc/bin/activate
 echo "Job $SLURM_JOB_ID on $(hostname), GPU: $CUDA_VISIBLE_DEVICES"
 nvidia-smi -L
 
-WORK_DIR=/datastore/nvquoc/crt/mimi_vc
+WORK_DIR=/datastore/ceai/crt/mimi_vc
 J=$WORK_DIR/benchmark/journal
 DATA_STORAGE=$WORK_DIR/data_storage
 export XDG_CACHE_HOME=$DATA_STORAGE/cache
@@ -99,8 +99,8 @@ ANC_DUMP=$([ -n "$CAND" ] && echo --dump_logits --dump_recipes R3)
 grep -q "selection sha256 $SELSHA" $J/v1/t2/t2.done 2>/dev/null \
     || { echo "ERROR: $J/v1/t2/t2.done missing or written under another selection.env"; exit 1; }
 for f in $VP $LP; do
-    [ -f $f ] && ! grep -q -e /datastore/ceai -e /datastore/eaic $f \
-        || { echo "ERROR: $f is missing or holds /datastore/ceai or /datastore/eaic paths"; exit 1; }
+    [ -f $f ] && ! grep -q -e /datastore/nvquoc -e /datastore/ceai/nvquoc -e /datastore/eaic $f \
+        || { echo "ERROR: $f is missing or holds paths of an old home (nvquoc, ceai/nvquoc, eaic)"; exit 1; }
 done
 [ -f $SE ] || { echo "ERROR: $SE missing"; exit 1; }
 echo "  run_conversions $RC_SYS; anchor lab ${ANC_SYS:-none} $ANC_DUMP; cand ${CAND:-none}"
@@ -138,7 +138,7 @@ for SET in vctk2k ltc2k; do
 done
 stamp "done"
 du -sb $RC/dumps $ANC/dumps
-du -sh $RC $ANC $LAB /datastore/nvquoc/crt
+du -sh $RC $ANC $LAB /datastore/ceai/crt
 echo " finished, failed steps:${FAILED:- none}: $(date)"
 [ -z "$FAILED" ] && echo "job $SLURM_JOB_ID $(date '+%F %T') selection sha256 $SELSHA" > $OUT/t3.done
 [ -z "$FAILED" ]

@@ -27,3 +27,6 @@ yarn-error.log*
 .credential
 .env
 .env.*
+
+# Listening-test packages and the key that reveals the conditions: never in the public repo
+benchmark/listening/dist/

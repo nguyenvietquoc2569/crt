@@ -41,7 +41,7 @@ def test_job_layer_present():
     names = {os.path.basename(p) for p in JOBS}
     for n in ('job_d0.slurm', 'job_d1_conv.slurm', 'job_d1_metrics.slurm', 'job_d2.slurm', 'job_t1.slurm',
               'job_t2.slurm', 'job_t3.slurm', 'job_t4.slurm', 'job_m.slurm', 'job_baselines_smoke.slurm',
-              'job_move_ceai.slurm'):
+              'job_move_ceai.slurm', 'job_listening_stimuli.slurm'):
         assert n in names
 
 

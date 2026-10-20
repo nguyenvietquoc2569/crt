@@ -73,4 +73,18 @@
      - `RUNBOOK_v1.md` gains §8.
      - No setting, system, rule or statistic changes.
    - **Also new:** `analyze_tests.py`, the one-shot test-set statistics of §5 and §7, with 48 tests. It was checked against this plan by an independent review before any test metric existed.
-   - The relay's final check, the rewrite and environment checks, and the deletion of `/datastore/nvquoc/crt` are recorded here once done.
+   - **The copy and the move job on ceai, done:**
+     - Phase 1 (everything T3/T4 did not write) and then T3 and T4 were relayed. `relay_copy.sh verify` showed no difference: 441,030 and 22,725 entries.
+     - `job_move_ceai.slurm` (job 4654, 21:17–21:37) rewrote 285 text files (`v1/move/move_paths_4654.tsv`). The check found 0 problems: every logged hash held, mapped back, and all 16 section-2 files of `FREEZE_v1.sha256` have their frozen hashes.
+     - `pip freeze` of the copied `envs/mimi_vc` is identical to `FREEZE_v1_pip_freeze.txt`, and CUDA runs on an H200 MIG 2g.35gb slice.
+     - The first 32 rows of the D1 anchor-lab manifest, scored again on ceai, equal the D1 rows exactly: the largest |difference| is 0 for dB-MCD, the F0 metrics, SIM, SECS, UTMOS and every Whisper count, and all 32 hypotheses are identical.
+   - **Change of plan the same evening, by the author:** the Qwen server stayed on `ceai`, where it holds one of the account's 3 job slots.
+     - Job M therefore runs on `nvquoc`'s free slots with the frozen scripts, instead of on `ceai` with one slot.
+     - The parts are chained one submit per hour through `submit_nvquoc.sh` (M t1: job 4653, Submit 20:56:20).
+     - Their time limits were lowered to 14 h (t1) and 12 h (t2–t4) by `scontrol update`, so that backfill can start them next to reservations. `metrics.py` resumes, so a part that hits its limit is resubmitted unchanged.
+     - The move job runs on `ceai` before M ends. T4's outputs are copied first, and M's outputs and the job logs follow, with a second rewrite run (`move_paths.py` takes several logs).
+   - **Listening test (§5.4).** The author recruits the raters and chose an offline web page.
+     - `listening_stimuli.py` (18 tests) and `job_listening_stimuli.slurm` (ceai) build the stimuli. They use the record's 32 items with its replacement rule. Natural target speech is P, else the target's E utterance closest in length to the source; the SMOS reference is another E utterance. They also make the Mimi copies (float16 on the GPU), set the loudness to an active-speech RMS of −26 dBFS, and write the clips under ids that hide the condition, with a separate key.
+     - `listening/page/` is the rating page. `listening_analysis.py` (10 tests) applies the pre-registered screening, then computes MOS / SMOS / CMOS with a crossed rater × item bootstrap; it writes `cmos.json` for `analyze_tests.py --cmos` and gives the pilot's rater count.
+     - The loudness normalisation and the E-utterance choice are protocol details §5.4 leaves open. They are fixed here, before any rating.
+   - The relay's final check, the rewrite and environment checks, and the deletion of `/datastore/nvquoc/crt` (never `/datastore/nvquoc/qwen`) are recorded here once done.

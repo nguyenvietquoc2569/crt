@@ -228,7 +228,12 @@ T3 and T4 finish on `nvquoc` with the frozen scripts. They cannot move first: th
 2. Relay from the Mac with `relay_copy.sh sync` (nvquoc → Mac → ceai). Repeat until `relay_copy.sh verify` shows no difference.
 3. Push the job layer for ceai: `job_*.slurm`, `submit_ceai.sh` and `move_paths.py`. They use paths under `/datastore/ceai/crt`, and their guards refuse pair lists that still hold `nvquoc`, `ceai/nvquoc` or `eaic` paths.
 4. Run `bash submit_ceai.sh job_move_ceai.slurm`. It rewrites the paths and logs each change, maps the frozen hashes back, checks the environment, then re-scores 32 Dev rows and compares them with D1. It writes `v1/move/move.done`.
-5. Run M on ceai: `bash submit_ceai.sh job_m.slurm --export=ALL,PART=t1`, then t2, t3 and t4. On ceai, CRT runs at most 2 jobs and the interpreter's P1 runs 1. Both use `submit_ceai.sh` (lock `/tmp/submit_ceai.lock`, log `_transfer_logs/submit_ceai.log`).
+5. Job M ran on nvquoc instead, by the author's decision of 19 Oct 2026 evening. Qwen stayed on ceai with one of its 3 slots, so nvquoc's slots were free.
+   - The chain is tmux `crt_m` on login01: `for p in t1 t2 t3 t4; do bash submit_nvquoc.sh job_m.slurm --export=ALL,PART=$p; done`.
+   - The time limits are lowered with `scontrol update` so that backfill can start the parts.
+   - Then sync `v1/m` and the job logs to ceai, and run `job_move_ceai.slurm` again; the rewrite of the new files gets its own log.
+   - On ceai, CRT runs at most 1 job next to Qwen and the interpreter's P1. All of them submit through `submit_ceai.sh` (lock `/tmp/submit_ceai.lock`, log `_transfer_logs/submit_ceai.log`).
+   - The listening-test stimuli come from `bash submit_ceai.sh job_listening_stimuli.slurm` after `move.done`.
 6. Delete `/datastore/nvquoc/crt` once the copy on ceai is verified, as the author instructed.
 
 From here on, use `J=/datastore/ceai/crt/mimi_vc/benchmark/journal`.

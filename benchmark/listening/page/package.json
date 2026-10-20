@@ -1,0 +1,6 @@
+{
+  "private": true,
+  "description": "Listening-test page. `main` lets `node --test benchmark/listening/page/` run the tests, since Node 22+ treats a directory argument as a module.",
+  "type": "commonjs",
+  "main": "lt_core.test.js"
+}

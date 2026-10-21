@@ -296,3 +296,18 @@ def test_keep_takes_single_files_too(tree, tmp_path):
     assert both.read_text() == f'OLD={OLD}\nNEW={NEW}\n'
     assert check(tree, '--log', str(tmp_path / 'b.tsv'), '--keep', f'{J}/job_move_ceai.slurm') == 0
     assert check(tree, '--log', str(tmp_path / 'b.tsv')) == 1          # without --keep it counts as a leftover
+
+
+def test_rewrite_changes_site_packages_path_files_but_not_pth_checkpoints(tmp_path):
+    """A venv's .pth path file is text (the seedvc env's mimi_vc_base.pth names the mimi_vc site-packages); a torch
+    checkpoint named .pth is binary and holds a NUL byte in its first 8 KiB."""
+    root = tmp_path / 'crt'
+    sp = 'envs/seedvc/lib/python3.12/site-packages'
+    put(root, f'{sp}/mimi_vc_base.pth', f'{OLD}/envs/mimi_vc/lib/python3.12/site-packages\n')
+    ckpt = b'PK\x03\x04\x14\x00\x00\x00' + OLD.encode() + b'\x00' * 16
+    put(root, 'mimi_vc/benchmark/FreeVC/checkpoints/freevc.pth', ckpt)
+    log = tmp_path / 'move.tsv'
+    move_paths.rewrite(str(root), OLD, NEW, str(log))
+    assert (root / sp / 'mimi_vc_base.pth').read_text() == f'{NEW}/envs/mimi_vc/lib/python3.12/site-packages\n'
+    assert (root / 'mimi_vc/benchmark/FreeVC/checkpoints/freevc.pth').read_bytes() == ckpt
+    assert move_paths.check(str(root), OLD, NEW, [str(log)]) == 0

@@ -24,6 +24,11 @@ Stimuli of the listening test of ANALYSIS_PLAN_v1.md §5.4, in two steps.
          practice, MOS, SMOS and CMOS blocks; each CMOS pair carries an opaque group id per comparison, which the
          page uses to balance the A/B order within each comparison) and --key, outside the package (what every
          trial and clip is: kept by the organiser, never given to raters).
+  config (CPU) --package <package dir> --consent <html file> --contact <text> [--title <text>]
+         Puts the approved information-and-consent text (an HTML fragment), the contact and optionally the title
+         into the config of a built package's lt_data.js; the clips and the trials are untouched. Refuses an empty
+         consent text, the placeholder of DEFAULT_CONFIG, a <script> in it, a draft field of consent_v1.html left
+         in it ([CONTACT], [COMPENSATION...], ...), or an empty contact, and prints the sha256 of the new lt_data.js.
 Trials: MOS and SMOS rate every item under every condition of --conditions (default nat, nat_mimi, faiss, crt04,
 crtal), each with a half label (A: ranks 0 and 2, B: ranks 1 and 3 of each cell) for the case where a session would
 pass 60 min; CMOS has the 32 CRT-AL vs FAISS pairs (P8), the 32 CRT-AL vs CRT τ = 0.4 pairs (K8) and 8 hidden
@@ -35,6 +40,7 @@ import hashlib
 import json
 import math
 import os
+import re
 import sys
 
 SEED = 20260928
@@ -339,6 +345,33 @@ DEFAULT_CONFIG = {'title': 'Listening test: voice conversion', 'contact': 'the o
                   'submit_url': None}
 
 
+LT_PREFIX = 'window.LT_DATA = '
+DRAFT_MARKERS = ('[CONTACT]', '[COMPENSATION', '[ETHICS', '[THÙ LAO', '[ĐẠO ĐỨC')   # listening/consent_v1.html
+
+
+def set_config(package, consent_html, contact, title=None):
+    """Replaces consent_html, contact (and title, when given) in <package>/lt_data.js; returns (data, sha256)."""
+    path = os.path.join(package, 'lt_data.js')
+    txt = open(path, encoding='utf-8').read().rstrip()
+    if not txt.startswith(LT_PREFIX) or not txt.endswith(';'):
+        raise SystemExit(f'ERROR: {path} is not an lt_data.js written by build')
+    data = json.loads(txt[len(LT_PREFIX):-1])
+    if not consent_html.strip() or consent_html.strip() == DEFAULT_CONFIG['consent_html'] \
+            or re.search(r'<\s*script', consent_html, re.I):
+        raise SystemExit('ERROR: the consent text is empty, still the placeholder, or holds a <script>')
+    left = [m for m in DRAFT_MARKERS if m in consent_html]
+    if left:
+        raise SystemExit(f'ERROR: the consent text still has the draft fields {left}: fill them in or delete them')
+    if not contact.strip():
+        raise SystemExit('ERROR: the contact is empty')
+    data['config'] = dict(data['config'], consent_html=consent_html.strip(), contact=contact.strip(),
+                          **({'title': title.strip()} if title else {}))
+    with open(path + '.tmp', 'w', encoding='utf-8') as fo:
+        fo.write(LT_PREFIX + json.dumps(data, indent=1) + ';\n')
+    os.replace(path + '.tmp', path)
+    return data, hashlib.sha256(open(path, 'rb').read()).hexdigest()
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.split('\n\n')[0])
     sub = ap.add_subparsers(dest='cmd', required=True)
@@ -357,7 +390,17 @@ def main(argv=None):
     b.add_argument('--page_conditions', default=','.join(CONDITIONS),
                    help='conditions of the MOS and SMOS blocks (§5.4: kNN-VC and Seed-VC only after the pilot)')
     b.add_argument('--device', default='cuda')
+    c = sub.add_parser('config')
+    c.add_argument('--package', required=True, help='the built package folder (holds lt_data.js)')
+    c.add_argument('--consent', required=True, help='HTML fragment: the approved information and consent text')
+    c.add_argument('--contact', required=True)
+    c.add_argument('--title', default=None)
     a = ap.parse_args(argv)
+    if a.cmd == 'config':
+        data, sha = set_config(a.package, open(a.consent, encoding='utf-8').read(), a.contact, a.title)
+        print(f'config: consent ({len(data["config"]["consent_html"])} characters), contact {data["config"]["contact"]!r}'
+              f', title {data["config"]["title"]!r} -> {os.path.join(a.package, "lt_data.js")} (sha256 {sha})')
+        return 0
     if a.cmd == 'plan':
         rec = json.load(open(a.record))
         pairs = {r['pair_id']: r for f in (a.vctk_pairs, a.ltc_pairs) for r in read_jsonl(f)}

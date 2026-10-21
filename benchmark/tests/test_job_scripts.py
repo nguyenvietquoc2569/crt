@@ -41,8 +41,21 @@ def test_job_layer_present():
     names = {os.path.basename(p) for p in JOBS}
     for n in ('job_d0.slurm', 'job_d1_conv.slurm', 'job_d1_metrics.slurm', 'job_d2.slurm', 'job_t1.slurm',
               'job_t2.slurm', 'job_t3.slurm', 'job_t4.slurm', 'job_m.slurm', 'job_baselines_smoke.slurm',
-              'job_move_ceai.slurm', 'job_listening_stimuli.slurm'):
+              'job_move_ceai.slurm', 'job_listening_stimuli.slurm', 'job_x1.slurm'):
         assert n in names
+
+
+def test_x1_runs_after_every_test_job_and_writes_only_its_own_dir():
+    """Job X1 (DEVIATIONS_v1.md item 5) waits for T4 and M part t4 under the current selection.env, converts only
+    FreeVC, Seed-VC and FACodec at 3 s, and writes nothing outside $J/v1/x1."""
+    b = body(os.path.join(BENCH, 'job_x1.slurm'))
+    assert 'for f in $J/v1/t4/t4.done $J/v1/m/t4/m.done' in b and 'grep -q "selection sha256 $SELSHA" $f' in b
+    assert re.search(r'^SYSTEMS="freevc seedvc facodec"$', b, re.M) and re.search(r'^B=3$', b, re.M)
+    assert '--budget $B' in b and '--cfg' not in b
+    for target in re.findall(r'(?:--out_dir|--out|--out_jsonl)\s+(\S+)', b) + re.findall(r'>\s*(\$\S+)', b):
+        assert target.startswith(('$BL', '$OUT', '$TIMES')), target
+    assert re.search(r'^TIMES=\$OUT/', b, re.M)
+    assert 'source $ENVS/seedvc/bin/activate' in b and 'source $ENVS/mimi_vc/bin/activate' in b
 
 
 @pytest.mark.parametrize('path', JOBS, ids=os.path.basename)

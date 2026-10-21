@@ -31,6 +31,9 @@ listening_test/
 ```
 
 `sample_lt_data.js`, the tests, `package.json` and this README are not needed (they do no harm if included).
+Put the approved information-and-consent text and the contact into the package with
+`listening_stimuli.py config --package <dir> --consent <html fragment> --contact <text>` (the draft is
+`benchmark/listening/consent_v1.html`; the command refuses it while a draft field such as `[CONTACT]` is left).
 Zip the folder and send it, or upload it unchanged to a static host. Before sending it, open `index.html` from the
 folder and go through the consent, rater-ID and sound-check screens and the first trial. A missing or invalid
 `lt_data.js` (unknown stimulus ids, duplicate tids) stops the page with a message.
@@ -51,7 +54,10 @@ folder and go through the consent, rater-ID and sound-check screens and the firs
    Raters who fail twice are thanked and stopped; they still download and send their file.
 4. Practice (3 recordings), then the MOS, SMOS and CMOS parts, with a break screen between parts. Each clip must
    be played to the end before the rating buttons work (`require_full_play`); replays are allowed.
-5. At the end, press **Download results** and send the file `listening_<raterId>_<YYYYMMDD-HHMM>.json` to the
+5. After the last rating, five background questions (`BACKGROUND` in `lt_core.js`: age group, first language,
+   understanding of spoken English, known hearing problem, listening device). Every question also offers "Prefer
+   not to say", and there is no free text. Continue works once each question has an answer.
+6. At the end, press **Download results** and send the file `listening_<raterId>_<YYYYMMDD-HHMM>.json` to the
    contact. If `config.submit_url` is set, **Submit** also POSTs the same JSON there.
 
 Answers are saved in the browser after every response (localStorage key `lt:<raterId>`). A rater who closes the
@@ -79,7 +85,7 @@ one is kept under `lt-backup:<raterId>:<time>` and a new session starts.
 ## Results file
 
 `{version, rater_id, parity, half, started, finished, user_agent, config_title, headphone {attempts [{trials
-[{order, answer, choice}], correct}], passed}, responses {practice, mos, smos, cmos}, block_ms}`.
+[{order, answer, choice}], correct}], passed}, responses {practice, mos, smos, cmos}, block_ms, background}`.
 
 - `practice`/`mos`: `{tid, stim, rating, plays, rt_ms, t, attention?}`; `smos`: `{tid, stim, ref, rating,
   plays_ref, plays_stim, rt_ms, t, attention?}`; `cmos`: `{tid, a, b, rating, plays_a, plays_b, rt_ms, t,
@@ -88,7 +94,10 @@ one is kept under `lt-backup:<raterId>:<time>` and a new session starts.
 - `plays*` counts started plays (stopped ones included). `rt_ms` runs from the trial screen being shown to the
   last rating click, and `t` is the time Next was pressed. `attention` is the rating the item asked for.
 - `block_ms` is the time spent on the block's trial screens (breaks and instruction screens excluded; 0 for a
-  block not reached). `finished` stays `null` unless the CMOS block was completed.
+  block not reached). `finished` is the time of the last rating, and stays `null` unless the CMOS block was
+  completed. The background questions come after it, so they do not count towards the session length.
+- `background` is `null` until the questions are answered, then `{age, first_language, english, hearing, device}`,
+  each value one of the question's options or "Prefer not to say".
 - The answers are in presentation order.
 
 ## Submit endpoint (optional)
@@ -103,6 +112,6 @@ one is kept under `lt-backup:<raterId>:<time>` and a new session starts.
 node --test benchmark/listening/page/
 ```
 
-They cover the seeded functions, the session layout, the results schema, the headphone-check signal, the sample
-data and the script order in `index.html`. The UI was checked in a Chromium browser with the sample data and with
+They cover the seeded functions, the session layout, the results schema, the background questions, the
+headphone-check signal, the sample data and the script order in `index.html`. The UI was checked in a Chromium browser with the sample data and with
 real FLAC files.

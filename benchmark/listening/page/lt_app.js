@@ -123,7 +123,7 @@
         return done === 0 && !introSeen.has(block) ? {name: 'intro', block} : {name: 'trial', block, index: done};
       }
     }
-    return {name: 'finish'};
+    return R.background ? {name: 'finish'} : {name: 'background'};
   }
 
   function render() {
@@ -133,6 +133,7 @@
     else if (s.name === 'hp-fail') renderHpFail();
     else if (s.name === 'intro') renderIntro(s.block);
     else if (s.name === 'trial') renderTrial(s.block, s.index);
+    else if (s.name === 'background') renderBackground();
     else renderFinish();
   }
 
@@ -573,7 +574,8 @@
     R.block_ms[block] += Math.round(now - cur.shownAt);
     for (const c of clips) c.el.onended = c.el.onpause = c.el.onerror = null;
     cur = null;
-    if (screen().name === 'finish' && !R.finished) R.finished = rec.t;
+    // finished = the last rating, so the background questions do not count towards the session length
+    if (['background', 'finish'].includes(screen().name) && !R.finished) R.finished = rec.t;
     save();
     render();
   }
@@ -621,6 +623,31 @@
       buttons.push(sub);
     }
     return [el('div', {class: 'actions left'}, buttons), dlMsg, subMsg];
+  }
+
+  function renderBackground() {
+    const answers = {};
+    const next = el('button', {class: 'primary', disabled: true, onclick: () => {
+      state.results.background = Object.assign({}, answers);
+      save();
+      render();
+    }}, 'Continue');
+    const groups = C.BACKGROUND.map((q) => el('fieldset', {class: 'bg'},
+      el('legend', {}, q.question),
+      q.options.concat([C.NO_ANSWER]).map((opt) => {
+        const input = el('input', {type: 'radio', name: 'bg-' + q.key, value: opt});
+        input.addEventListener('change', () => {
+          answers[q.key] = opt;
+          next.disabled = C.checkBackground(answers).length > 0;
+        });
+        return el('label', {class: 'check'}, input, opt);
+      })));
+    show(card(
+      el('h1', {}, 'Five short questions'),
+      el('p', {}, 'All your ratings are saved. These questions only help us describe the group of listeners in the ' +
+                  'paper. You can answer any of them with "' + C.NO_ANSWER + '".'),
+      groups,
+      actions(next)));
   }
 
   function renderFinish() {

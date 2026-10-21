@@ -8,6 +8,18 @@
   // Headphone-check tones (Woods et al., 2017): 200 Hz, 1 s, 100 ms raised-cosine ramps, 'quiet' 6 dB down.
   // The 0.3 s lead-in (lets wireless headphones wake up) and the 0.5 s gaps are this page's choice.
   const HP_TONE = {freq: 200, dur: 1.0, ramp: 0.1, gap: 0.5, lead: 0.3, amp: 0.3, quietDb: -6};
+  // Background questions, asked once after the last rating to describe the listeners in the paper. Every question
+  // also offers NO_ANSWER, and there is no free text, so the answers cannot identify a rater.
+  const BACKGROUND = [
+    {key: 'age', question: 'Your age group', options: ['18–24', '25–34', '35–44', '45 or older']},
+    {key: 'first_language', question: 'Your first language', options: ['Vietnamese', 'English', 'Other']},
+    {key: 'english', question: 'How well do you understand spoken English?',
+     options: ['Basic', 'Intermediate', 'Advanced', 'Native or near-native']},
+    {key: 'hearing', question: 'Do you have a known hearing problem?', options: ['No', 'Yes', 'Not sure']},
+    {key: 'device', question: 'What did you listen with?',
+     options: ['Over-ear or on-ear headphones', 'In-ear earphones or earbuds', 'Other']},
+  ];
+  const NO_ANSWER = 'Prefer not to say';
 
   // 32-bit FNV-1a over the UTF-8 bytes of s. Python:
   //   h = 0x811c9dc5; for b in s.encode(): h = ((h ^ b) * 0x01000193) & 0xffffffff
@@ -124,7 +136,14 @@
       headphone: {attempts: [], passed: false},
       responses: {practice: [], mos: [], smos: [], cmos: []},
       block_ms: {practice: 0, mos: 0, smos: 0, cmos: 0},
+      background: null,
     };
+  }
+
+  // Keys of BACKGROUND whose answer is missing or not one of its options (or NO_ANSWER); empty when complete.
+  function checkBackground(answers) {
+    const a = answers || {};
+    return BACKGROUND.filter((q) => !(q.options.includes(a[q.key]) || a[q.key] === NO_ANSWER)).map((q) => q.key);
   }
 
   function headphoneTrials(n, rand) {
@@ -182,8 +201,9 @@
   }
 
   const api = {
-    BLOCKS, HP_SOUNDS, HP_TONE, hashString, rng, shuffle, raterParity, isAttention, selectHalf, placeAttention,
-    abOrder, buildSession, emptyResults, headphoneTrials, headphoneSignal, checkData,
+    BLOCKS, HP_SOUNDS, HP_TONE, BACKGROUND, NO_ANSWER, hashString, rng, shuffle, raterParity, isAttention,
+    selectHalf, placeAttention, abOrder, buildSession, emptyResults, checkBackground, headphoneTrials,
+    headphoneSignal, checkData,
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.LTCore = api;

@@ -16,7 +16,9 @@ items drawn with replacement, independently; a rating's weight is the product of
 blocks also get the two-sided p of §5.2 and the counts; a block enters its family only with at least 15 screened
 raters who completed it (§5.4), which analyze_tests.py checks from n_raters. Secondary: a mixed model with crossed
 rater and item random intercepts (statsmodels MixedLM, variance components). Descriptive: the hidden pairs' mean
-signed and absolute CMOS (bias), the paired MOS differences between the codec systems, session length.
+signed and absolute CMOS (bias), the paired MOS differences between the codec systems, session length, and
+how many kept raters gave each answer to the page's background questions (age group, first language, English,
+hearing, listening device).
 Pilot mode (the 5-rater pilot): session length per block, and from the pilot's CMOS variance components the
 smallest rater count in 15-20 with 80 % power at a CMOS difference of 0.2 (2.80 SE <= 0.2); if none, 20 raters and
 the MDE they reach. Whether a session passes 60 min decides the two halves of MOS / SMOS (§5.4).
@@ -36,6 +38,7 @@ import stats
 
 B, SEED = 10000, 20260928
 MIN_RATERS, CMOS_TARGET, POWER_Z, SESSION_MIN = 15, 0.2, 2.80, 60.0
+BACKGROUND_KEYS = ('age', 'first_language', 'english', 'hearing', 'device')   # the page's BACKGROUND (lt_core.js)
 GOLD_MAX, GOLD_FAILS, HIDDEN_ABS, HIDDEN_FAILS = 2, 1, 2, 5
 CODEC_PAIRS = (('crtal', 'faiss'), ('crtal', 'crt04'), ('faiss', 'nat_mimi'), ('crtal', 'nat_mimi'))
 
@@ -196,6 +199,20 @@ def final(res, key):
     hid = cmos_values(res, key, keep, 'hidden')
     out['hidden'] = dict(summarise(hid), mean_abs=float(np.mean([abs(x[2]) for x in hid])) if hid else None)
     out['session_min'] = session_minutes(res, keep)
+    out['background'] = background(res, keep)
+    return out
+
+
+def background(res, keep):
+    """Descriptive: how many kept raters gave each answer to the page's background questions; a file without the
+    answers (or without one of them) counts as 'not answered'."""
+    out = {}
+    for k in BACKGROUND_KEYS:
+        n = {}
+        for r in keep:
+            v = (res[r].get('background') or {}).get(k) or 'not answered'
+            n[v] = n.get(v, 0) + 1
+        out[k] = dict(sorted(n.items()))
     return out
 
 
@@ -221,7 +238,8 @@ def pilot(res, key):
     """Session length and the rater count for 80 % power at a CMOS difference of 0.2 (§5.4)."""
     sc = screen(res, key)
     keep = sorted(r for r, why in sc.items() if not why)
-    out = {'screening': sc, 'kept': keep, 'session_min': session_minutes(res, keep)}
+    out = {'screening': sc, 'kept': keep, 'session_min': session_minutes(res, keep),
+           'background': background(res, keep)}
     out['halves'] = bool(out['session_min']['median'] and out['session_min']['median'] > SESSION_MIN)
     for kind in ('P8', 'K8'):
         v = cmos_values(res, key, keep, kind)
@@ -272,7 +290,12 @@ def render_final(o):
     h = o['hidden']
     L += ['', f'Hidden identical pairs: mean signed CMOS {ci(h)}, mean |CMOS| {f(h.get("mean_abs"))}.',
           f'Session length: median {f(o["session_min"]["median"], 1)} min, max {f(o["session_min"]["max"], 1)} min.']
+    L += ['', '## Listeners (kept raters, descriptive)', ''] + render_background(o['background'])
     return '\n'.join(L) + '\n'
+
+
+def render_background(bg):
+    return [f'- {k}: ' + ', '.join(f'{v} {n}' for v, n in bg[k].items()) for k in BACKGROUND_KEYS]
 
 
 def render_pilot(o):
@@ -287,6 +310,7 @@ def render_pilot(o):
             L.append(f'- {kind}: {x["raters"]} raters (2.80 SE = {f(x["mde_at_raters"])}; target 0.2).')
         else:
             L.append(f'- {kind}: no estimate ({x["mixed"].get("error")}).')
+    L += ['', 'Listeners (kept raters):'] + render_background(o['background'])
     return '\n'.join(L) + '\n'
 
 

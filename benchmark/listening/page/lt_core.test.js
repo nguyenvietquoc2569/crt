@@ -188,7 +188,8 @@ test('emptyResults has the results schema', () => {
   const s = C.buildSession(testData(true), 'R10');
   const r = C.emptyResults(s, 'UA/1.0', '2026-10-19T08:00:00.000Z');
   assert.deepEqual(Object.keys(r), ['version', 'rater_id', 'parity', 'half', 'started', 'finished', 'user_agent',
-                                    'config_title', 'headphone', 'responses', 'block_ms']);
+                                    'config_title', 'headphone', 'responses', 'block_ms', 'background']);
+  assert.equal(r.background, null);
   assert.deepEqual(r.headphone, {attempts: [], passed: false});
   assert.deepEqual(r.responses, {practice: [], mos: [], smos: [], cmos: []});
   assert.deepEqual(r.block_ms, {practice: 0, mos: 0, smos: 0, cmos: 0});  // numbers: the analysis sums them
@@ -297,4 +298,29 @@ test('abOrder balances each comparison group on its own', () => {
     }
     o0.forEach((t, i) => { assert.equal(t.a, o1[i].b); assert.equal(t.b, o1[i].a); });
   }
+});
+
+test('background questions: every one has options and a no-answer, and checkBackground names what is missing', () => {
+  const keys = C.BACKGROUND.map((q) => q.key);
+  assert.deepEqual(keys, ['age', 'first_language', 'english', 'hearing', 'device']);
+  for (const q of C.BACKGROUND) {
+    assert.ok(q.question && q.options.length >= 3 && !q.options.includes(C.NO_ANSWER));
+  }
+  assert.deepEqual(C.checkBackground(null), keys);
+  assert.deepEqual(C.checkBackground({}), keys);
+  const full = Object.fromEntries(C.BACKGROUND.map((q) => [q.key, q.options[0]]));
+  assert.deepEqual(C.checkBackground(full), []);
+  assert.deepEqual(C.checkBackground(Object.fromEntries(keys.map((k) => [k, C.NO_ANSWER]))), []);
+  assert.deepEqual(C.checkBackground({...full, english: 'Fluent'}), ['english']);   // not an offered option
+  const {device, ...noDevice} = full;
+  assert.deepEqual(C.checkBackground(noDevice), ['device']);
+});
+
+test('lt_app.js asks the background questions after the last rating and keeps finished at the last rating', () => {
+  const src = fs.readFileSync(here('lt_app.js'), 'utf8');
+  assert.match(src, /return R\.background \? \{name: 'finish'\} : \{name: 'background'\};/);
+  assert.match(src, /else if \(s\.name === 'background'\) renderBackground\(\);/);
+  assert.match(src, /\['background', 'finish'\]\.includes\(screen\(\)\.name\) && !R\.finished\) R\.finished = rec\.t;/);
+  assert.match(src, /state\.results\.background = Object\.assign\(\{\}, answers\);/);
+  assert.match(src, /C\.checkBackground\(answers\)\.length > 0/);
 });

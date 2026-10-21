@@ -34,7 +34,9 @@ import stat
 import sys
 import tempfile
 
-BINARY_SUFFIXES = {'.wav', '.flac', '.mp3', '.ogg', '.npz', '.npy', '.pt', '.pth', '.ckpt', '.safetensors', '.bin',
+# '.pth' is not in the list: Python's site-packages path files (e.g. an env's mimi_vc_base.pth) are text and must be
+# rewritten; torch checkpoints named .pth hold NUL bytes in their first 8 KiB, so read_text still skips them.
+BINARY_SUFFIXES = {'.wav', '.flac', '.mp3', '.ogg', '.npz', '.npy', '.pt', '.ckpt', '.safetensors', '.bin',
                    '.so', '.pyc', '.whl', '.gz', '.tgz', '.tar', '.zip', '.faiss', '.index', '.pkl', '.onnx', '.h5',
                    '.png', '.jpg', '.pdf', '.docx'}
 LOG_SUFFIXES = {'.log', '.out', '.err'}

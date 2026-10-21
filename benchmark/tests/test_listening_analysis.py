@@ -195,3 +195,31 @@ def test_duplicate_rater_ids_are_refused(setup, tmp_path):
         (tmp_path / f'f{n}.json').write_text(json.dumps(r))
     with pytest.raises(SystemExit, match='twice'):
         la.load_results(la.result_files(str(tmp_path)))
+
+
+# ── background questions ─────────────────────────────────────
+
+def test_background_counts_only_kept_raters(setup):
+    pages, key = setup
+    res = panel(pages, key, n=4)
+    answers = {'age': '25–34', 'first_language': 'Vietnamese', 'english': 'Advanced', 'hearing': 'No',
+               'device': 'Over-ear or on-ear headphones'}
+    for rid in ('R01', 'R02'):
+        res[rid]['background'] = dict(answers)
+    res['R03']['background'] = dict(answers, english='Prefer not to say')
+    res['R05'] = rater(pages, key, 'R05', 5, attention_wrong=True)          # excluded: never counted
+    res['R05']['background'] = dict(answers, age='45 or older')
+    o = la.final(res, key)
+    assert o['background']['age'] == {'25–34': 3, 'not answered': 1}       # R04 has no answers
+    assert o['background']['english'] == {'Advanced': 2, 'Prefer not to say': 1, 'not answered': 1}
+    assert la.pilot(res, key)['background'] == o['background']
+    md = la.render_final(o)
+    assert '## Listeners (kept raters, descriptive)' in md and '- age: 25–34 3, not answered 1' in md
+
+
+def test_background_keys_match_the_page():
+    import os
+    import re
+    src = open(os.path.join(os.path.dirname(la.__file__), 'listening', 'page', 'lt_core.js')).read()
+    block = src[src.index('const BACKGROUND = ['):src.index('const NO_ANSWER')]
+    assert tuple(re.findall(r"key: '(\w+)'", block)) == la.BACKGROUND_KEYS

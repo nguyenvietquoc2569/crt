@@ -88,3 +88,46 @@
      - `listening/page/` is the rating page. `listening_analysis.py` (10 tests) applies the pre-registered screening, then computes MOS / SMOS / CMOS with a crossed rater × item bootstrap; it writes `cmos.json` for `analyze_tests.py --cmos` and gives the pilot's rater count.
      - The loudness normalisation and the E-utterance choice are protocol details §5.4 leaves open. They are fixed here, before any rating.
    - The relay's final check, the rewrite and environment checks, and the deletion of `/datastore/nvquoc/crt` (never `/datastore/nvquoc/qwen`) are recorded here once done.
+   - **21 Oct 2026: a gap in the rewrite, found by job X1 and fixed.**
+     - `move_paths.py` listed `.pth` among the binary suffixes, meant for torch checkpoints. It therefore skipped Python's site-packages path files, and `check` skipped them too.
+     - One such file kept the old home: `envs/seedvc/lib/python3.12/site-packages/mimi_vc_base.pth` still named `/datastore/nvquoc/crt/envs/mimi_vc/lib/python3.12/site-packages`, so the Seed-VC env on ceai could not import librosa.
+     - A scan of every `.pth` file under 64 KiB in `/datastore/ceai/crt` (3 files) found no other.
+     - That file was rewritten by hand at 04:52 (sha256 c7b50949… → 0a69fa8d…).
+     - `.pth` was removed from the binary suffixes: torch checkpoints still count as binary through the NUL test. A test covers both cases (`move_paths.py` sha256 474d7eb0…, pushed to ceai).
+     - No completed job used the Seed-VC env on ceai: T4 ran on nvquoc, and M t4, the listening stimuli and the move job use `envs/mimi_vc`. So no result is affected.
+
+5. **21 Oct 2026, exploratory addition X1, decided after the test results: FreeVC, Seed-VC and FACodec at the 3 s budget.**
+   - **The author's decision.** Asked whether to run the other three baselines at 3 s as a clearly labelled exploratory addition, the corresponding author answered "You suggest it" (21 Oct 2026).
+   - **Why.** In the budget sweep (E16), CRT-AL's capped WER is flat from 3 s to 180 s, while kNN-VC rises to 60.27 % (VCTK-2k) and 34.57 % (LTC-2k) at 3 s. A reader of that figure will ask how the other baselines behave with a 3 s reference, and the plan does not answer it.
+   - **What runs.** `job_x1.slurm` converts FreeVC, Seed-VC and FACodec at 3 s on VCTK-2k (the record's 5-target list) and LTC-2k. It uses the adapters' fixed settings, exactly as T4 converts kNN-VC at 3 s, and scores the outputs as job M part t4 does, into the new directory `v1/x1`. It runs only after `t4.done` and `m/t4/m.done`, under the current selection.env.
+   - **What is computed, fixed before any X1 output exists.** `analyze_exploratory.py` (10 tests, plus a job-script test) runs the comparison of `analyze_tests.py`, imported unchanged, at 3 s:
+     - Δ = CRT-AL − baseline on the six endpoints of family S (capped WER, SIM and UTMOS on both sets), for kNN-VC, FreeVC, Seed-VC and FACodec: 24 comparisons, with the plan's crossed bootstrap.
+     - Holm over the 24 is printed as a guide only.
+     - Sensitivity: uncapped WER.
+     - Descriptive: every system's 3 s levels (WER, CER, SIM, UTMOS, SIM_src, M9 with the share D > 0) and EER.
+     - Output: `EXPLORATORY_X1_v1.{md,json}`.
+   - **Status of the result: exploratory.**
+     - kNN-VC's 3 s outputs had already been seen.
+     - X1 changes no §7 decision and is reported whatever it shows. None of its numbers is presented as a pre-registered result.
+     - It adds no CRT-AL system, decoder or setting, and produces no CRT output.
+   - **Submitted.** Job 4955 on ceai through `submit_ceai.sh` (Submit 2026-10-21 04:34:05 +07, the interpreter session told before). `job_x1.slurm` sha256 62e74151c7b70c57efa3a6d2df881832b14ddfd4833c1741c65608745d7127dc on both sides. It started at once on h200node01, with selection sha256 9c7275f5…bc105, the same as `t4.done` and `m/t4/m.done`.
+   - **To check after the run.** On ceai, the adapters' `conv_cfg_sha` differ from T4's, because their configs hold the absolute home path. The `conv_cfg` of X1's `runs.jsonl` must equal T4's once `/datastore/ceai/crt` is mapped back to `/datastore/nvquoc/crt`.
+   - **First run, 21 Oct 2026.** Job 4955 converted FreeVC and FACodec at 3 s on both sets: 2,000 and 1,800 pairs, 0 errors.
+     - Seed-VC stopped at import (`No module named 'librosa'`), because of the stale `.pth` path described in item 4. The job's completeness check then stopped it before any scoring, so no X1 metric exists from it.
+     - After the fix, `job_x1.slurm` is resubmitted unchanged (tmux `crt_x1_resubmit` on login01, through `submit_ceai.sh`). `run_baselines.py` resumes, so only Seed-VC is converted again before all three systems are scored.
+     - The first wrapper refused at 05:35:57 and submitted nothing: its tmux shell had no Slurm on its PATH. It was restarted at 05:44 under a login shell and waits for the 1 h gap after the interpreter's job 4958 (Submit 05:35:57).
+
+6. **21 Oct 2026, listening test (§5.4), before any rating: background questions and the consent step.**
+   - **The author's instruction.** On the listening test: "Make the reviewers happy".
+   - **Background questions on the page.** After the last rating and before the download, the page asks five questions (`BACKGROUND` in `listening/page/lt_core.js`): age group, first language, understanding of spoken English, known hearing problem, and listening device.
+     - Every question offers "Prefer not to say", and there is no free text, so nothing identifies a rater.
+     - The answers go into the results file as `background`. `finished` stays the time of the last rating, so the 60-minute rule of §5.4 is unchanged.
+     - `listening_analysis.py` reports the counts over the kept raters, descriptively, in the final and pilot reports.
+     - No screening rule, condition, item, scale or statistic changes.
+   - **Consent text.** `listening/consent_v1.html` is a draft in English and Vietnamese for the author to approve.
+     - It keeps four draft fields to fill or delete: contact, compensation, ethics, and their Vietnamese twins.
+     - `listening_stimuli.py config` writes the approved text and the contact into a built package's `lt_data.js` without touching the clips or trials. It refuses the text while a draft field is left.
+   - **Tests.**
+     - The Node tests of the page: 18 pass.
+     - The pytest tests of `listening_analysis.py` and `listening_stimuli.py`: 38 pass, including the new ones for the background counts, the key list shared with the page, and `config` with its refusals.
+     - The questions screen was checked in a browser: Continue stays disabled until all five are answered, and the answers are saved.

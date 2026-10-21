@@ -264,3 +264,57 @@ def test_the_key_may_not_go_into_the_package(tmp_path):
     p = ls.plan(items, pairs, rows, ls.CONDITIONS)
     with pytest.raises(SystemExit, match='must not be inside the package'):
         ls.build(p, str(tmp_path / 'pkg'), str(tmp_path / 'pkg' / 'key.json'), None, ls.DEFAULT_CONFIG)
+
+
+# ── config of a built package ────────────────────────────────
+
+def _package(tmp_path):
+    data = {'version': 1, 'config': dict(ls.DEFAULT_CONFIG), 'stimuli': {'s1': {'src': 'stimuli/s1.flac', 'dur': 2.0}},
+            'practice': [], 'mos': [{'tid': 'm1', 'stim': 's1'}], 'smos': [], 'cmos': []}
+    (tmp_path / 'lt_data.js').write_text(ls.LT_PREFIX + json.dumps(data, indent=1) + ';\n')
+    return data
+
+
+def test_set_config_replaces_only_consent_contact_and_title(tmp_path):
+    before = _package(tmp_path)
+    consent = '<p><b>Thông tin.</b> Voluntary – you may stop at any time.</p>\n'
+    data, sha = ls.set_config(str(tmp_path), consent, '  organiser@uit.example  ')
+    js = (tmp_path / 'lt_data.js').read_text()
+    assert js.startswith('window.LT_DATA = ') and js.endswith(';\n')
+    again = json.loads(js[len(ls.LT_PREFIX):].rstrip()[:-1])
+    assert again == data and again['config']['consent_html'] == consent.strip()
+    assert again['config']['contact'] == 'organiser@uit.example' and again['config']['title'] == before['config']['title']
+    assert {k: v for k, v in again.items() if k != 'config'} == {k: v for k, v in before.items() if k != 'config'}
+    assert {k: v for k, v in again['config'].items() if k not in ('consent_html', 'contact')} == \
+        {k: v for k, v in before['config'].items() if k not in ('consent_html', 'contact')}
+    assert len(sha) == 64
+    data2, _ = ls.set_config(str(tmp_path), consent, 'x@y', title='Listening test')
+    assert data2['config']['title'] == 'Listening test'
+
+
+@pytest.mark.parametrize('consent, contact, match', [
+    ('', 'x@y', 'empty'), (ls.DEFAULT_CONFIG['consent_html'], 'x@y', 'placeholder'),
+    ('<p>ok</p><SCRIPT>alert(1)</script>', 'x@y', 'script'), ('<p>ok</p>', '  ', 'contact')])
+def test_set_config_refusals(tmp_path, consent, contact, match):
+    _package(tmp_path)
+    with pytest.raises(SystemExit, match=match):
+        ls.set_config(str(tmp_path), consent, contact)
+
+
+def test_set_config_refuses_a_file_that_is_not_lt_data(tmp_path):
+    (tmp_path / 'lt_data.js').write_text('var x = 1;\n')
+    with pytest.raises(SystemExit, match='not an lt_data.js'):
+        ls.set_config(str(tmp_path), '<p>ok</p>', 'x@y')
+
+
+def test_set_config_refuses_the_draft_fields_of_consent_v1(tmp_path):
+    _package(tmp_path)
+    draft = open(os.path.join(os.path.dirname(ls.__file__), 'listening', 'consent_v1.html'), encoding='utf-8').read()
+    with pytest.raises(SystemExit, match='draft fields'):
+        ls.set_config(str(tmp_path), draft, 'x@y')
+    filled = draft.replace('[CONTACT]', 'x@y')
+    for m in ('[COMPENSATION', '[ETHICS', '[THÙ LAO', '[ĐẠO ĐỨC'):
+        start = filled.index(m)
+        filled = filled[:start] + filled[filled.index(']', start) + 1:]
+    data, _ = ls.set_config(str(tmp_path), filled, 'x@y')
+    assert 'Tham gia là tự nguyện' in data['config']['consent_html'] and '[' not in data['config']['consent_html']

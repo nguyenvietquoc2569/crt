@@ -106,3 +106,5 @@ def test_r1x_continues_r1_without_writing_it():
     rx = s.split('R1="', 1)[1].split('"', 1)[0]
     assert rx.replace('--steps 300000', '--steps $STEPS').replace(' --rewarm 2000 --rewarm_from 200000', '') == r1
     assert 'OUT=$MVC/runs/r1x' in s and "c['step'] == 200000" in s and '--out $OUT' in s and '--out $SRC' not in s
+    h = s.index('sha256sum $SRC/last.pt $SRC/args.json $SRC/stats.npz $SRC/ema_*.pt > $MVC/runs/r1_hashes.sha256.tmp')
+    assert h < s.index('mkdir -p $OUT')                 # absolute names, as select_mvc.py --r1_hashes reads them

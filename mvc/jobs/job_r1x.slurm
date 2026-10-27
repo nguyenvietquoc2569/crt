@@ -16,6 +16,10 @@
 # to 240k, cosine to 1.5e-5 at 300k) and a 2,000-step linear re-warm. Never eligible to become mvc_v1.
 source /datastore/ceai/crt/mimi_vc/mvc/jobs/env.sh
 SRC=$MVC/runs/r1; OUT=$MVC/runs/r1x
+if [ ! -f $MVC/runs/r1_hashes.sha256 ]; then        # for the selection record (--r1_hashes), on a compute node
+  sha256sum $SRC/last.pt $SRC/args.json $SRC/stats.npz $SRC/ema_*.pt > $MVC/runs/r1_hashes.sha256.tmp && \
+    mv $MVC/runs/r1_hashes.sha256.tmp $MVC/runs/r1_hashes.sha256 && echo " hashed runs/r1: $(date)"
+fi
 if [ ! -f $OUT/last.pt ]; then
   mkdir -p $OUT
   python -c "import torch; c = torch.load('$SRC/last.pt', map_location='cpu', weights_only=False); assert c['step'] == 200000, c['step']" \

@@ -87,7 +87,7 @@ def test_eval_lists_parse_with_unique_names_and_known_settings(evals):
     for it in items:
         cfg = json.loads(it.split('=', 1)[1])
         assert set(cfg) <= set(vc_adapter.DEFAULTS), set(cfg) - set(vc_adapter.DEFAULTS)
-        if 'stats_path' in cfg:                             # one stats file per configuration
+        if cfg.get('stats_path'):                           # one stats file per configuration
             assert cfg['stats_path'].endswith(f"/{it.split('=', 1)[0]}/stats.jsonl")
 
 
@@ -98,3 +98,11 @@ def test_r1_follows_plan_2_6_and_sets_tokens_once():
                  '--ema 0.9999', '--d 768 --layers 16 --heads 12', '--whisper 1', 'audit_v1/exclude.txt'):
         assert flag in r1, flag
     assert '--tokens' not in r1 and s.count('--tokens $TOK') == 1
+
+
+def test_r1x_continues_r1_without_writing_it():
+    s = (JOBS / 'job_r1x.slurm').read_text()
+    r1 = (JOBS / 'job_r1.slurm').read_text().split('R1="', 1)[1].split('"', 1)[0]
+    rx = s.split('R1="', 1)[1].split('"', 1)[0]
+    assert rx.replace('--steps 300000', '--steps $STEPS').replace(' --rewarm 2000 --rewarm_from 200000', '') == r1
+    assert 'OUT=$MVC/runs/r1x' in s and "c['step'] == 200000" in s and '--out $OUT' in s and '--out $SRC' not in s

@@ -30,3 +30,8 @@ Choices on points the plan leaves open, fixed before any T1 metric exists (28 Oc
    - It reads only `pair_id`, `system` and `wav` of the 30 s metric rows.
    - The journal rows on the Mac still name `/datastore/nvquoc/crt`, which moved to `/datastore/ceai/crt` on 21 Oct (benchmark/DEVIATIONS_v1.md item 4), so that prefix is mapped.
    - It copies each (set, system) batch of WAVs read-only from ceai into `MR/wav/` below its absolute ceai path, runs the frozen `dnsmos.py --norm_lufs -26`, deletes the summary file of means unread, and deletes the batch's WAVs. The Mac has about 17 GiB free, not enough for all 38,000 WAVs; ceai keeps the originals.
+3. **R1x at 250k (§4.10), exploratory: the snapshot is unusable** (28 Oct 2026, 21:30).
+   - **What happened.** Training had one transient loss spike at step ~239.4k: loss 1.80 over 100 steps, gradient norm 251 before clipping (normally about 0.2). The live model recovered within about 300 steps, and its validation loss stayed normal (0.320–0.334).
+   - **The EMA was corrupted.** Its validation loss was 0.3147 at 238k (R1 at 200k: 0.3158), then 0.78 at 244k, 41.6 at 248k and 40.4 at 250k. It has been falling since: 0.47 at 260k, 0.35 at 266k.
+   - **Result.** The Dev-S100 run of `ema_0250000.pt` (job 6885) gives WER 94–96 %, SIM 0.59–0.60 and UTMOS 1.26 at both settings. This measures the corrupted average, not longer training. It is reported as such.
+   - **What stays as planned.** The 300k evaluation runs as planned. Its `val_loss_ema` is reported beside it, to show whether the EMA has recovered. No other snapshot is evaluated, and mvc_v1 is not affected: R1 had no such spike, its largest gradient norm being 2.46 during warm-up.

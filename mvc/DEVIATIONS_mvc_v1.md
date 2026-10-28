@@ -44,6 +44,16 @@ Choices on points the plan leaves open, fixed before any T1 metric exists (28 Oc
      - **Why.** At the freeze the author asked to see the most this training reaches. The Dev-S100 numbers show higher UTMOS and flat SIM, and only a test-set run can tell whether that holds there.
      - **How it is reported.** Descriptively, with CIs only and in its own section. It never replaces or relabels a mvc_v1 result, as §4.10 fixes.
 
+5. **X-mvc-1 jobs and analysis** (`mvc/jobs/job_xmvc1.slurm`, `xmvc1_check.py`, `submit_xmvc1.sh`; `mvc/analysis/dnsmos_xmvc1.py`, `analyze_xmvc1.py`; tests `mvc/tests/test_xmvc1.py`). They were written, reviewed and fixed before any X-mvc-1 output existed.
+   - **Jobs.** One job per set (`ONLY=vctk2k|ltc2k`), writing only under `$MVC/xmvc1`. Each job refuses unless T1's five done files name the selection record.
+   - **Settings.** The cfg is mvc_v1.json with only `run_dir` (→ `runs/r1x`) and `ckpt` (→ `ema_0300000.pt`) changed. `snapshot.sha256` holds the snapshot and `runs/r1x/stats.npz`, which must equal R1's frozen `stats.npz` (f6aae232…).
+   - **Conversions.** These follow §5.4 through `$X/conv/<set>.conv.done`: retries only until every pair has been attempted.
+   - **Checks before scoring.** The ECAPA smoke test, the ECAPA drift check and the WavLM/UTMOS/Whisper drift check all run first, as in T1. The scorer commands are T1's.
+   - **Outputs.**
+     - Per-set ECAPA savedirs and guard scratch folders; the guard means are deleted unread; `ECAPA_RESCORE=1` as in T1.
+     - A copy list `$X/<set>.sha256` is written before the done line, which reads `job <id> <date> snapshot sha256 <sha> selection sha256 <record>`.
+   - **On the Mac.** DNSMOS runs with `dnsmos_t1.py`'s code, checked by sha256, and its rows are copied back to ceai. The analysis is descriptive, with CIs only and no p values or Holm, and writes `mvc/EXPLORATORY_XMVC1_v1.{md,json}`.
+
 ## After the T1 analysis (28 Oct 2026, 23:20)
 
 The analysis ran once, 22:42:57–22:43:30 (log `analyze_mvc_run.log`, sha256 cf406e19…). Its output was committed unchanged as de81e24 (`TEST_RESULTS_mvc_v1.md` d2a7cace…, `.json` 7674852b…).

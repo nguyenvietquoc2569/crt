@@ -108,3 +108,23 @@ def test_r1x_continues_r1_without_writing_it():
     assert 'OUT=$MVC/runs/r1x' in s and "c['step'] == 200000" in s and '--out $OUT' in s and '--out $SRC' not in s
     h = s.index('sha256sum $SRC/last.pt $SRC/args.json $SRC/stats.npz $SRC/ema_*.pt > $MVC/runs/r1_hashes.sha256.tmp')
     assert h < s.index('mkdir -p $OUT')                 # absolute names, as select_mvc.py --r1_hashes reads them
+
+
+def test_r1x_evals_are_mvc_v1_on_the_r1x_snapshot():
+    """§4.10: the R1x Dev-S100 runs at 250k and 300k use mvc_v1's frozen settings (and CFG 0 for the reference) on
+    R1x's snapshot; their hooks add ECAPA and the guards; the submit script waits for the snapshot."""
+    import json
+    v1 = json.loads((JOBS.parent / 'MVC_SELECTION_RECORD_v1_cfg' / 'mvc_v1.json').read_text())
+    for k in (250, 300):
+        items = dict(it.split('=', 1) for it in (JOBS / f'r1x{k}_evals.txt').read_text().strip().split(';'))
+        assert set(items) == {f'r1x_k{k}_ref', f'r1x_k{k}_mvc'}
+        for name, cfg in ((f'r1x_k{k}_mvc', 1.0), (f'r1x_k{k}_ref', 0.0)):
+            c = json.loads(items[name])
+            assert c == dict(v1, run_dir=v1['run_dir'] + 'x', ckpt=f'ema_0{k}000.pt', cfg=cfg)
+        h = (JOBS / f'after_r1x{k}.sh').read_text()
+        assert '$MVC/eval/$TAG/' in h and 'score_ecapa.py' in h and 'acoustic_guard.py' in h
+    s = (JOBS / 'submit_r1x_evals.sh').read_text()
+    assert 'TAG=r1x$K,BUDGETS=30,EVALS_FILE=$M/jobs/r1x${K}_evals.txt' in s
+    code = '\n'.join(x for x in s.splitlines() if not x.lstrip().startswith('#'))
+    assert code.index('f=$R/ema_0${K}000.pt') < code.index('until [ -f $f ]') < code.index('slot_wait.sh') \
+        < code.index('submit_ceai.sh')

@@ -13,3 +13,20 @@ Records required by `mvc/ANALYSIS_PLAN_mvc_v1.md` §8.4 step 7 and §10. Times a
 ## Deviations
 
 None so far.
+
+## Operational notes (not deviations)
+
+Choices on points the plan leaves open, fixed before any T1 metric exists (28 Oct 2026, about 08:45).
+
+1. **T1 jobs** (`mvc/jobs/job_t1_{conv,metrics,ecapa}.slurm`, `t1_lib.sh`, `t1_check.py`, `submit_t1.sh`; commit 3a2b9b6).
+   - `conv.done` is `$T/conv/conv.done`. It is written once every manifest has a row per pair. Remaining error rows are failed conversions (§5.4), and the job then converts nothing more.
+   - Scorer drift checks (§8.3) run at the start of each metrics part (ECAPA, then WavLM-SV, UTMOS and Whisper) and again in the ECAPA job. Each writes its own file under `$T/drift/`, named by job and restart count.
+     - WavLM-SV and UTMOS must be equal to the last digit.
+     - "At least 31 of 32" is read as at least 31 rows on which both Whisper hypotheses (large-v3 and base) are identical.
+     - The 32 ECAPA rows are X2's first 32 VCTK-2k rows without error.
+   - All three jobs check `DESCRIBE_COMMIT` and the frozen files, not only the conversion job. The ECAPA job waits for the three `m.done` files (the §8.1 order).
+   - `acoustic_guard.py`'s printed means go to /dev/null, and the summary file of means it writes is deleted unread.
+2. **DNSMOS on the Mac** (`mvc/analysis/dnsmos_t1.py`, with tests).
+   - It reads only `pair_id`, `system` and `wav` of the 30 s metric rows.
+   - The journal rows on the Mac still name `/datastore/nvquoc/crt`, which moved to `/datastore/ceai/crt` on 21 Oct (benchmark/DEVIATIONS_v1.md item 4), so that prefix is mapped.
+   - It copies each (set, system) batch of WAVs read-only from ceai into `MR/wav/` below its absolute ceai path, runs the frozen `dnsmos.py --norm_lufs -26`, deletes the summary file of means unread, and deletes the batch's WAVs. The Mac has about 17 GiB free, not enough for all 38,000 WAVs; ceai keeps the originals.

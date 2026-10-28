@@ -35,3 +35,27 @@ Choices on points the plan leaves open, fixed before any T1 metric exists (28 Oc
    - **The EMA was corrupted.** Its validation loss was 0.3147 at 238k (R1 at 200k: 0.3158), then 0.78 at 244k, 41.6 at 248k and 40.4 at 250k. It has been falling since: 0.47 at 260k, 0.35 at 266k.
    - **Result.** The Dev-S100 run of `ema_0250000.pt` (job 6885) gives WER 94–96 %, SIM 0.59–0.60 and UTMOS 1.26 at both settings. This measures the corrupted average, not longer training. It is reported as such.
    - **What stays as planned.** The 300k evaluation runs as planned. Its `val_loss_ema` is reported beside it, to show whether the EMA has recovered. No other snapshot is evaluated, and mvc_v1 is not affected: R1 had no such spike, its largest gradient norm being 2.46 during warm-up.
+
+## After the T1 analysis (28 Oct 2026, 23:20)
+
+The analysis ran once, 22:42:57–22:43:30 (log `analyze_mvc_run.log`, sha256 cf406e19…). Its output was committed unchanged as de81e24 (`TEST_RESULTS_mvc_v1.md` d2a7cace…, `.json` 7674852b…).
+
+An independent check followed. It recomputed every level and difference from the rows, re-derived every decision from the plan, and audited the inputs; each candidate problem then had an adversarial re-check. It found no difference in any number or decision, and re-running `analyse()` in memory reproduces the JSON exactly. The results file is not regenerated. Its notes are recorded here.
+
+1. **Order of DNSMOS (§8.1, §8.2).** DNSMOS ran on the Mac, as §3.7 and the selection record fix, so it ran after the copy of the T1 tree to the Mac and not before it as the §8.1 list has it.
+   - Copy: 21:05, 74 files, list `t1_copy.sha256` sha256 47e667f3f667a1dedef804d2a67c1c8b7b494ee8ecd7548b0492b578e26d65f3, every entry verified.
+   - Driver `dnsmos_t1.py` (sha256 bfd93a3d…), frozen `dnsmos.py` (330b1d35…), `--norm_lufs -26`, 21:06–22:40; 38,000 rows, 0 errors (log sha256 6dd8ce17…).
+   - Environment: uvx, Python 3.13.13, numpy 2.5.4, soundfile 0.14.0, soxr 1.1.0, librosa 1.0.0, onnxruntime 1.31.1, pyloudnorm 0.2.0. These versions were read back at 23:15 from the same cached environment.
+   - The scored WAVs were deleted on the Mac after each batch; ceai keeps them.
+   - The 40 DNSMOS files (rows and inputs) were copied back to ceai `$T/dnsmos/` with identical sha256 (list `dnsmos.sha256`, sha256 fd6ce481743fa5127497949b60011bb3611b03716c6e412ab110d9474a97fec0, in `$T/mac_logs/` with the two logs and the copy list).
+2. **Done markers.** `analyze_mvc.py` checks the `m.done` files of parts t1–t3. It does not read the MimiFlow-VC `x2/x2.done` or `guard/guard.done`. Both name the record sha256 9f939ae6… (job 6841, 16:16:44 and 16:36:06).
+3. **Dev counterparts of family RB (§4.6).** The results file gives no Dev value beside the RB rows. §4.6 names the full-Dev numbers at 3, 30 and 180 s as RB's Dev counterparts, while §4.9 asks for Dev-900 values beside test numbers, and Dev-900 exists only at 30 s. `analyze_mvc.py` left them out by design (its tests, commit bb925c7). They are in the selection record (`rb_dev_counterparts`), cfg1_w1 on full Dev at 3 / 30 / 180 s:
+   - WER 1.90 / 1.84 / 2.05;
+   - SIM 0.879 / 0.912 / 0.918;
+   - UTMOS 3.801 / 3.865 / 3.861.
+   The paper shows them labelled "full Dev, selected on Dev".
+4. **Wording for the paper (§7.2, §5.2).**
+   - The leakage sentence names the strata as test IDs; the paper writes "same-gender and cross-gender".
+   - As §7.2 requires, angle 4 of PLAN §6.2 is presented as a measurement.
+   - The Wilcoxon p and r_rb of NL, L and NI are in the JSON only.
+5. **Erratum of times.** Operational notes 1–2 say "about 08:45"; they were committed at 08:34:59 (e9eab38), after the first T1 jobs had started (07:22) and before any T1 metric existed. Item 3 of the operational notes says "21:30"; it was committed at 21:05:32 (b724a21).

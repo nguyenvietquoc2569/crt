@@ -36,7 +36,7 @@ Choices on points the plan leaves open, fixed before any T1 metric exists (28 Oc
    - **Result.** The Dev-S100 run of `ema_0250000.pt` (job 6885) gives WER 94–96 %, SIM 0.59–0.60 and UTMOS 1.26 at both settings. This measures the corrupted average, not longer training. It is reported as such.
    - **What stays as planned.** The 300k evaluation runs as planned. Its `val_loss_ema` is reported beside it, to show whether the EMA has recovered. No other snapshot is evaluated, and mvc_v1 is not affected: R1 had no such spike, its largest gradient norm being 2.46 during warm-up.
 
-4. **R1x at 300k (§4.10), exploratory, and the X-mvc-1 decision** (29 Oct 2026, about 04:25).
+4. **R1x at 300k (§4.10), exploratory, and the X-mvc-1 decision** (29 Oct 2026, committed 04:18:08 as 7d4054f).
    - **Run.** R1x finished at step 300k (job 6658). Its EMA recovered from the spike of item 3: `val_loss_ema` 0.3101 at 300k (R1 at 200k: 0.3158). The Dev-S100 runs of `ema_0300000.pt` (TAG r1x300, submitted 04:10:23) give, against R1 at 200k:
      - reference setting (CFG 0, SNG 1.0): WER 2.34 → 1.75, SIM 0.903 → 0.901, UTMOS 3.874 → 3.904, SIM_src 0.689 → 0.694;
      - mvc_v1's setting (CFG 1, SNG 1.0): WER 1.46 → 2.92, SIM 0.909 → 0.905, UTMOS 3.887 → 3.949, SIM_src 0.683 → 0.686.

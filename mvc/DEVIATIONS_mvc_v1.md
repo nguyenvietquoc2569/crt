@@ -100,4 +100,5 @@ An independent check followed. It recomputed every level and difference from the
   - The package is in `$D/package` (30 MB). The key is in `$D/private/`.
   - The manifest is `mvc/LISTENING_BUILD_mvc_v1.json`, sha256 a60994fdc872064d81cb47c8d6263e75c9f51b585ba715d7687d545a57f2ce92, committed with this entry (§12 step 6).
   - The manifest holds no condition mapping. `lt_data.json` names only opaque clip ids. The key and the item list have not been opened.
+- **03:10: build check, then the cache deleted.** All 231 clip hashes and the hashes of `lt_data.json`, `key.json` and `items.json` match the manifest. The audio cache `$D/private/cache` (60 MB, paths naming the systems) was then deleted (§11.5). The originals stay on ceai.
 - **Next: §12 step 7.** It waits for UIT's answer (Decision 26). Until then the live site stays in TEST DATA mode and the package is not imported.

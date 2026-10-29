@@ -1,0 +1,10 @@
+{
+  "name": "mos-listening-test",
+  "private": true,
+  "description": "MOS/SMOS listening-test server for MimiFlow-VC (Bun, bun:sqlite, no dependencies). The page files in public/ are classic scripts, so this package stays CommonJS for node --test.",
+  "scripts": {
+    "start": "bun server/main.ts",
+    "dev": "MOS_SAMPLE=1 MOS_COOKIE_SECURE=0 bun server/main.ts",
+    "test": "bun test ./server && node --test public/lt_core.test.js public/i18n.test.js"
+  }
+}

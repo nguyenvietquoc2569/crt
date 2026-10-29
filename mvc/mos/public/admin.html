@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Listening test admin</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="admin">
+<main id="app" class="admin">
+  <header class="top"><span class="title">Listening test: admin</span><span class="tools"><button id="signout" class="link" hidden>Sign out</button></span></header>
+  <section class="card" id="signin">
+    <h2>Sign in</h2>
+    <p class="hint">The admin token is in the file <code>admin_token</code> of the data directory (created with mode 600 on the first start).</p>
+    <div class="row"><input id="token" type="password" autocomplete="off" aria-label="Admin token" placeholder="admin token"><button id="signin-btn" class="primary">Sign in</button></div>
+    <p id="signin-msg" class="error" hidden></p>
+  </section>
+  <div id="main" hidden>
+    <p id="msg" hidden></p>
+    <section class="card">
+      <h2>Status</h2>
+      <dl id="status"></dl>
+      <div class="row">
+        <label><input id="openreg" type="checkbox"> open registration (a "start" button gives anyone a new code; the second access route besides invite codes)</label>
+      </div>
+      <div class="row">
+        <label>Contact shown to raters <input id="contact" type="text" size="40"></label>
+        <button id="contact-save">Save contact</button>
+      </div>
+      <div class="row">
+        <label>Most codes issued, both routes together <input id="maxcodes" type="number" min="0" max="10000"></label>
+        <button id="maxcodes-save">Save cap</button>
+      </div>
+      <p class="hint">Every code ever issued counts, by invite or registration, disabled and withdrawn ones included (addendum §7.1: 40, plus 3 pilot codes: 43 from before the pilot). When the cap is reached, no invite code is created and the page offers no registration.</p>
+    </section>
+    <section class="card">
+      <h2>Stimulus package</h2>
+      <p class="hint">Place <code>lt_data.json</code> (or <code>lt_data.js</code>) and <code>stimuli/</code> in <code>&lt;data dir&gt;/package/</code>, then import. The key stays in <code>&lt;data dir&gt;/private/</code>; the server never reads it and does not start while the package folder holds a key file.</p>
+      <div class="row"><label><input id="force" type="checkbox"> replace a package that already has answers</label><button id="import">Import package</button></div>
+      <pre id="import-out"></pre>
+    </section>
+    <section class="card">
+      <h2>Invite codes</h2>
+      <div class="row">
+        <label>Number <input id="n" type="number" min="1" max="500" value="10"></label>
+        <label>Prefix <input id="prefix" type="text" size="8" maxlength="8" placeholder="optional"></label>
+        <label>Note <input id="note" type="text" size="24" maxlength="200" placeholder="optional"></label>
+        <button id="create">Create codes</button>
+      </div>
+      <p class="hint">Codes are shown here once: the server keeps only their HMAC and cannot show them again. Copy them now and keep the list of who received which code outside the data directory and the repository.</p>
+      <textarea id="codes" readonly placeholder="New codes appear here, one per line, with the rater ID and the half."></textarea>
+    </section>
+    <section class="card">
+      <h2>Consent text</h2>
+      <p class="hint">The filled <code>mvc/mos/consent_template_v1.html</code> (Vietnamese and English in one HTML fragment), saved as <code>consent_v1.html</code> in the data directory and shown to raters as it is. A text that still holds a placeholder ([CONTACT_NAME], [CONTACT_EMAIL], [ETHICS_NOTE], [RETENTION_DATE]), a script, an event-handler attribute, a frame or a form is refused; inline styles are not applied (the page allows only its own style sheet).</p>
+      <div class="row"><button id="consent-load">Load</button><button id="consent-save">Save</button></div>
+      <textarea id="consent-text"></textarea>
+    </section>
+    <section class="card">
+      <h2>Raters</h2>
+      <div class="row"><button id="refresh">Refresh</button><span id="raters-sum" class="hint"></span></div>
+      <div class="table-wrap"><table id="raters"></table></div>
+    </section>
+    <section class="card">
+      <h2>Withdrawal</h2>
+      <p class="hint">A rater who sends their access code is deleted with every answer, from the database (overwritten, and the write-ahead log emptied), the export folders and the daily copies in <code>backup/</code>. The code is sent in the request body only.</p>
+      <div class="row"><label>Access code <input id="wd-code" type="text" size="24" autocomplete="off"></label><button id="wd-find">Find</button></div>
+      <p id="wd-out" class="hint"></p>
+      <div class="row"><button id="wd-delete" hidden>Delete this rater</button></div>
+    </section>
+    <section class="card">
+      <h2>Export</h2>
+      <div class="row"><label><input id="completed-only" type="checkbox" checked> completed sessions only</label></div>
+      <div class="row"><button id="export">Write export folder</button><button id="csv">Download answers.csv</button></div>
+      <pre id="export-out"></pre>
+    </section>
+  </div>
+</main>
+<script src="admin.js"></script>
+</body>
+</html>

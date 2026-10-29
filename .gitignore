@@ -30,3 +30,7 @@ yarn-error.log*
 
 # Listening-test packages and the key that reveals the conditions: never in the public repo
 benchmark/listening/dist/
+
+# Labelled listening pages of MimiFlow-VC: never in the public repo (mvc/LISTENING_ADDENDUM_mvc_v1.md §0.2 item 3)
+paper/mimi_vc/status/mvc_listen*.html
+paper/mimi_vc/status/mvc_blind*.html

@@ -1,0 +1,28 @@
+{
+ "seed": "20260928:mvc_v1",
+ "sets": ["vctk2k", "ltc2k"],
+ "n_per_stratum": 4,
+ "mos_conditions": ["nat", "mvc_v1", "crtal", "seedvc", "knnvc"],
+ "smos_conditions": ["nat", "mvc_v1", "crtal", "seedvc", "knnvc", "src"],
+ "halves": true,
+ "prefer_parallel": {"vctk2k": true},
+ "source_range": [2.0, 10.0],
+ "natural_range": [2.0, 10.0],
+ "ref_range": [3.0, 10.0],
+ "ref_target_s": 5.0,
+ "ref_fallback": true,
+ "speaker_rule": true,
+ "sentence_rule": true,
+ "pad_ms": [0, 250],
+ "exclude_pairs": [
+  "vctk2k__p253_007__p284", "vctk2k__p262_009__p261", "vctk2k__p293_177__p299", "vctk2k__p361_007__p257",
+  "vctk2k__p374_011__p281", "vctk2k__p374_012__p299",
+  "ltc2k__1284_1180_000043_000000__5105", "ltc2k__4077_13751_000023_000001__7127",
+  "ltc2k__5142_36377_000013_000003__5105", "ltc2k__7176_92135_000085_000002__7729",
+  "ltc2k__8230_279154_000028_000003__4992", "ltc2k__8463_294825_000015_000002__6829"
+ ],
+ "practice": [["vctk2k", "F2F", "nat"], ["ltc2k", "M2M", "crtal"], ["vctk2k", "F2M", "seedvc"]],
+ "attention": {"mos": [["vctk2k", "F2M", 2], ["ltc2k", "M2F", 4]],
+               "smos": [["ltc2k", "F2F", 4], ["vctk2k", "M2M", 2]]},
+ "title": "Listening test: voice conversion"
+}

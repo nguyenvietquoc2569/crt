@@ -1,0 +1,39 @@
+# LISTENING_FREEZE_mvc_v1.sha256: the freeze of mvc/LISTENING_ADDENDUM_mvc_v1.md (§13 step 3), 30 Oct 2026, on the Mac (shasum -a 256).
+# Section 1: the addendum, the design file and every mvc/mos file of the freeze commit
+45f5b428dd622b508199289ffcefcfd6109f97a81bbf6bff1ccc1aa9b8486356  mvc/LISTENING_ADDENDUM_mvc_v1.md
+6a1cb8fa5b095fa387a6fa32567f1258aaaa577216bc909b362d283b734a13b5  mvc/mos/design_mvc_v1.json
+8869253731c6f2284da18236131ac8f0c2693e916c268dfd4c504ea2614a3ca5  mvc/mos/README.md
+a237fe4c5391e97cf3143653695f06eabd7b12bbbbc9e9c18f5e6a2e4d9bb8b4  mvc/mos/build_stimuli.py
+814d09365ab86e80f3746474bdc95288b2e8d186c96150d3e7d6a8abf8b06da9  mvc/mos/consent_template_v1.html
+7df70b61fa6f8ec5845c1d9645cf8dcc4940474000280d45da9dde6e14e7a211  mvc/mos/package.json
+02604215e4d0ecc35c3d8e28a3455e79b84c6d608eabf344765e9efb098cc08f  mvc/mos/public/admin.html
+61f24f0a4d4743e95c5e87201e9c5b2ef891b41435de28329acf1ac74334b7cd  mvc/mos/public/admin.js
+aaf846492688566004ba1c46768bbbed74aeb97d707a2cbdcce4d81121deca26  mvc/mos/public/i18n.js
+fc87a2e2e1d1d0dc560e384ee639f963624166485381cca6cb5ebd23c2f53e7f  mvc/mos/public/i18n.test.js
+6be5616a8bb68e7d192d4d478cf2fd9c56ab58029464f92a39d1ca1e6c0bed9f  mvc/mos/public/index.html
+d9358c9797b84e370ff16b346e89af1c8f13fe7a4b2b8cab27dd1b2aa460a86e  mvc/mos/public/lt_app.js
+076dc89c6950e4c32da2c7146866bb0efe7ff858b9f7bf1c85a0beaf9a186d4c  mvc/mos/public/lt_core.js
+b0e3e9814978ad293440c7472bcee24f69c9fc0fc3f02e71c16a3fff6a41eeeb  mvc/mos/public/lt_core.test.js
+778710a76b7908724c7708bba3e9efd065dc9def60c753c2721857f304fc8b08  mvc/mos/public/sample_lt_data.js
+37fc3d41627013b13f4d522c0d72d2bb59309985d5c28cbac6d231c3df615ec1  mvc/mos/public/style.css
+233921ff5078e50d0c3ffd89acc10cda7fa8cc7c9d1ec2576db480b6d8442ebd  mvc/mos/server/admin.test.ts
+e084c783e4b630731480246416d27904588666a0c4cceb24b792cfc512df6d73  mvc/mos/server/app.ts
+04b8fc60d13f18f9aebfccd1b2d9c2e100253400f8e140a29b4cfc8dc1dcefa8  mvc/mos/server/core.ts
+ef2a0b7b457a3d07d08217e2183fe60e7148b0986f039033c4f8b910b63a48c8  mvc/mos/server/db.ts
+b3582646520cf0b0c0dcd4c71f2e7f3aeed7e76166dcfef0b90cea8fd794bf09  mvc/mos/server/fake_page.ts
+d73e9972a22951e2c81fb9b5408aee10b27bc801c4e593d7cf82f45ad20603b7  mvc/mos/server/main.ts
+a889b5a0c1d8f6a27dfb144f5001372eeef61d44fbbb0d968f4c1283cc85433a  mvc/mos/server/page.test.ts
+ba3a0912f7a79eaa0653c6ec767c56cf0a7b2d0e5289223da0948394922db785  mvc/mos/server/rater.test.ts
+1525ba48393d64d91e78a5ed96f5fac8cdd2d683db5e77c72b7508e18edcee49  mvc/mos/server/stimuli.test.ts
+935497ee83115dffafb269a47c8ab1ea1cbefd52d56577fc6b466bd28bf39f44  mvc/mos/server/test_util.ts
+a0cd67fd706f4fe8dd7e8abb2454daa01f4ab68487637f65732dde8bbdccf358  mvc/mos/tests/test_build_stimuli.py
+# Section 2: files used unchanged, hashed only (not committed here)
+a7129260b3c1af19f11cff49d1c4fb0fda9c8da80b70584912e272d2032835d6  benchmark/stats.py
+bdbf36a32b61eff625e2acaf40163835582ca9e391079c11ca72e6bf51601c1d  paper/journal_extension/results/v1/pairs/vctk2k.jsonl
+32fc920516f0b6e4d239ddc85994cca8f746538763e5ad71ab2e208203c56e45  paper/journal_extension/results/v1/pairs/ltc2k.jsonl
+b84fe6fea87f051c7dc239149092cea9315bc2036dc80074c13d9ef0c332e462  paper/mimi_vc/results/m/t1/metrics/vctk2k_30.jsonl
+2384bf4277a023dd12581d6809a9d52b1c0d229ad0d68dad2f313802a9473aec  paper/mimi_vc/results/m/t2/metrics/ltc2k_30.jsonl
+af3a938254acf692408d1c9da099337ff42ab1981bb3e8bd699c3de1831519f6  paper/journal_extension/results/v1/m/t1/metrics/vctk2k_30.jsonl
+cffd84042dfccb27469577e83852892286a4114c4065abcf17341ecff68fc7c0  paper/journal_extension/results/v1/m/t2/metrics/ltc2k_30.jsonl
+83aa2c300fcc6a8807203651ad8f290b4d57fc258551180c5a4d8141a08189e2  paper/journal_extension/results/v1/m/t4/metrics/vctk2k_30.jsonl
+bf3ef807d33d0e41503b04cb154da95ab77ee0b76cf64dc2731f4ee7ef393043  paper/journal_extension/results/v1/m/t4/metrics/ltc2k_30.jsonl

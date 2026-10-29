@@ -77,3 +77,12 @@ An independent check followed. It recomputed every level and difference from the
    - As §7.2 requires, angle 4 of PLAN §6.2 is presented as a measurement.
    - The Wilcoxon p and r_rb of NL, L and NI are in the JSON only.
 5. **Erratum of times.** Operational notes 1–2 say "about 08:45"; they were committed at 08:34:59 (e9eab38), after the first T1 jobs had started (07:22) and before any T1 metric existed. Item 3 of the operational notes says "21:30"; it was committed at 21:05:32 (b724a21).
+
+## X-mvc-1 (29 Oct 2026, exploratory, §4.10)
+
+- **Jobs.** On ceai: job 6996 (VCTK-2k, submitted 05:12:55, done 06:27:35) and job 7002 (LTC-2k, submitted 06:17:57, done 07:30:13).
+  - 3,800 conversions, 0 failed, 0 scoring errors.
+  - Every ECAPA and WavLM/UTMOS/Whisper drift check passed exactly.
+  - Snapshot sha256 e668c87e…, stats.npz R1's (f6aae232…).
+- **Copy and DNSMOS.** The copy to the Mac (22 files) matches both per-set sha256 lists. DNSMOS: 3,800 rows, 0 errors. The rows were copied back to ceai `$MVC/xmvc1/dnsmos/` (list `dnsmos.sha256` 16e679d5…, verified there).
+- **Analysis.** `analyze_xmvc1.py` ran at 07:59:15 and wrote `EXPLORATORY_XMVC1_v1.md` (sha256 5d9beb4e74a82f56983ab1cf0fec9b96c6f77ba4171a3ba3761e171f254a5afb) and `.json` (21100ecaeff5613b3597c058d443038dd37d613564087d5814cd7184b14af6ad), committed unchanged. Its UTMOS, SIM and DNSMOS OVRL differences were recomputed independently from the rows and match.

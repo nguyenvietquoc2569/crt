@@ -86,3 +86,18 @@ An independent check followed. It recomputed every level and difference from the
   - Snapshot sha256 e668c87e…, stats.npz R1's (f6aae232…).
 - **Copy and DNSMOS.** The copy to the Mac (22 files) matches both per-set sha256 lists. DNSMOS: 3,800 rows, 0 errors. The rows were copied back to ceai `$MVC/xmvc1/dnsmos/` (list `dnsmos.sha256` 16e679d5…, verified there).
 - **Analysis.** `analyze_xmvc1.py` ran at 07:59:15 and wrote `EXPLORATORY_XMVC1_v1.md` (sha256 5d9beb4e74a82f56983ab1cf0fec9b96c6f77ba4171a3ba3761e171f254a5afb) and `.json` (21100ecaeff5613b3597c058d443038dd37d613564087d5814cd7184b14af6ad), committed unchanged. Its UTMOS, SIM and DNSMOS OVRL differences were recomputed independently from the rows and match.
+
+## Listening test (mvc/LISTENING_ADDENDUM_mvc_v1.md, §13 step 6)
+
+- **30 Oct 2026, 03:02:36: freeze.** The addendum was frozen and pushed to https://github.com/nguyenvietquoc2569/crt as commit 2b82187 on branch `mvc-v1-freeze`, with the annotated tag `listening-addendum-mvc-v1`. The tag on the remote peels to the same commit.
+  - Addendum sha256: 45f5b428dd622b508199289ffcefcfd6109f97a81bbf6bff1ccc1aa9b8486356. Design sha256: 6a1cb8fa…3b5. The 36 frozen hashes are in `mvc/LISTENING_FREEZE_mvc_v1.sha256`.
+  - The author delegated the remaining §16 decisions to Claude on 30 Oct 2026. Ethics stays pending until UIT answers, and no rater takes part before that.
+- **03:02:52–03:02:54: the one draw** (§12 step 4), with the tagged builder and design and seed string `'20260928:mvc_v1'`.
+  - 32 items, 3 practice items and 167 pairs passed over.
+  - `$D/private/items.json`, sha256 9cc329548e1a224225aae3a209129330652df499bf9ecbf51556ca30805d4094. Nobody has opened it.
+- **03:03:18–03:03:39: the build** (§12 step 5).
+  - 231 clips; 162 MOS, 194 SMOS and 3 practice trials.
+  - The package is in `$D/package` (30 MB). The key is in `$D/private/`.
+  - The manifest is `mvc/LISTENING_BUILD_mvc_v1.json`, sha256 a60994fdc872064d81cb47c8d6263e75c9f51b585ba715d7687d545a57f2ce92, committed with this entry (§12 step 6).
+  - The manifest holds no condition mapping. `lt_data.json` names only opaque clip ids. The key and the item list have not been opened.
+- **Next: §12 step 7.** It waits for UIT's answer (Decision 26). Until then the live site stays in TEST DATA mode and the package is not imported.

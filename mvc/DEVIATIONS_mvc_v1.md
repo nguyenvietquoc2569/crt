@@ -101,4 +101,8 @@ An independent check followed. It recomputed every level and difference from the
   - The manifest is `mvc/LISTENING_BUILD_mvc_v1.json`, sha256 a60994fdc872064d81cb47c8d6263e75c9f51b585ba715d7687d545a57f2ce92, committed with this entry (§12 step 6).
   - The manifest holds no condition mapping. `lt_data.json` names only opaque clip ids. The key and the item list have not been opened.
 - **03:10: build check, then the cache deleted.** All 231 clip hashes and the hashes of `lt_data.json`, `key.json` and `items.json` match the manifest. The audio cache `$D/private/cache` (60 MB, paths naming the systems) was then deleted (§11.5). The originals stay on ceai.
+- **31 Oct 2026: deviation of the consent template (§14).**
+  - The author opened a public demo of mvc_v1 at vc.betaschool.edu.vn, with its API at vc-api.betaschool.edu.vn, and decided that people who use it are excluded from rating. Its pages label outputs as MimiFlow-VC.
+  - So the exclusion sentence of `mvc/mos/consent_template_v1.html` ("Who can take part", VI and EN) now also names the demo's users. Screening and analysis are unchanged.
+  - The template's frozen sha256 in `LISTENING_FREEZE_mvc_v1.sha256` is superseded by this commit; the filled consent's sha256 is logged before the pilot, as §13 says.
 - **Next: §12 step 7.** It waits for UIT's answer (Decision 26). Until then the live site stays in TEST DATA mode and the package is not imported.

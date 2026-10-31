@@ -114,4 +114,13 @@ An independent check followed. It recomputed every level and difference from the
   - **Package import (step 7.5).** Package id 2d923ba8271f26c4: 231 stimuli; 3 practice, 162 MOS and 194 SMOS trials. The footer contact is nvquoc@uit.edu.vn.
   - **03:55:24, pilot codes (§6.3).** Three codes with prefix PILOT were issued: R001 (half A), R002 (half B), R003 (half A).
   - **03:56, tunnel reopened under the supervisor.** Public check: open, not sample mode, registration closed (403).
+- **1 Nov 2026, about 04:05: deviation, the sound check shortened (§6.1, §8 rule 1; §14).**
+  - The author asked for a sound check of 3 rounds instead of 6. Claude set the pass rule to 3 of 3 correct, with 2 attempts as before.
+    - A random guess passes one attempt with probability 1/27 ≈ 0.037; under 5 of 6 it was 13/729 ≈ 0.018.
+    - A listener who is right 95 % of the time passes within two attempts about 98 % of the time.
+  - `config.headphone_check` of `$D/package/lt_data.json` changed from {trials 6, pass 5, attempts 2} to {trials 3, pass 3, attempts 2}.
+    - The sha256 of `lt_data.json` went from 1a0759535aa4e690845c484a6b738ea27dfe19087df235af831d282181b7f6a6, as in `mvc/LISTENING_BUILD_mvc_v1.json`, to 21b42a6dc827d3873d32d793121da3b2e584c2fc0ebf4779935e599853cce2f4. The original is kept as `$D/private/lt_data.v1-original.json`.
+    - The stimuli, trials and every other setting are unchanged.
+  - The package was imported again as id f32d4bb12c0574a4 (it was 2d923ba8271f26c4). No answer existed yet: R001 had agreed but not started the sound check. Under the new package the three pilot raters start from the consent.
+  - The screening of §8 applies the new rule: a rater fails who does not get 3 of 3 in either of 2 attempts.
 - **Next: §12 step 7.** It waits for UIT's answer (Decision 26). Until then the live site stays in TEST DATA mode and the package is not imported.

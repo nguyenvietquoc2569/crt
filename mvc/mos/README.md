@@ -33,7 +33,10 @@ bun run test                  # bun test ./server && node --test public/lt_core.
 
 The builder's tests: `.venv-stats/bin/python -m pytest -q mvc/mos/tests` from the repository root.
 No launchd job is used (addendum §11.1): the server (`bun run start`) and cloudflared run in Terminal tabs on the Mac,
-and a stopped one is restarted by hand.
+and a stopped server is restarted by hand. Since 1 Nov 2026 the tunnel's tab runs
+`mvc/tools/tunnel_supervise.sh ~/.cloudflared/mos.yml http://127.0.0.1:8790/api/info https://mos.betaschool.edu.vn/api/info`
+instead of plain `cloudflared tunnel run`: it starts cloudflared again 10 s after it exits, and restarts it when the
+public URL answers 530 three times in a row while the local server answers (at most 6 restarts per hour).
 
 | Variable | Default | Meaning |
 |---|---|---|

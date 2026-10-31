@@ -105,4 +105,13 @@ An independent check followed. It recomputed every level and difference from the
   - The author opened a public demo of mvc_v1 at vc.betaschool.edu.vn, with its API at vc-api.betaschool.edu.vn, and decided that people who use it are excluded from rating. Its pages label outputs as MimiFlow-VC.
   - So the exclusion sentence of `mvc/mos/consent_template_v1.html` ("Who can take part", VI and EN) now also names the demo's users. Screening and analysis are unchanged.
   - The template's frozen sha256 in `LISTENING_FREEZE_mvc_v1.sha256` is superseded by this commit; the filled consent's sha256 is logged before the pilot, as §13 says.
+- **1 Nov 2026: §12 step 7, start of the pilot.**
+  - **Ethics (Decision 26).** The author reported that UIT has approved the study. He gave no reference number and decided that the website does not mention the approval. So the filled consent has no [ETHICS_NOTE] paragraph in either language; that is a deviation from §11.5.
+  - **03:52–03:55, tunnel (operational change, §14).** The MOS tunnel now runs under `mvc/tools/tunnel_supervise.sh`, which restarts cloudflared when the public URL answers 530 while the local server is up. `mvc/mos/README.md` says so. The reason: on 31 Oct a network event left another tunnel connected only on paper.
+  - **03:54, fresh database (step 7.2).** The server and the tunnel were stopped. The sample-mode database (`mos.sqlite`, -wal, -shm), its daily backups and `old_sample_v1_20261029/` were moved out of `$D` to `~/mos_data_archive_sample_20261101/`.
+  - **Restart on 127.0.0.1 without sample mode.** Open registration was turned off and the code cap set to 43; status showed 0 codes issued.
+  - **Consent (step 7.4).** The filled consent `$D/consent_v1.html` was saved with sha256 c7feb0b1442c8616257c0e37443a7c104b4f49c97e9058c866be5d09be0ba0cd. It is the template with contact Nguyễn Việt Quốc, nvquoc@uit.edu.vn, retention date 31 Dec 2027, and without the [ETHICS_NOTE] paragraphs. The status page reports no problem.
+  - **Package import (step 7.5).** Package id 2d923ba8271f26c4: 231 stimuli; 3 practice, 162 MOS and 194 SMOS trials. The footer contact is nvquoc@uit.edu.vn.
+  - **03:55:24, pilot codes (§6.3).** Three codes with prefix PILOT were issued: R001 (half A), R002 (half B), R003 (half A).
+  - **03:56, tunnel reopened under the supervisor.** Public check: open, not sample mode, registration closed (403).
 - **Next: §12 step 7.** It waits for UIT's answer (Decision 26). Until then the live site stays in TEST DATA mode and the package is not imported.

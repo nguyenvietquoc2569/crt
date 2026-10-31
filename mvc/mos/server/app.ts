@@ -531,12 +531,15 @@ export function createApp(opts: Options) {
     throw new HttpError(404, 'not_found', 'no such endpoint');
   }
 
-  // One headphone-check trial: {attempt, trial, choice}. The tones of each trial follow from the rater ID (lt_core),
-  // so the server records the order and the right answer itself; a repeat of a recorded trial changes nothing.
+  // One headphone-check trial: {attempt, trial, choice}. The tones of each trial (2 or 3, config options) follow from
+  // the rater ID (lt_core), so the server records the order and the right answer itself; a repeat of a recorded trial
+  // changes nothing.
   function headphone(id: string, pkgId: string, s: SessionMeta, b: Record<string, any>): Response {
     onlyKeys(b, ['attempt', 'trial', 'choice']);
     const hpc = hpConfig();
-    if (!intIn(b.attempt, 0, hpc.attempts - 1) || !intIn(b.trial, 0, hpc.trials - 1) || !intIn(b.choice, 0, 2)) {
+    const options = hpc.options ?? 3;
+    if (!intIn(b.attempt, 0, hpc.attempts - 1) || !intIn(b.trial, 0, hpc.trials - 1) ||
+        !intIn(b.choice, 0, options - 1)) {
       throw new HttpError(400, 'bad_request', 'attempt, trial and choice must be integers in range');
     }
     const hp: Headphone = s.headphone;
@@ -548,7 +551,7 @@ export function createApp(opts: Options) {
     if (!opening && !continuing) throw new HttpError(409, 'out_of_order', 'not the next headphone trial');
     const att = a ?? {trials: [], correct: null};
     if (!a) hp.attempts.push(att);
-    const t = C.headphoneTrials(hpc.trials, C.rng(s.session.raterId + ':headphone:' + b.attempt))[b.trial];
+    const t = C.headphoneTrials(hpc.trials, C.rng(s.session.raterId + ':headphone:' + b.attempt), options)[b.trial];
     att.trials.push({order: t.order, answer: t.answer, choice: b.choice});
     if (att.trials.length >= hpc.trials) {
       att.correct = att.trials.filter((x) => x.choice === x.answer).length;
@@ -773,7 +776,8 @@ export function createApp(opts: Options) {
         package: current ? {id: current.id, sample: current.sample, dry_run: current.data.dry_run === true,
                             imported_at: current.imported_at,
                             halves: current.data.config.halves, stimuli: Object.keys(current.data.stimuli).length,
-                            trials: Object.fromEntries(BLOCKS.map((b) => [b, current!.data[b].length]))} : null,
+                            trials: Object.fromEntries(BLOCKS.map((b) => [b, current!.data[b].length])),
+                            headphone_check: current.data.config.headphone_check} : null,
       });
     }
     if (get && path === '/api/admin/raters') {

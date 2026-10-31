@@ -1,11 +1,12 @@
 // Stimuli (/s/<sid>.<ext>: auth, consent, content type, Range, caching, traversal), what the plan reveals (no condition
 // names, items or halves, only the rater's half, durations to 0.1 s), the order of every rater's trials (no item on two
 // consecutive main trials, attention trials never in the first 3 nor adjacent), a full session whose every answer is
-// checked for anything of the key, that key.json is unreachable through any route, and the security headers.
+// checked for anything of the key, that key.json is unreachable through any route, the security headers, and the
+// page loading its style and scripts by the hash of their content.
 import { afterAll, beforeAll, describe, expect, test } from 'bun:test';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { C } from './core';
+import { C, PUBLIC_DIR, sha256 } from './core';
 import { answerBody, boot, Client, CONDITIONS, KEY_MARKER, leaks, makePackage, N_ITEMS, ready, setup,
          tempDir } from './test_util';
 
@@ -211,6 +212,27 @@ describe('headers', () => {
     }
     const page = await fetch(t.base + '/');
     expect(page.headers.get('content-type')).toBe('text/html; charset=utf-8');
-    expect(await page.text()).toContain('<script src="lt_app.js"></script>');
+    expect(await page.text()).toMatch(/<script src="lt_app\.js\?v=[0-9a-f]{10}"><\/script>/);
+  });
+
+  // A browser or Cloudflare that keeps an old copy of a file fetches the new one once its stamp changes. After any
+  // edit of these files, set the stamp to the first 10 hex digits of the file's sha256.
+  test('index.html and admin.html load their style and scripts by the hash of their content (?v=, 10 hex of the sha256)',
+       async () => {
+    const stamp = (f: string) => sha256(readFileSync(join(PUBLIC_DIR, f))).slice(0, 10);
+    const pages: [string, string, string[]][] = [['index.html', '/', ['style.css', 'i18n.js', 'lt_core.js', 'lt_app.js']],
+                                                 ['admin.html', '/admin', ['style.css', 'admin.js']]];
+    for (const [page, path, files] of pages) {
+      const html = readFileSync(join(PUBLIC_DIR, page), 'utf8');
+      const local = [...html.matchAll(/(?:src|href)="([^"]+)"/g)].map((m) => m[1]);
+      const refs = local.map((u) => /^([a-z_0-9]+\.(?:js|css))\?v=([0-9a-f]{10})$/.exec(u)).map((m) => m && [m[1], m[2]]);
+      expect([page, refs]).toEqual([page, files.map((f) => [f, stamp(f)])]);
+      expect((await fetch(t.base + path)).headers.get('cache-control')).toBe('no-cache');
+      for (const [f, v] of refs as string[][]) {
+        const r = await fetch(`${t.base}/${f}?v=${v}`);
+        expect([f, r.status, await r.text()]).toEqual([f, 200, readFileSync(join(PUBLIC_DIR, f), 'utf8')]);
+      }
+    }
+    expect((await fetch(t.base + '/lt_core.test.js')).status).toBe(404);   // the page's tests are not served
   });
 });

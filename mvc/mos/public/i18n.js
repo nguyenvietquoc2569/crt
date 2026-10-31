@@ -54,13 +54,17 @@
       hpStep1: 'Put on your headphones.',
       hpStep2: 'Press "Play test sound" and set the volume of your computer to a comfortable level. You can play ' +
                'it as often as you like.',
-      hpStep3: 'In each of the {n} trials you will hear three tones. Choose the one that is quietest. Each trial ' +
-               'can be played only once.',
+      // hpStep3_<k>, hpQuestion_<k>: the sound check with k tones per trial (config.headphone_check.options)
+      hpStep3_3: 'In each of the {n} trials you will hear three tones. Choose the one that is quietest. Each ' +
+                 'trial can be played only once.',
+      hpStep3_2: 'In each of the {n} trials you will hear two tones. Choose the one that is quieter. Each trial ' +
+                 'can be played only once.',
       playTest: 'Play test sound',
       hpStart: 'Start the sound check',
       tryAgain: 'Try again',
       hpProgress: 'Sound check: trial {i} of {n}',
-      hpQuestion: 'Which of the three tones was the quietest?',
+      hpQuestion_3: 'Which of the three tones was the quietest?',
+      hpQuestion_2: 'Which of the two tones was quieter?',
       hpOnce: 'You can play the tones only once.',
       tone1: 'First tone',
       tone2: 'Second tone',
@@ -183,13 +187,16 @@
       hpStep1: 'Đeo tai nghe vào.',
       hpStep2: 'Nhấn "Phát âm thanh thử" và chỉnh âm lượng máy tính ở mức dễ chịu. Bạn có thể phát lại bao nhiêu ' +
                'lần tùy ý.',
-      hpStep3: 'Trong mỗi lượt (tổng cộng {n} lượt), bạn sẽ nghe ba âm. Hãy chọn âm nhỏ nhất. Mỗi lượt chỉ được ' +
-               'phát một lần.',
+      hpStep3_3: 'Trong mỗi lượt (tổng cộng {n} lượt), bạn sẽ nghe ba âm. Hãy chọn âm nhỏ nhất. Mỗi lượt chỉ được ' +
+                 'phát một lần.',
+      hpStep3_2: 'Trong mỗi lượt (tổng cộng {n} lượt), bạn sẽ nghe hai âm. Hãy chọn âm nhỏ hơn. Mỗi lượt chỉ được ' +
+                 'phát một lần.',
       playTest: 'Phát âm thanh thử',
       hpStart: 'Bắt đầu kiểm tra âm thanh',
       tryAgain: 'Thử lại',
       hpProgress: 'Kiểm tra âm thanh: lượt {i} trên {n}',
-      hpQuestion: 'Âm nào trong ba âm là nhỏ nhất?',
+      hpQuestion_3: 'Âm nào trong ba âm là nhỏ nhất?',
+      hpQuestion_2: 'Âm nào trong hai âm là nhỏ hơn?',
       hpOnce: 'Bạn chỉ được phát các âm này một lần.',
       tone1: 'Âm thứ nhất',
       tone2: 'Âm thứ hai',

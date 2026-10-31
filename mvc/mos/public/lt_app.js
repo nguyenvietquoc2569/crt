@@ -236,7 +236,7 @@
     D = plan;
     CFG = plan.config || {};
     const hp = CFG.headphone_check || {};
-    HP = {trials: hp.trials ?? 6, pass: hp.pass ?? 5, attempts: hp.attempts ?? 2};
+    HP = {trials: hp.trials ?? 6, pass: hp.pass ?? 5, attempts: hp.attempts ?? 2, options: hp.options ?? 3};
     REQUIRE_FULL = CFG.require_full_play !== false;
   }
 
@@ -502,7 +502,7 @@
 
   function renderHpIntro() {
     const R = state.results, n = R.headphone.attempts.length;
-    const calib = el('button', {class: 'play', onclick: () => playTones(['normal', 'normal', 'normal'])},
+    const calib = el('button', {class: 'play', onclick: () => playTones(Array(HP.options).fill('normal'))},
                      PLAY + ' ' + T('playTest'));
     const go = el('button', {class: 'primary', onclick: () => {
       R.headphone.attempts.push({trials: [], correct: null});
@@ -516,7 +516,7 @@
       el('ol', {},
         el('li', {}, T('hpStep1')),
         el('li', {}, T('hpStep2')),
-        el('li', {}, T('hpStep3', {n: HP.trials}))),
+        el('li', {}, T('hpStep3_' + HP.options, {n: HP.trials}))),
       el('div', {class: 'clips'}, calib),
       actions(go))]);
   }
@@ -525,7 +525,7 @@
   function renderHpTrial() {
     const R = state.results, attempts = R.headphone.attempts;
     const a = attempts.length - 1, attempt = attempts[a], i = attempt.trials.length;
-    const trial = C.headphoneTrials(HP.trials, C.rng(state.session.raterId + ':headphone:' + a))[i];
+    const trial = C.headphoneTrials(HP.trials, C.rng(state.session.raterId + ':headphone:' + a), HP.options)[i];
     if (!hpCur || hpCur.attempt !== a || hpCur.i !== i) hpCur = {attempt: a, i, started: false, choice: null};
     const h = hpCur;
     const next = el('button', {class: 'primary', disabled: h.choice === null, onclick: () => {
@@ -538,14 +538,14 @@
       queue('/api/headphone', {attempt: a, trial: i, choice: h.choice});
       render();
     }}, T('next'));
-    const options = ['tone1', 'tone2', 'tone3'].map((label, k) => el('button', {
+    const options = trial.order.map((_, k) => el('button', {
       class: 'rate' + (h.choice === k ? ' selected' : ''), disabled: !h.started, 'aria-pressed': String(h.choice === k),
       onclick: () => {
         h.choice = k;
         options.forEach((o, j) => { o.classList.toggle('selected', j === k); o.setAttribute('aria-pressed', j === k); });
         next.disabled = false;
         next.focus();
-      }}, el('span', {class: 'num'}, k + 1), el('span', {class: 'lab'}, T(label))));
+      }}, el('span', {class: 'num'}, k + 1), el('span', {class: 'lab'}, T('tone' + (k + 1)))));
     const play = el('button', {class: 'play', disabled: h.started, onclick: () => {
       h.started = true;
       play.disabled = true;
@@ -558,7 +558,7 @@
     show([
       el('div', {class: 'progress'}, bar(T('hpProgress', {i: i + 1, n: HP.trials}), i / HP.trials)),
       card(
-        el('p', {class: 'question'}, T('hpQuestion')),
+        el('p', {class: 'question'}, T('hpQuestion_' + HP.options)),
         el('p', {class: 'hint'}, T('hpOnce')),
         el('div', {class: 'clips'}, play),
         el('div', {class: 'scale'}, options),

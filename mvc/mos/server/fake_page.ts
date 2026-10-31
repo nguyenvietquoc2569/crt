@@ -317,9 +317,10 @@ export async function enterCode(page: Page, code: string) {
   await page.click(EN.continue);
 }
 
-// One attempt of the sound check; answers(i) is the option chosen in trial i; during(i) runs once the tones of trial i
-// have played.
-export async function soundCheck(page: Page, answers: (i: number) => number, during?: (i: number) => void) {
+// One attempt of the sound check (6 trials of `tones` tones); answers(i) is the option chosen in trial i; during(i)
+// runs once the tones of trial i have played.
+export async function soundCheck(page: Page, answers: (i: number) => number, during?: (i: number) => void,
+                                 tones = 3) {
   await page.waitFor(() => page.button(EN.hpStart) || page.button(EN.tryAgain), 'the sound-check start');
   (page.button(EN.hpStart) || page.button(EN.tryAgain))!.click();
   for (let i = 0; i < 6; i++) {
@@ -330,8 +331,8 @@ export async function soundCheck(page: Page, answers: (i: number) => number, dur
     play.click();
     const options = await page.waitFor(() => {
       const o = page.buttons().filter((b) => b.classList.contains('rate'));
-      return o.length === 3 && o.every((b) => !b.disabled) ? o : null;
-    }, 'the three tone options');
+      return o.length === tones && o.every((b) => !b.disabled) ? o : null;
+    }, `the ${tones} tone options`);
     during?.(i);
     page.buttons().filter((b) => b.classList.contains('rate'))[answers(i)].click();
     await page.click(EN.next);

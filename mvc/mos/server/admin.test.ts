@@ -267,6 +267,35 @@ describe('codes, package, consent, settings', () => {
     expect(sanitizeLtData(structuredClone(data), {items: false}).data!.mos.every((x: any) => x.item === undefined)).toBe(true);
   }
 
+  test('headphone_check.options: 2 or 3, kept only when given (a package without it keeps its id), checked at import', async () => {
+    const pkg = join(t.dataDir, 'package');
+    const good = readFileSync(join(pkg, 'lt_data.js'), 'utf8');
+    const data = JSON.parse(good.slice('window.LT_DATA = '.length, -2));
+    const withHp = (h: unknown) => ({...structuredClone(data), config: {...data.config, headphone_check: h}});
+    const MSG = 'config.headphone_check needs trials 1-20, pass 1-trials, attempts 1-5, options 2 or 3 (default 3)';
+    // without options the config is the text it was before options existed, which the package id hashes
+    expect(JSON.stringify(sanitizeLtData(withHp({trials: 3, pass: 3, attempts: 2})).data!.config.headphone_check))
+      .toBe('{"trials":3,"pass":3,"attempts":2}');
+    expect(sanitizeLtData(withHp({trials: 6, pass: 5, attempts: 2, options: 2})).data!.config.headphone_check)
+      .toEqual({trials: 6, pass: 5, attempts: 2, options: 2});
+    // the admin status shows the current package's sound check as imported (no options: three tones)
+    expect((await t.admin.get('/api/admin/status')).data.package.headphone_check).toEqual({trials: 6, pass: 5, attempts: 2});
+    expect(readFileSync(join(PUBLIC_DIR, 'admin.js'), 'utf8')).toContain("['Sound check', p && p.headphone_check ?");
+    expect(sanitizeLtData(withHp({trials: 6, pass: 5, attempts: 2, options: 3})).data!.config.headphone_check.options)
+      .toBe(3);
+    for (const options of [0, 1, 4, '2', 2.5, null]) {
+      expect([options, sanitizeLtData(withHp({trials: 6, pass: 5, attempts: 2, options})).errors]).toEqual([options, [MSG]]);
+    }
+    writeFileSync(join(pkg, 'lt_data.js'), 'window.LT_DATA = ' +
+                  JSON.stringify(withHp({trials: 6, pass: 5, attempts: 2, options: 4})) + ';\n');
+    try {
+      const r = await t.admin.post('/api/admin/package/import', {});
+      expect([r.status, r.data.error.code, r.data.error.details]).toEqual([400, 'bad_package', [MSG]]);
+    } finally {
+      writeFileSync(join(pkg, 'lt_data.js'), good);
+    }
+  });
+
   test('the consent text: placeholders, scripts and handlers refused; saved as consent_v1.html and served with its sha256', async () => {
     const template = readFileSync(join(import.meta.dir, '..', 'consent_template_v1.html'), 'utf8');
     for (const html of ['', template, '<p>Contact: [CONTACT_NAME]</p>', '<p>[CONTACT_EMAIL]</p>', '<p>[ETHICS_NOTE]</p>',

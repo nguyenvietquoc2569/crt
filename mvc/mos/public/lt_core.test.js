@@ -1,8 +1,9 @@
 // Copied from benchmark/listening/page/lt_core.test.js, with tests of what mvc/mos changed in lt_core.js for
 // mvc/LISTENING_ADDENDUM_mvc_v1.md: background question 6, the half given by the server, no item on two consecutive
-// main trials, and the break inside a block. sample_lt_data.js is the journal page's, unchanged. The page-structure
-// tests differ too: index.html here loads i18n.js instead of lt_data.js (the server sends the data), and the server's
-// Content-Security-Policy allows no inline script or style.
+// main trials, the break inside a block, and the sound check of two tones. sample_lt_data.js is the journal page's,
+// unchanged. The page-structure tests differ too: index.html here loads i18n.js instead of lt_data.js (the server sends
+// the data), with a content stamp on every file, and the server's Content-Security-Policy allows no inline script or
+// style.
 // Run with: node --test mvc/mos/public/lt_core.test.js
 'use strict';
 const test = require('node:test');
@@ -10,6 +11,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
+const crypto = require('node:crypto');
 const C = require('./lt_core.js');
 
 const here = (f) => path.join(__dirname, f);
@@ -222,6 +224,57 @@ test('headphoneTrials: permutations of the three sounds, answer points at quiet'
   assert.equal(C.headphoneTrials(6, C.rng('a')).length, 6);
 });
 
+// The three-tone trials as lt_core.js made them before the two-tone option (1 Nov 2026), so the trials of a rater's
+// seed stay the same: R001's attempt 0 in full, and the sha256 of 600 trials of R07.
+test('headphoneTrials: the three-tone trials are unchanged (stored snapshot), with or without options 3', () => {
+  const [a, n, q] = ['antiphase', 'normal', 'quiet'];
+  const snapshot = [[[a, n, q], 2], [[a, n, q], 2], [[n, a, q], 2], [[a, q, n], 1], [[q, n, a], 0], [[a, q, n], 1]];
+  const short = (trials) => trials.map((t) => [t.order, t.answer]);
+  assert.deepEqual(short(C.headphoneTrials(6, C.rng('R001:headphone:0'))), snapshot);
+  assert.deepEqual(short(C.headphoneTrials(6, C.rng('R001:headphone:0'), 3)), snapshot);
+  const sha = (x) => crypto.createHash('sha256').update(JSON.stringify(x)).digest('hex');
+  const want = 'e3da7f564cf40496abea3ba2ef7c2a7eafff36841c2ab6212eeb3cf2dd08bb8d';
+  assert.equal(sha(C.headphoneTrials(600, C.rng('R07:headphone:0'))), want);
+  assert.equal(sha(C.headphoneTrials(600, C.rng('R07:headphone:0'), 3)), want);
+});
+
+test('headphoneTrials with options 2: exactly quiet and antiphase, answer at quiet, both orders, seeded', () => {
+  assert.deepEqual(C.HP_SOUNDS_2, ['quiet', 'antiphase']);
+  const trials = C.headphoneTrials(600, C.rng('R07:headphone:0'), 2);
+  assert.equal(trials.length, 600);
+  let quietFirst = 0;
+  for (const t of trials) {
+    assert.deepEqual(t.order.slice().sort(), ['antiphase', 'quiet']);
+    assert.equal(t.order[t.answer], 'quiet');
+    assert.equal(t.answer, t.order[0] === 'quiet' ? 0 : 1);
+    if (t.answer === 0) quietFirst++;
+  }
+  assert.ok(Math.abs(quietFirst - 300) < 60, `quiet first in ${quietFirst} of 600`);   // sd 12.2
+  // reproducible from the seed, different between seeds and attempts; the stored order of R001's attempt 0
+  const r001 = () => C.headphoneTrials(6, C.rng('R001:headphone:0'), 2);
+  assert.deepEqual(r001(), r001());
+  assert.notDeepEqual(C.headphoneTrials(20, C.rng('R001:headphone:0'), 2),
+                      C.headphoneTrials(20, C.rng('R001:headphone:1'), 2));
+  assert.deepEqual(r001().map((t) => t.answer), [1, 1, 1, 1, 1, 0]);
+});
+
+test('headphoneSignal of a two-tone trial: the same tones, lead-in and gap; antiphase inverted, quiet -6 dB', () => {
+  const sr = 48000, P = C.HP_TONE;
+  const {left, right} = C.headphoneSignal(['antiphase', 'quiet'], sr);
+  const [nTone, nGap, nLead] = [P.dur, P.gap, P.lead].map((x) => Math.round(x * sr));
+  assert.equal(left.length, nLead + 2 * nTone + nGap);
+  const seg = (k) => [nLead + k * (nTone + nGap), nLead + k * (nTone + nGap) + nTone];
+  const rms = (x, [a, b]) => Math.sqrt(x.subarray(a, b).reduce((s, v) => s + v * v, 0) / (b - a));
+  for (let i = seg(0)[0]; i < seg(0)[1]; i++) assert.equal(right[i], -left[i]);
+  for (let i = seg(1)[0]; i < seg(1)[1]; i++) assert.equal(right[i], left[i]);
+  const db = 20 * Math.log10(rms(left, seg(1)) / rms(left, seg(0)));
+  assert.ok(Math.abs(db - P.quietDb) < 0.01, `quiet tone is ${db} dB`);
+  for (const [x, y] of [[0, nLead], [seg(0)[1], seg(1)[0]]]) assert.ok(left.subarray(x, y).every((v) => v === 0));
+  // over loudspeakers (the channels summed) the antiphase tone cancels, so it would seem the quieter one
+  const mono = (k) => rms(left.map((v, i) => v + right[i]), seg(k));
+  assert.ok(mono(0) < 1e-9 && mono(1) > 0);
+});
+
 test('headphoneSignal: 6 dB quieter tone, inverted channel for antiphase, ramps and silences', () => {
   const sr = 48000, P = C.HP_TONE;
   const order = ['normal', 'quiet', 'antiphase'];
@@ -271,7 +324,9 @@ test('sample data has the requested sizes', () => {
 test('index.html loads style.css, i18n.js, lt_core.js, lt_app.js in order, without modules or inline code', () => {
   const html = fs.readFileSync(here('index.html'), 'utf8');
   const refs = [...html.matchAll(/<(?:link[^>]*href|script[^>]*src)="([^"]+)"/g)].map((m) => m[1]);
-  assert.deepEqual(refs, ['style.css', 'i18n.js', 'lt_core.js', 'lt_app.js']);
+  // each with the stamp ?v=<first 10 hex of its sha256> (checked against the files in server/stimuli.test.ts)
+  assert.ok(refs.every((r) => /\?v=[0-9a-f]{10}$/.test(r)), refs.join());
+  assert.deepEqual(refs.map((r) => r.split('?')[0]), ['style.css', 'i18n.js', 'lt_core.js', 'lt_app.js']);
   assert.ok(!/type="module"/.test(html));
   assert.match(html, /<title>Listening test<\/title>/);
   assert.ok(!/https?:\/\//.test(html), 'no external resources');

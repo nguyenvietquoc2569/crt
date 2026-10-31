@@ -123,4 +123,16 @@ An independent check followed. It recomputed every level and difference from the
     - The stimuli, trials and every other setting are unchanged.
   - The package was imported again as id f32d4bb12c0574a4 (it was 2d923ba8271f26c4). No answer existed yet: R001 had agreed but not started the sound check. Under the new package the three pilot raters start from the consent.
   - The screening of §8 applies the new rule: a rater fails who does not get 3 of 3 in either of 2 attempts.
+- **1 Nov 2026, about 04:40: deviation, the sound check changed again; this replaces the 3-round change above (§6.1, §8 rule 1; §14).**
+  - The author asked for 6 rounds with only 2 choices per round.
+  - Each round now plays two tones in a seeded random order: 'quiet' (6 dB down, in phase) and 'antiphase' (full level, right channel inverted). The rater picks the quieter, and 'quiet' is correct. Over loudspeakers the antiphase tone partly cancels and seems quieter, so loudspeaker listeners keep choosing wrong.
+  - Pass rule as frozen: 5 of 6, 2 attempts.
+    - A random guess passes with probability 10.9 % per attempt, 20.7 % within 2 attempts. Under the frozen 3-tone rule it was 1.8 %.
+    - The attention and gold items of §8 still screen guessers.
+    - A listener who is right 95 % of the time passes within 2 attempts 99.9 % of the time.
+  - **Code.** The frozen `mvc/mos` code gained an optional `headphone_check.options` (2 or 3; default 3 keeps the old 3-tone rounds bit for bit, checked against a snapshot) and 2-tone texts in VI and EN. The admin status now shows the sound-check settings. The page files carry version stamps. An independent review found no must-fix defect; bun 73/73 and node 36/36 tests pass.
+  - **Package.** The server was restarted at 04:37 (no rater was in a session) and `config.headphone_check` set to {trials 6, pass 5, attempts 2, options 2}.
+    - `lt_data.json` sha256 went from 21b42a6d… to 813c518077a0f18ab745408d0bc9209aa6721db4ec1c5858c77afcbc9d3d2ef0. Backup: `$D/private/lt_data.v2-3rounds.json`.
+    - Imported as package 23e5c246deb05ba3. No answer existed, and the three pilot raters start again from the consent.
+  - Screening (§8): a rater fails who does not get 5 of 6 in either of 2 attempts.
 - **Next: §12 step 7.** It waits for UIT's answer (Decision 26). Until then the live site stays in TEST DATA mode and the package is not imported.

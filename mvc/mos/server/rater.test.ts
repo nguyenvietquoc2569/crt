@@ -203,6 +203,79 @@ describe('consent and sound check', () => {
   });
 });
 
+describe('a sound check of two tones (config.headphone_check.options 2)', () => {
+  let t2: Awaited<ReturnType<typeof boot>>;
+  let codes2: string[];
+  beforeAll(async () => {
+    const dir = tempDir();
+    makePackage(dir, {headphone: {trials: 6, pass: 5, attempts: 2, options: 2}});
+    t2 = await boot({dataDir: dir});
+    expect((await t2.admin.post('/api/admin/package/import', {})).status).toBe(200);
+    codes2 = await setup(t2, 2);
+  });
+  afterAll(() => t2.stop());
+
+  const start = async (code: string, ip: string) => {
+    const c = new Client(t2.base, {'CF-Connecting-IP': ip});
+    const id: string = (await c.post('/api/login', {code})).data.results.rater_id;
+    const consent = (await c.get('/api/consent')).data;
+    expect((await c.post('/api/consent', {lang: 'vi', sha256: consent.sha256})).status).toBe(200);
+    return {c, id, plan: (await c.get('/api/plan')).data};
+  };
+
+  test('choices 0-1 only; the server scores quiet against antiphase itself; 4 of 6 fails, 5 of 6 passes', async () => {
+    const {c, id, plan} = await start(codes2[0], '10.2.1.1');
+    expect(plan.config.headphone_check).toEqual({trials: 6, pass: 5, attempts: 2, options: 2});
+    // the admin status shows the sound check of the current package, so an import can be checked there
+    expect((await t2.admin.get('/api/admin/status')).data.package.headphone_check)
+      .toEqual({trials: 6, pass: 5, attempts: 2, options: 2});
+    for (const choice of [2, -1, 0.5]) {
+      expect([choice, (await c.post('/api/headphone', {attempt: 0, trial: 0, choice})).status]).toEqual([choice, 400]);
+    }
+    expect(t2.app.store.session(id, plan.package_id)!.headphone.attempts).toEqual([]);   // nothing recorded
+    let r: any;
+    const play = async (attempt: number, nRight: number) => {
+      const right = hpAnswers(id, attempt, false, 2), wrong = hpAnswers(id, attempt, true, 2);
+      const choices = right.map((x, i) => (i < nRight ? x : wrong[i]));
+      for (let i = 0; i < 6; i++) {
+        r = await c.post('/api/headphone', {attempt, trial: i, choice: choices[i]});
+        expect(r.status).toBe(200);
+      }
+      return choices;
+    };
+    const c0 = await play(0, 4);
+    const t0 = C.headphoneTrials(6, C.rng(id + ':headphone:0'), 2);
+    const recorded = t0.map((x: any, i: number) => ({order: x.order, answer: x.answer, choice: c0[i]}));
+    expect(r.data.headphone.attempts[0]).toEqual({trials: recorded, correct: 4});
+    for (const x of r.data.headphone.attempts[0].trials) {
+      expect(x.order.slice().sort()).toEqual(['antiphase', 'quiet']);
+      expect(x.order[x.answer]).toBe('quiet');
+    }
+    expect(r.data.headphone.passed).toBe(false);
+    expect((await c.post('/api/answer', answerBody(plan, 'practice', 0))).data.error.code).toBe('headphone_required');
+    await play(1, 5);
+    expect(r.data.headphone.attempts[1].correct).toBe(5);
+    expect(r.data.headphone.passed).toBe(true);
+    expect(t2.app.store.session(id, plan.package_id)!.headphone).toEqual(r.data.headphone);
+    expect((await c.post('/api/answer', answerBody(plan, 'practice', 0))).status).toBe(200);
+  });
+
+  test('the antiphase tone every time (as over loudspeakers) fails both attempts and ends the session', async () => {
+    const {c, id} = await start(codes2[1], '10.2.1.2');
+    for (const attempt of [0, 1]) {
+      const antiphase = hpAnswers(id, attempt, true, 2);
+      let r: any;
+      for (let i = 0; i < 6; i++) r = await c.post('/api/headphone', {attempt, trial: i, choice: antiphase[i]});
+      expect(r.data.headphone.attempts[attempt].trials.every((x: any) => x.order[x.choice] === 'antiphase')).toBe(true);
+      expect(r.data.headphone.attempts[attempt].correct).toBe(0);
+    }
+    expect((await c.post('/api/headphone', {attempt: 2, trial: 0, choice: 0})).status).toBe(400);
+    expect((await c.post('/api/finish', {})).status).toBe(200);
+    const list = (await t2.admin.get('/api/admin/raters')).data.raters.find((x: any) => x.rater_id === id);
+    expect(list.headphone).toEqual({attempts: 2, passed: false, failed: true});
+  });
+});
+
 describe('answers', () => {
   test('validation: types, ranges, plays, language, unknown tids and fields', async () => {
     const c = await ready(t.base, codes[6], '10.3.0.1');

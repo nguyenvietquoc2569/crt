@@ -21,10 +21,37 @@ test('every key the page uses exists', () => {
   const src = fs.readFileSync(path.join(__dirname, 'lt_app.js'), 'utf8');
   const used = new Set([...src.matchAll(/\bT\('(\w+)'[,)]/g)].map((m) => m[1]));
   for (const k of ['name_mos', 'name_smos', 'name_cmos', 'q_mos', 'q_smos', 'q_cmos', 'tone1', 'tone2', 'tone3',
-                   'att_one', 'att_pair', 'hpFailTitle', 'hpFailText', 'finishTitle', 'finishText', 'expired']) {
+                   'att_one', 'att_pair', 'hpFailTitle', 'hpFailText', 'finishTitle', 'finishText', 'expired',
+                   'hpStep3_2', 'hpStep3_3', 'hpQuestion_2', 'hpQuestion_3']) {
     used.add(k);
   }
   for (const k of used) assert.ok(k in I.STRINGS.en && k in I.STRINGS.vi, k);
+});
+
+// config.headphone_check.options: two or three tones per trial; the three-tone texts are the earlier ones.
+test('the sound-check texts follow the number of tones, and only the three-tone ones say three', () => {
+  assert.equal(I.t('en', 'hpStep3_3', {n: 6}), 'In each of the 6 trials you will hear three tones. Choose the one ' +
+                                              'that is quietest. Each trial can be played only once.');
+  assert.equal(I.t('en', 'hpStep3_2', {n: 6}), 'In each of the 6 trials you will hear two tones. Choose the one ' +
+                                              'that is quieter. Each trial can be played only once.');
+  assert.equal(I.t('en', 'hpQuestion_3'), 'Which of the three tones was the quietest?');
+  assert.equal(I.t('en', 'hpQuestion_2'), 'Which of the two tones was quieter?');
+  assert.equal(I.t('vi', 'hpStep3_3', {n: 6}), 'Trong mỗi lượt (tổng cộng 6 lượt), bạn sẽ nghe ba âm. Hãy chọn âm ' +
+                                              'nhỏ nhất. Mỗi lượt chỉ được phát một lần.');
+  assert.equal(I.t('vi', 'hpStep3_2', {n: 6}), 'Trong mỗi lượt (tổng cộng 6 lượt), bạn sẽ nghe hai âm. Hãy chọn âm ' +
+                                              'nhỏ hơn. Mỗi lượt chỉ được phát một lần.');
+  assert.equal(I.t('vi', 'hpQuestion_3'), 'Âm nào trong ba âm là nhỏ nhất?');
+  assert.equal(I.t('vi', 'hpQuestion_2'), 'Âm nào trong hai âm là nhỏ hơn?');
+  const saying = (lang, re) => Object.keys(I.STRINGS[lang]).filter((k) => re.test(I.STRINGS[lang][k])).sort();
+  assert.deepEqual(saying('en', /\bthree\b/i), ['hpQuestion_3', 'hpStep3_3']);
+  assert.deepEqual(saying('vi', /\bba âm\b/i), ['hpQuestion_3', 'hpStep3_3']);
+  assert.deepEqual(saying('en', /\btwo tones\b/i), ['hpQuestion_2', 'hpStep3_2']);
+  assert.deepEqual(saying('vi', /\bhai âm\b/i), ['hpQuestion_2', 'hpStep3_2']);
+  // the page picks them by the number of tones, and shows one button per tone
+  const src = fs.readFileSync(path.join(__dirname, 'lt_app.js'), 'utf8');
+  assert.match(src, /T\('hpStep3_' \+ HP\.options, /);
+  assert.match(src, /T\('hpQuestion_' \+ HP\.options\)/);
+  assert.match(src, /trial\.order\.map\(/);
 });
 
 test('the scales keep the values of the journal page in both languages', () => {

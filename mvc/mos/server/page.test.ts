@@ -4,11 +4,11 @@
 // nothing of the rater left in the browser), "Use another code" (nothing of the rater left unless answers wait to be
 // sent), the 12 characters of a code, registration closed while the page was open, the language switch on a trial and
 // on a sound-check trial (the plays and the choice stay; the language is stored per answer), a finish whose answer was
-// lost, and a server that keeps refusing a response (the page stops instead of looping).
+// lost, a server that keeps refusing a response (the page stops instead of looping), and a sound check of two tones.
 import { afterAll, beforeAll, describe, expect, test } from 'bun:test';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { sha256 } from './core';
+import { C, sha256 } from './core';
 import { agree, background, Browser, EN, enterCode, Page, rate, soundCheck, VI } from './fake_page';
 import { boot, Client, hpAnswers, makePackage, setup, tempDir } from './test_util';
 
@@ -56,6 +56,7 @@ describe('the rater page', () => {
 
     await agree(page);
     await page.waitFor(() => page.button(EN.hpStart), 'the sound check');
+    expect(page.text()).toContain(EN.hpStep3_3.replace('{n}', '6'));   // three tones: the package sets no options
     const s = t.app.store.session(id, pkgId)!;
     expect(s.consent_lang).toBe('en');
     expect(s.consent_sha).toBe(sha256(readFileSync(join(t.dataDir, 'consent_v1.html'), 'utf8')));
@@ -169,7 +170,7 @@ describe('the rater page', () => {
     await soundCheck(page, right(id, 0), (i) => {
       if (i !== 0) return;
       page.switchLanguage();
-      expect(page.text()).toContain(VI.hpQuestion);
+      expect(page.text()).toContain(VI.hpQuestion_3);
       const play = page.buttons().find((b) => b.classList.contains('play'))!;
       expect(play.disabled).toBe(true);
       expect(page.buttons().filter((b) => b.classList.contains('rate')).every((b) => !b.disabled)).toBe(true);
@@ -236,5 +237,47 @@ describe('the rater page', () => {
     await new Promise((res) => setTimeout(res, 150));
     expect(page.requests.length).toBe(sent);
     expect(page.count('POST /api/finish')).toBe(4);   // the first try and 3 after a resync each
+  });
+});
+
+describe('the rater page with a sound check of two tones (config.headphone_check.options 2)', () => {
+  test('two buttons per trial, the two-tone texts in both languages; the server scores the same trials', async () => {
+    const dir = tempDir();
+    makePackage(dir, {headphone: {trials: 6, pass: 6, attempts: 2, options: 2}});
+    const t2 = await boot({dataDir: dir});
+    try {
+      const pkg2 = (await t2.admin.post('/api/admin/package/import', {})).data.package_id;
+      const [code] = await setup(t2, 1);
+      const id = (await t2.admin.post('/api/admin/raters/find', {code})).data.rater_id as string;
+      const page = new Page(t2.base, new Browser('en')).open();
+      await enterCode(page, code);
+      await agree(page);
+      await page.waitFor(() => page.button(EN.hpStart), 'the sound check');
+      expect(page.text()).toContain(EN.hpStep3_2.replace('{n}', '6'));
+      page.switchLanguage();
+      expect(page.text()).toContain(VI.hpStep3_2.replace('{n}', '6'));
+      page.switchLanguage();
+      expect(page.text()).not.toMatch(/three/i);
+      const right = hpAnswers(id, 0, false, 2);
+      await soundCheck(page, (i) => right[i], (i) => {
+        expect(page.text()).toContain(EN.hpQuestion_2);
+        const labels = page.buttons().filter((b) => b.classList.contains('rate')).map((b) => b.textContent);
+        expect(labels).toEqual(['1' + EN.tone1, '2' + EN.tone2]);
+        if (i === 0) {
+          page.switchLanguage();
+          expect(page.text()).toContain(VI.hpQuestion_2);
+          page.switchLanguage();
+        }
+      }, 2);
+      await page.waitFor(() => page.text().includes(EN.hpPassed), 'the pass notice');
+      await page.waitFor(() => t2.app.store.session(id, pkg2)?.headphone.passed, 'the pass on the server');
+      const attempt = t2.app.store.session(id, pkg2)!.headphone.attempts[0];
+      expect(attempt.correct).toBe(6);
+      expect(attempt.trials.map((x) => x.order))
+        .toEqual(C.headphoneTrials(6, C.rng(id + ':headphone:0'), 2).map((x: any) => x.order));
+      expect(attempt.trials.every((x) => x.order.length === 2 && x.order[x.choice] === 'quiet')).toBe(true);
+    } finally {
+      await t2.stop();
+    }
   });
 });

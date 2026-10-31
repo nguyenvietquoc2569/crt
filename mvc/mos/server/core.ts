@@ -33,7 +33,7 @@ export type LtData = {
   version: 1;
   dry_run?: true;   // a build from synthetic inputs (mvc/mos/build_stimuli.py --dry_run): shown as TEST DATA
   config: {title: string | null; halves: boolean; require_full_play: boolean;
-           headphone_check: {trials: number; pass: number; attempts: number}};
+           headphone_check: {trials: number; pass: number; attempts: number; options?: 2 | 3}};
   stimuli: Record<string, {src: string; dur: number}>;
   practice: Trial[]; mos: Trial[]; smos: Trial[]; cmos: Trial[];
 };
@@ -105,9 +105,12 @@ export function sanitizeLtData(raw: unknown, {items = true} = {}): {data?: LtDat
   if (raw.version !== 1) errors.push(`unsupported LT_DATA version ${JSON.stringify(raw.version)}`);
   const cfg = isObj(raw.config) ? raw.config : {};
   const hp = isObj(cfg.headphone_check) ? cfg.headphone_check : {};
-  const hpc = {trials: hp.trials ?? 6, pass: hp.pass ?? 5, attempts: hp.attempts ?? 2};
-  if (!intIn(hpc.trials, 1, 20) || !intIn(hpc.pass, 1, hpc.trials) || !intIn(hpc.attempts, 1, 5)) {
-    errors.push('config.headphone_check needs trials 1-20, pass 1-trials, attempts 1-5');
+  // options (tones per trial, 2 or 3) is kept only when given, so a package without it keeps its id (default 3)
+  const hpc = {trials: hp.trials ?? 6, pass: hp.pass ?? 5, attempts: hp.attempts ?? 2,
+               ...(hp.options === undefined ? {} : {options: hp.options})};
+  if (!intIn(hpc.trials, 1, 20) || !intIn(hpc.pass, 1, hpc.trials) || !intIn(hpc.attempts, 1, 5) ||
+      !(hpc.options === undefined || hpc.options === 2 || hpc.options === 3)) {
+    errors.push('config.headphone_check needs trials 1-20, pass 1-trials, attempts 1-5, options 2 or 3 (default 3)');
   }
   const config = {title: typeof cfg.title === 'string' ? cfg.title.slice(0, 200) : null, halves: cfg.halves === true,
                   require_full_play: cfg.require_full_play !== false, headphone_check: hpc};

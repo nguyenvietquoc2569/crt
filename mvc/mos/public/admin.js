@@ -71,6 +71,9 @@
   }
 
   // ── sections ──────────────────────────────────────────────
+  const hpText = (h) => h.trials + ' trials of ' + (h.options || 3) + ' tones, pass at ' + h.pass + ' of ' + h.trials +
+                        ', ' + h.attempts + ' attempts';
+
   async function loadStatus() {
     const s = await call('GET', '/api/admin/status');
     const dl = $('status');
@@ -83,6 +86,7 @@
       ['Imported', p ? p.imported_at : '–'],
       ['Trials', p ? Object.entries(p.trials).map(([b, n]) => b + ' ' + n).join(', ') : '–'],
       ['Halves', p ? String(p.halves) : '–'],
+      ['Sound check', p && p.headphone_check ? hpText(p.headphone_check) : '–'],
       ['Consent text', s.consent.set ? (s.consent.problems.length ? 'refused: ' + s.consent.problems.join('; ')
         : 'sha256 ' + s.consent.sha256) : (p && p.sample ? 'none (the sample text is shown)' : 'none (raters cannot start)')],
       ['Raters', s.raters.total + ' (' + s.raters.invite + ' invited, ' + s.raters.open + ' registered), ' +

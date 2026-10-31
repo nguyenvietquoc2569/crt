@@ -3,10 +3,10 @@
 Web app for the MOS (naturalness, 5-point ACR, ITU-T P.800/P.808) and SMOS (similarity to the target speaker, 5 points)
 listening test of MimiFlow-VC under `mvc/LISTENING_ADDENDUM_mvc_v1.md` (§5 scales and wording, §6 session, §7 raters,
 §11 website and data handling). It reuses the journal's tested page (`benchmark/listening/page/`): `lt_core.js` is
-copied with four changes (background question 6, the half given by the server, no item on two consecutive main trials,
-the break inside a block), and `lt_app.js` is adapted so that trials come from the server and every answer is stored
-there at once. Bun + bun:sqlite, no dependencies. The server binds to 127.0.0.1 only; the public address
-(https://mos.betaschool.edu.vn) is a Cloudflare tunnel in front of it.
+copied with five changes (background question 6, the half given by the server, no item on two consecutive main trials,
+the break inside a block, an optional sound check of two tones per trial), and `lt_app.js` is adapted so that trials
+come from the server and every answer is stored there at once. Bun + bun:sqlite, no dependencies. The server binds to
+127.0.0.1 only; the public address (https://mos.betaschool.edu.vn) is a Cloudflare tunnel in front of it.
 
 The addendum must be frozen before any stimulus is built (`mvc/ANALYSIS_PLAN_mvc_v1.md` §6.4). This server only
 collects answers; it never reads the condition key.
@@ -32,6 +32,11 @@ bun run test                  # bun test ./server && node --test public/lt_core.
 ```
 
 The builder's tests: `.venv-stats/bin/python -m pytest -q mvc/mos/tests` from the repository root.
+The server reads `public/` from disk at every request, so an edited page file is live at once; a change under `server/`
+(or of `lt_core.js`, which the server also loads) takes effect only after a restart. `index.html` loads `style.css`,
+`i18n.js`, `lt_core.js` and `lt_app.js` as `<file>?v=<first 10 hex digits of the file's sha256>`, so that browsers and
+Cloudflare fetch a changed file at once: after editing one of them, set its stamp
+(`shasum -a 256 public/lt_app.js | cut -c1-10`); `server/stimuli.test.ts` fails until every stamp matches.
 No launchd job is used (addendum §11.1): the server (`bun run start`) and cloudflared run in Terminal tabs on the Mac,
 and a stopped server is restarted by hand. Since 1 Nov 2026 the tunnel's tab runs
 `mvc/tools/tunnel_supervise.sh ~/.cloudflared/mos.yml http://127.0.0.1:8790/api/info https://mos.betaschool.edu.vn/api/info`
@@ -148,8 +153,12 @@ Item ids never reach the browser.
 2. Enter the access code (12 characters, maybe after a prefix and "-"), or start a new session with open registration
    and write down the code shown once. If registration is closed, the page says so.
 3. Read the information and tick "Tôi đồng ý" (I agree). Until then the server stores only that the code was used.
-4. Sound check (Woods et al., 2017): 6 trials, pick the quietest of three tones, pass at 5 of 6, 2 attempts. Two
-   failures end the session.
+4. Sound check (Woods et al., 2017), as the package's `config.headphone_check` {trials, pass, attempts, options} sets
+   it (builder default: 6 trials, pass at 5, 2 attempts, three tones). With `options` 3 (the default) each trial plays
+   a normal, a quiet (6 dB down) and an antiphase tone (right channel inverted) and the rater picks the quietest; with
+   `options` 2 it plays only the quiet and the antiphase tone, in an order seeded by the rater ID, and the rater picks
+   the quieter (over loudspeakers the antiphase tone partly cancels and seems quieter). The server recomputes the
+   tones and scores each choice itself. Failing every attempt ends the session.
 5. MOS: instructions, 3 practice trials, then the MOS trials with a break screen after half of them; a break; SMOS:
    instructions, then the SMOS trials with a break screen after half of them. Each clip must play to the end before
    the rating buttons work (if the package sets `require_full_play`; the server then also refuses a rating with an
@@ -190,9 +199,10 @@ the server after 24 h): `GET /api/info` (`open_registration` is false when regis
 answer that holds a code; 403 `closed` when it is off or at the cap); `POST /api/logout {}`; `GET /api/state` (the
 results so far; before the consent an empty skeleton with the rater's half); `POST /api/consent {lang, sha256}` (starts
 the rating session; 409 `consent_changed` when the text has changed); `GET /api/plan` (the rater's trials and stimuli,
-opaque ids only; after the consent); `POST /api/headphone {attempt, trial, choice}`; `POST /api/answer {tid, block,
-value, lang, plays, played_s, rt_ms, t_ms}` (400 `not_played` when the package asks for full plays and a clip has 0
-plays); `POST /api/background {age, first_language, english, hearing, device, previous_test}`; `POST /api/finish {}`
+opaque ids only; after the consent); `POST /api/headphone {attempt, trial, choice}` (choice 0 to `options` − 1);
+`POST /api/answer {tid, block, value, lang, plays, played_s, rt_ms, t_ms}` (400 `not_played` when the package asks
+for full plays and a clip has 0 plays); `POST /api/background {age, first_language, english, hearing, device,
+previous_test}`; `POST /api/finish {}`
 (records the end, ends every sign-in of the rater and clears the cookie).
 Everything after the login needs the consent (409 `consent_required`). Answers are taken only for the rater's next
 trial; a repeat of an answered trial returns 200 with `duplicate: true` and keeps the first answer. `rt_ms` and `t_ms`

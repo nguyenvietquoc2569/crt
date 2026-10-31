@@ -22,8 +22,10 @@ export const pairOf = (item: number) => `vctk2k__p2${10 + item}_00${item}__p3${1
 // with nat (gold) and four systems; SMOS with the same and src (gold_src on cross-gender items), each with the item's
 // reference; a clip of one item and condition shared by MOS and SMOS; 2 MOS and 2 SMOS attention trials on the natural
 // clips of items 1 and 3 (new clip ids); 3 practice trials; unrounded durations. The kinds and conditions are in the
-// key only. items: also give every main trial an explicit opaque item id.
-export function makePackage(dataDir: string, {halves = true, js = false, dryRun = false, items = false} = {}) {
+// key only. items: also give every main trial an explicit opaque item id. headphone: config.headphone_check.
+const HEADPHONE: object = {trials: 6, pass: 5, attempts: 2};
+export function makePackage(dataDir: string, {halves = true, js = false, dryRun = false, items = false,
+                                              headphone = HEADPHONE} = {}) {
   const pkg = join(dataDir, 'package');
   mkdirSync(join(pkg, 'stimuli'), {recursive: true});
   const stimuli: Record<string, {src: string; dur: number}> = {};
@@ -70,7 +72,7 @@ export function makePackage(dataDir: string, {halves = true, js = false, dryRun 
     trials[tid] = {block: 'practice', kind: 'practice', pair_id: pairOf(10 + i), condition: 'mvc_v1'};
   }
   const data = {version: 1, ...(dryRun ? {dry_run: true} : {}), config: {title: 'Listening test: MimiFlow-VC', halves, require_full_play: true,
-                                     headphone_check: {trials: 6, pass: 5, attempts: 2},
+                                     headphone_check: headphone,
                                      consent_html: '<p>not used</p>', contact: 'x', submit_url: null},
                 stimuli, practice, mos, smos, cmos: []};
   const text = JSON.stringify(data, null, 1);
@@ -160,9 +162,10 @@ function expect200(r: {status: number; text: string}) {
   if (r.status !== 200) throw new Error(`expected 200, got ${r.status}: ${r.text}`);
 }
 
-// The answers of a headphone-check attempt that pass it (or fail it: wrong).
-export const hpAnswers = (raterId: string, attempt: number, wrong = false) =>
-  C.headphoneTrials(6, C.rng(raterId + ':headphone:' + attempt)).map((x: any) => (x.answer + (wrong ? 1 : 0)) % 3);
+// The answers of a headphone-check attempt of 6 trials of `options` tones that pass it (or fail it: wrong).
+export const hpAnswers = (raterId: string, attempt: number, wrong = false, options = 3) =>
+  C.headphoneTrials(6, C.rng(raterId + ':headphone:' + attempt), options)
+    .map((x: any) => (x.answer + (wrong ? 1 : 0)) % options) as number[];
 
 // Logs in, agrees to the consent shown, and passes the sound check with the right answers. c.raterId: the rater ID.
 export async function ready(base: string, code: string, ip = '10.0.0.1', lang = 'vi') {

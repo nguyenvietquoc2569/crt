@@ -1,12 +1,17 @@
 /* Listening test: pure logic (seeded randomisation, session layout, results skeleton, headphone-check signal).
    No DOM access. In the browser it is window.LTCore; in Node, module.exports. Copied from
    benchmark/listening/page/lt_core.js; changed for mvc/LISTENING_ADDENDUM_mvc_v1.md: background question 6, the half
-   given by the server (§6.2), no item on two consecutive main trials (§6.1) and the break inside a block (§6.1). */
+   given by the server (§6.2), no item on two consecutive main trials (§6.1) and the break inside a block (§6.1); and,
+   since 1 Nov 2026, the optional sound check of two tones per trial (headphoneTrials, options 2). */
 (function (root) {
   'use strict';
 
   const BLOCKS = ['mos', 'smos', 'cmos'];
   const HP_SOUNDS = ['quiet', 'antiphase', 'normal'];
+  // The two-tone variant (config.headphone_check.options 2): the quiet tone and the antiphase tone only. Over
+  // loudspeakers the antiphase tone partly cancels and seems the quieter one, so the right answer, 'quiet', is the
+  // headphone listener's.
+  const HP_SOUNDS_2 = ['quiet', 'antiphase'];
   // Headphone-check tones (Woods et al., 2017): 200 Hz, 1 s, 100 ms raised-cosine ramps, 'quiet' 6 dB down.
   // The 0.3 s lead-in (lets wireless headphones wake up) and the 0.5 s gaps are this page's choice.
   const HP_TONE = {freq: 200, dur: 1.0, ramp: 0.1, gap: 0.5, lead: 0.3, amp: 0.3, quietDb: -6};
@@ -205,10 +210,12 @@
     return BACKGROUND.filter((q) => !(q.options.includes(a[q.key]) || a[q.key] === NO_ANSWER)).map((q) => q.key);
   }
 
-  function headphoneTrials(n, rand) {
+  // n trials of options tones each (3: HP_SOUNDS, 2: HP_SOUNDS_2) in random order; answer is the index of 'quiet'.
+  function headphoneTrials(n, rand, options = 3) {
+    const sounds = options === 2 ? HP_SOUNDS_2 : HP_SOUNDS;
     const out = [];
     for (let i = 0; i < n; i++) {
-      const order = shuffle(HP_SOUNDS, rand);
+      const order = shuffle(sounds, rand);
       out.push({order, answer: order.indexOf('quiet')});
     }
     return out;
@@ -260,7 +267,7 @@
   }
 
   const api = {
-    BLOCKS, HP_SOUNDS, HP_TONE, BACKGROUND, NO_ANSWER, ORDER_TRIES, hashString, rng, shuffle, raterParity,
+    BLOCKS, HP_SOUNDS, HP_SOUNDS_2, HP_TONE, BACKGROUND, NO_ANSWER, ORDER_TRIES, hashString, rng, shuffle, raterParity,
     isAttention, selectHalf, placeAttention, abOrder, itemsApart, separateItems, orderMain, buildSession, midBreak,
     emptyResults, checkBackground, headphoneTrials, headphoneSignal, checkData,
   };

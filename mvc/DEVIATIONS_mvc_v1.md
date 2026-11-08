@@ -135,4 +135,9 @@ An independent check followed. It recomputed every level and difference from the
     - `lt_data.json` sha256 went from 21b42a6d… to 813c518077a0f18ab745408d0bc9209aa6721db4ec1c5858c77afcbc9d3d2ef0. Backup: `$D/private/lt_data.v2-3rounds.json`.
     - Imported as package 23e5c246deb05ba3. No answer existed, and the three pilot raters start again from the consent.
   - Screening (§8): a rater fails who does not get 5 of 6 in either of 2 attempts.
+- **6–8 Nov 2026: operational, the site was down for about 56 h (§11, §14). No rule changed.**
+  - The Mac restarted three times: 6 Nov 15:56 and 17:33, and 8 Nov 16:52. The macOS reset report of 8 Nov lists an undervoltage fault, i.e. a power cut; the Mac is set to start again after one. The server and the tunnel ran in Terminal tabs and did not come back.
+  - The last daily copy of the database before the outage is `$D/backup/mos-20261106.sqlite` (6 Nov 07:43). None was made on 7 Nov.
+  - 8 Nov, about 23:40: the server (`bun run start`, real mode) and the supervised tunnel (`mvc/tools/tunnel_supervise.sh ~/.cloudflared/mos.yml …`) were restarted by hand in new Terminal tabs. At start the server copied the database to `$D/backup/mos-20261108.sqlite`. No code, package, consent or setting changed.
+  - The database records no rater activity after 3 Nov 20:19 UTC (the latest `last_seen`; no answer was read). Whether anyone tried to reach the site during the outage is not known.
 - **Next: §12 step 7.** It waits for UIT's answer (Decision 26). Until then the live site stays in TEST DATA mode and the package is not imported.

@@ -140,4 +140,10 @@ An independent check followed. It recomputed every level and difference from the
   - The last daily copy of the database before the outage is `$D/backup/mos-20261106.sqlite` (6 Nov 07:43). None was made on 7 Nov.
   - 8 Nov, about 23:40: the server (`bun run start`, real mode) and the supervised tunnel (`mvc/tools/tunnel_supervise.sh ~/.cloudflared/mos.yml …`) were restarted by hand in new Terminal tabs. At start the server copied the database to `$D/backup/mos-20261108.sqlite`. No code, package, consent or setting changed.
   - The database records no rater activity after 3 Nov 20:19 UTC (the latest `last_seen`; no answer was read). Whether anyone tried to reach the site during the outage is not known.
+- **10–12 Nov 2026: operational, the site was down for about 35 h (§11, §14). No rule changed.**
+  - 10 Nov 16:28: the Claude desktop app updated itself after an idle timeout (its log: 16:28:03) and, while quitting, ended every process of its Terminal tabs at 16:28:05, the server and the supervised tunnel among them. The Mac did not restart.
+  - The last daily copy of the database before the outage is `$D/backup/mos-20261110.sqlite` (10 Nov 07:40).
+  - 11 Nov, about 02:06: the server (`bun run start`, real mode) was restarted by hand in a new Terminal tab; it made its daily copy `$D/backup/mos-20261111.sqlite` at 07:06. 12 Nov, 03:39: the author restarted the supervised tunnel (`mvc/tools/tunnel_supervise.sh ~/.cloudflared/mos.yml …`); it connected at 03:40, and the public address answered 200 when checked at 03:44. No code, package, consent or setting changed.
+  - The database records no rater activity after 3 Nov 20:19 UTC (the latest `last_seen` of its 3 raters; no answer was read). Whether anyone tried to reach the site during the outage is not known.
+  - The server and the tunnel again run in Terminal tabs of the app, so another update of the app would stop them the same way.
 - **Next: §12 step 7.** It waits for UIT's answer (Decision 26). Until then the live site stays in TEST DATA mode and the package is not imported.
